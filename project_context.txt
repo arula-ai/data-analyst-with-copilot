@@ -1,6 +1,6 @@
 **Project Overview: GitHub Copilot for Data Analysis — Hands-On Lab**
 
-**Title:** Fraud & Transaction Risk Signals Lab (Hartwell Financial Services)  
+**Lab 3 | Fraud & Transaction Risk Signals | Hartwell Financial Services**  
 **Duration:** 90 minutes  
 **Audience:** Engineers and Analysts  
 **Focus:** Using GitHub Copilot to analyze synthetic fraud alert data, generate visualizations, and ensure responsible AI use in financial data analysis.  
