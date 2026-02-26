@@ -1,0 +1,57 @@
+**Project Overview: GitHub Copilot for Data Analysis — Hands-On Lab**
+
+**Title:** Fraud & Transaction Risk Signals Lab (Hartwell Financial Services)  
+**Duration:** 90 minutes  
+**Audience:** Engineers and Analysts  
+**Focus:** Using GitHub Copilot to analyze synthetic fraud alert data, generate visualizations, and ensure responsible AI use in financial data analysis.  
+**Approach:** Artifact-driven, stage-by-stage lab using the RIFCC-DA (Responsible, Iterative, Framework-driven Copilot Collaboration for Data Analysis) prompting framework.  
+**Dataset:** 500 synthetic fraud alert records (`transaction_alerts.csv`) with 11 intentional data quality issues. Ground truth is in `data/schema.md`.
+
+**Prerequisites:**
+- VS Code with GitHub Copilot Chat extension (authenticated).
+- Python 3.10+ with libraries: `pandas`, `matplotlib`, `seaborn`, `numpy`, `jupyter`.
+- Basic Python familiarity (helpful but not required).
+- No database setup needed.
+- Always reference `data/schema.md` for column definitions and valid ranges.
+
+**Lab Objectives:**
+1. Apply responsible-use and data governance principles before handling financial data.
+2. Profile raw alert dataset to identify quality issues and anomalies.
+3. Generate safe, reversible data cleaning scripts with full transformation justification.
+4. Conduct exploratory analysis and translate fraud patterns into business insights.
+5. Create accurate, honest visualizations from cleaned data.
+6. Audit AI-generated code and outputs for policy compliance and risk exposure.
+
+**Repository Structure and Workflow:**
+- **`data/`**: Source dataset (`transaction_alerts.csv`) and schema documentation (`schema.md`) — reference throughout.
+- **`exercises/`**: Flawed artifacts (e.g., `flawed_analysis.md`, `flawed_cleaning_script.py`, `flawed_visualization.py`) for validation practice in Stage 2.
+- **`notebooks/`**: Starter Jupyter notebook (`starter_analysis.ipynb`) for Stages 3-4.
+- **`outputs/`**: All lab artifacts saved here (using templates from `templates/` folder).
+- **`reference/`**: RIFCC-DA framework, glossary, policy, commands, and responsible use guidelines.
+- **`scripts/`**: Cleaning scripts generated in Stage 2.
+- **`templates/`**: Structured templates for each output artifact (e.g., `00_data_risk_review_template.md`).
+
+**Stage-by-Stage Workflow (90 minutes total):**
+1. **Stage 0 — Data Risk & Policy Review (10 min)**: Use "Data Risk Reviewer" agent. Input: `transaction_alerts.csv` + `schema.md`. Output: `outputs/00_data_risk_review.md` (assess risks, compliance, and access controls).
+2. **Stage 1 — Data Profiling (15 min)**: Use "Data Profiling Analyst" agent. Input: `transaction_alerts.csv`. Output: `outputs/01_data_profile.md` (identify data quality issues, anomalies, and profiling stats).
+3. **Stage 2 — Data Cleaning (20 min)**: Use "Data Cleaning Engineer" agent. Input: `transaction_alerts.csv` + `01_data_profile.md`. Outputs: `scripts/clean_alerts.py` + `outputs/02_cleaning_decisions.md` (generate reversible cleaning scripts with justifications).
+4. **Stage 3 — Exploratory Analysis (15 min)**: Use "Exploratory Data Analyst" agent. Input: Cleaned dataset. Output: `outputs/03_exploratory_insights.md` (translate patterns into business insights).
+5. **Stage 4 — Visualization (15 min)**: Use "Visualization Architect" agent. Input: Cleaned dataset. Output: `outputs/04_visualizations.ipynb` (create accurate visualizations).
+6. **Stage 5 — Audit & Responsible Use (10 min)**: Use "Responsible Use Auditor" agent. Input: All scripts + outputs. Output: `outputs/05_audit_review.md` (audit for compliance and risks).
+7. **Stage 6 — Executive Summary (5 min)**: No agent. Input: All outputs. Output: `outputs/06_executive_summary.md` (synthesize findings).
+
+**Key Principles:**
+- Use Copilot Chat agents (selected via dropdown) to constrain responses for each stage.
+- Reference files with `#filename` in prompts (e.g., `#transaction_alerts.csv`).
+- Follow RIFCC-DA framework from `reference/PROMPT_PATTERN.md`.
+- Ensure responsible AI use: No silent data drops, full justifications, policy compliance.
+- All outputs must be saved in `/outputs/` using provided templates.
+- Validate against flawed examples in `/exercises/` before trusting Copilot outputs.
+
+**Technical Requirements:**
+- Windows/Linux/Mac compatible.
+- No external databases; all data is CSV-based.
+- Outputs are Markdown and Python/Jupyter artifacts.
+- Emphasis on ethical AI: Audit for biases, data privacy, and financial risk exposure.
+
+This project is designed as a self-contained lab for learning responsible data analysis with AI assistance, focusing on fraud detection in financial services.
