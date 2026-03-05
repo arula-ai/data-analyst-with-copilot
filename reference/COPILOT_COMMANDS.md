@@ -47,7 +47,44 @@ Review #clean_alerts.py for any operations that could expose account_masked.
 
 ---
 
-## Section 3: Suggested Slash Commands (if configured)
+## Section 3: Prompting Copilot for SQL (Stage 2B)
+
+Use `sqlite3` from Python's standard library to run SQL against your CSV — no new installs needed.
+
+**Setup pattern — always start with this:**
+```
+Load #transaction_alerts_clean.csv into an in-memory SQLite database using pandas and sqlite3.
+Use conn = sqlite3.connect(':memory:') and df.to_sql('alerts', conn, index=False).
+```
+
+**Exploration queries:**
+```
+Write SQL to count rows grouped by alert_type, ordered by count descending.
+```
+
+```
+Write SQL to find the average risk_score per region, excluding nulls.
+```
+
+```
+Write SQL to list all fraud_confirmed = 1 alerts where risk_score > 0.8,
+ordered by transaction_amount descending.
+```
+
+**Cleaning via SQL:**
+```
+Write SQL to identify duplicate alert_id values and return their count.
+```
+
+```
+Write SQL to find all rows where analyst_confidence = -1 (invalid sentinel value).
+```
+
+> **Key difference from Python:** SQL is declarative — you describe WHAT you want, not HOW to get it. Use it for filtering, aggregation, and joins. Use Python/pandas for transformations, imputation, and visualization.
+
+---
+
+## Section 4: Suggested Slash Commands (if configured)
 
 | Slash Command | Mode | What It Does |
 |---|---|---|
@@ -60,7 +97,7 @@ Review #clean_alerts.py for any operations that could expose account_masked.
 
 ---
 
-## Section 4: Iteration Techniques
+## Section 5: Iteration Techniques
 
 When Copilot gives an unhelpful, incomplete, or incorrect response:
 
@@ -96,7 +133,7 @@ Use #schema.md to verify the valid range for risk_score before writing the asser
 
 ---
 
-## Section 5: Keyboard Shortcuts
+## Section 6: Keyboard Shortcuts
 
 | Action | Windows / Linux | Mac |
 |---|---|---|

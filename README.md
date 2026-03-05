@@ -104,6 +104,36 @@ You are done when all of the following exist in `/outputs/`:
 
 ---
 
+## Course Module Mapping
+
+This lab covers the practical exercises for the following course modules:
+
+| Course Module | Topic | Lab Stage(s) |
+|---------------|-------|-------------|
+| Module 1 | Setting the Stage — Data Analysis in VS Code | Pre-lab (`QUICK_START.md`, `VERIFY_BEFORE_SEND.md`) |
+| Module 2 | Collaborating with Copilot for Data Exploration | Stage 1 (Profiling) + Stage 3 (EDA) |
+| Module 3 | Data Cleaning and Transformation with Copilot | Stage 2 (Cleaning) |
+| Module 4 | Generating Visualizations with Copilot | Stage 4 (Visualization) |
+| Module 5 | Responsible Use — Security, Privacy, and Policy | Stage 0 (Risk Review) + Stage 5 (Audit) |
+
+> Stage 6 (Executive Summary) spans all modules — it synthesizes outputs from every prior stage.
+
+---
+
+## Additional Datasets (Use Case Scenarios)
+
+This repo also contains mock datasets for the other two course use case scenarios:
+
+| Scenario | Dataset | Schema |
+|----------|---------|--------|
+| Root Cause Analysis (RCA) | `data/rca_app_logs.csv` — 300 synthetic application log entries | `data/rca_schema.md` |
+| Product Usage & Modernization | `data/mainframe_usage.xlsx` — 400 synthetic mainframe feature usage records (Excel) | `data/mainframe_schema.md` |
+| Operational Anomaly Detection & Trend Analysis | `data/treasury_payments.xlsx` — 500 synthetic Treasury payment records (Excel) | `data/treasury_schema.md` |
+
+These datasets are provided for the three course use case scenarios. Each has a corresponding sub-lab in `LAB_ACTION_GUIDE.md` (Scenarios A, B, and C). The primary 90-minute lab uses `data/transaction_alerts.csv`.
+
+---
+
 ## Getting Started
 
 1. Read `VERIFY_BEFORE_SEND.md` — understand what data privacy obligations apply before you open the dataset

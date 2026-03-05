@@ -1,5 +1,5 @@
 ---
-description: 'Generates hypothesis-driven EDA code for fraud alert data and translates statistical findings into plain-English business insights for fraud operations teams.'
+description: 'Generates hypothesis-driven EDA code and translates statistical findings into plain-English business insights for operations and risk teams.'
 tools: ['codebase', 'runCommand']
 ---
 

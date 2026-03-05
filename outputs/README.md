@@ -20,6 +20,18 @@
 
 ---
 
+## Alternative Scenario Deliverables (Optional)
+
+Complete these only if you are working through the alternative scenarios in `LAB_ACTION_GUIDE.md` after finishing the main lab.
+
+| Filename | Scenario | Description | Required? |
+|---|---|---|---|
+| `rca_findings.md` | Scenario A — Root Cause Analysis | Root cause hypothesis with supporting evidence from `rca_app_logs.csv` | No (optional) |
+| `modernization_recommendations.md` | Scenario B — Product Usage & Modernization | Feature prioritization and migration recommendations from `mainframe_usage.xlsx` | No (optional) |
+| `treasury_findings.md` | Scenario C — Operational Anomaly Detection | Treasury payment anomaly patterns and trend analysis from `treasury_payments.xlsx` | No (optional) |
+
+---
+
 ## End-of-Lab Completion Checklist
 
 Use this to verify your work before the session ends. Go through it with your facilitator.

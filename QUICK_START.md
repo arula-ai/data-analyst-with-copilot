@@ -4,6 +4,23 @@
 
 ---
 
+## Recommended VS Code Extensions
+
+Install these before starting. They improve the data analysis experience directly in VS Code.
+
+| Extension | What It Does | Install |
+|-----------|-------------|---------|
+| **Rainbow CSV** | Color-codes CSV columns so you can visually inspect `transaction_alerts.csv` without opening Python | Search "Rainbow CSV" in VS Code Extensions (`Ctrl+Shift+X`) |
+| **Data Wrangler** | Opens CSV files as an interactive table — sort, filter, and profile data visually | Search "Data Wrangler" in VS Code Extensions |
+
+**Rainbow CSV:** Open `data/transaction_alerts.csv` in VS Code — each column will be highlighted in a distinct color, making it easy to spot misaligned values and format issues at a glance.
+
+**Data Wrangler:** Right-click `data/transaction_alerts.csv` → "Open in Data Wrangler" to get a visual column summary, null count, and distribution before writing a single line of code.
+
+> These extensions do not send data to external servers. They operate entirely within your local VS Code environment.
+
+---
+
 ## Step 1: Open Copilot Chat
 
 - **Windows / Linux:** `Ctrl+Shift+I`
@@ -70,7 +87,7 @@ If you get this, your setup is working correctly.
 
 ---
 
-## Step 5: If Copilot Gives a Unhelpful Response
+## Step 5: If Copilot Gives an Unhelpful Response
 
 Try these adjustments:
 

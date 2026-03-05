@@ -6,6 +6,22 @@ This checklist exists because errors in financial data analysis — including AI
 
 ---
 
+## Section 0: Is Your Copilot Configured Correctly?
+
+Complete this once at the start of the lab. If any item fails, stop and resolve it before opening any data.
+
+- [ ] VS Code shows your **enterprise/work account** in the bottom-left corner — not a personal GitHub account
+- [ ] Copilot Chat opens with `Ctrl+Shift+I` and responds to a test message
+- [ ] You are working on **approved corporate hardware** — not a personal laptop outside IT management
+- [ ] You are **not** in a shared cloud notebook, public Codespace, or any environment outside your local VS Code install
+- [ ] **RED FLAG:** Are you unsure whether your Copilot instance is enterprise-managed or personal? If YES → ask your IT administrator before proceeding. Personal Copilot accounts have different data handling rules than enterprise accounts.
+
+> **Why this matters:** When you use `#filename` to attach a file in Copilot Chat, the full file content is sent to GitHub's servers as part of your prompt. Enterprise accounts have organization-managed data residency and content exclusion policies. Personal accounts do not. Using the wrong account is a policy violation.
+
+**Do not attach files from outside this repository.** All data used in this lab lives in `data/`. Do not attach files from network drives, SharePoint, OneDrive, or any external system. If you need to analyze real data, get compliance approval first and use a separate sanitized copy in an approved environment.
+
+---
+
 ## Section 1: Before You Open the Dataset
 
 Answer these questions before loading `transaction_alerts.csv`:

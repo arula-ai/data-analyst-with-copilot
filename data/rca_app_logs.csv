@@ -1,0 +1,301 @@
+timestamp,service_name,environment,log_level,error_code,message,request_id,response_time_ms,user_id_masked
+11/01/2024 08:08,notification-service,staging,WARN,,Memory usage at 80%,REQ-66718,307.0,u***635
+2024-11-01 08:08:00,auth-service,prod,INFO,,Health check passed,REQ-11092,53.0,u***491
+2024-11-01 08:16:00,notification-service,staging,INFO,,Connection established,REQ-13516,273.0,
+2024-11-01 08:00:00,auth-service,prod,ERROR,ERR_001,,REQ-84040,649.0,u***301
+2024-11-01 08:08:00,notification-service,staging,ERROR,ERR_003,,REQ-39616,,u***357
+2024-11-01 08:09:00,auth-service,prod,INFO,,Request processed successfully,REQ-76300,240.0,
+2024-11-01 08:08:00,user-api,prod,INFO,,Health check passed,REQ-59244,683.0,
+2024-11-01 08:06:00,notification-service,staging,INFO,,Request processed successfully,REQ-97059,264.0,u***887
+2024-11-01 09:04:00,payment-gateway,staging,INFO,,Request processed successfully,REQ-65249,365.0,u***230
+2024-11-01 08:15:00,transaction-processor,prod,INFO,,Connection established,REQ-83775,198.0,
+2024-11-01 08:11:00,transaction-processor,prod,WARN,,Rate limit approaching,REQ-63524,288.0,u***409
+2024-11-01 08:05:00,notification-service,staging,INFO,,Request processed successfully,REQ-65752,229.0,u***666
+2024-11-01 08:16:00,transaction-processor,prod,INFO,,Health check passed,REQ-29869,266.0,
+2024-11-01 08:24:00,auth-service,prod,INFO,,Request processed successfully,REQ-86763,152.0,
+2024-11-01 08:23:00,user-api,prod,INFO,,Connection established,REQ-96045,654.0,
+2024-11-01 08:09:00,notification-service,staging,ERROR,,,REQ-75979,,u***206
+2024-11-01 08:24:00,notification-service,staging,WARN,,High latency detected,REQ-37471,609.0,u***149
+2024-11-01 08:09:00,notification-service,staging,INFO,,Health check passed,REQ-87769,368.0,u***360
+2024-11-01 08:10:00,transaction-processor,prod,WARN,,High latency detected,REQ-14181,178.0,u***770
+2024-11-01 08:00:00,transaction-processor,prod,WARN,,Rate limit approaching,REQ-26268,333.0,u***176
+2024-11-01 09:42:00,notification-service,staging,INFO,,Request processed successfully,REQ-22075,97.0,
+2024-11-01 09:02:00,notification-service,staging,ERROR,ERR_001,,REQ-49639,,u***261
+2024-11-01 09:08:00,auth-service,prod,INFO,,Health check passed,REQ-59442,53.0,
+2024-11-01 09:55:00,user-api,prod,WARN,,Memory usage at 80%,REQ-23599,114.0,u***308
+2024-11-01 09:03:00,auth-service,prod,ERROR,ERR_002,Timeout after 30s,REQ-45392,304.0,u***561
+11/01/2024 09:07,user-api,prod,INFO,,Request processed successfully,REQ-41752,628.0,
+2024-11-01 09:07:00,notification-service,staging,INFO,,Cache refreshed,REQ-27756,200.0,
+2024-11-01 09:02:00,auth-service,prod,INFO,,Health check passed,REQ-12569,54.0,
+2024-11-01 09:02:00,user-api,prod,INFO,,Request processed successfully,REQ-69369,130.0,
+2024-11-01 09:04:00,auth-service,prod,FATAL,ERR_500,,REQ-99451,,u***705
+2024-11-01 09:04:00,payment-gateway,staging,INFO,,Health check passed,REQ-35223,72.0,u***926
+2024-11-01 09:00:00,user-api,prod,ERROR,ERR_001,Database connection failed,REQ-27756,,u***177
+2024-11-01 09:00:00,auth-service,prod,ERROR,ERR_500,,REQ-17236,64.0,u***330
+2024-11-01 09:03:00,transaction-processor,prod,INFO,,Request processed successfully,REQ-56668,260.0,u***734
+2024-11-01 09:06:00,user-api,prod,INFO,,Health check passed,REQ-85358,145.0,u***506
+2024-11-01 09:23:00,auth-service,prod,INFO,,Connection established,REQ-49345,77.0,
+2024-11-01 09:07:00,user-api,prod,ERROR,,Timeout after 30s,REQ-11862,231.0,u***579
+2024-11-01 09:43:00,auth-service,prod,WARN,,Memory usage at 80%,REQ-64989,235.0,u***550
+2024-11-01 09:07:00,notification-service,staging,ERROR,ERR_500,Timeout after 30s,REQ-62240,,u***594
+2024-11-01 09:08:00,notification-service,staging,FATAL,ERR_003,Out of memory,REQ-50364,,u***795
+2024-11-01 10:04:00,user-api,prod,WARN,,Memory usage at 80%,REQ-39588,90.0,u***772
+2024-11-01 10:17:00,transaction-processor,prod,INFO,,Health check passed,REQ-72997,169.0,
+2024-11-01 10:17:00,transaction-processor,prod,INFO,,Health check passed,REQ-23109,389.0,
+2024-11-01 10:12:00,transaction-processor,prod,WARN,,Retry attempt 1 of 3,REQ-32049,122.0,u***876
+2024-11-01 10:12:00,notification-service,staging,INFO,,Request processed successfully,REQ-20202,900.0,
+2024-11-01 10:01:00,auth-service,prod,INFO,,Cache refreshed,REQ-47472,250.0,
+2024-11-01 10:09:00,transaction-processor,prod,INFO,,Connection established,REQ-21099,501.0,u***278
+2024-11-01 10:00:00,notification-service,staging,WARN,,Memory usage at 80%,REQ-56463,226.0,u***558
+2024-11-01 11:03:00,auth-service,prod,INFO,,Connection established,REQ-95699,74.0,
+2024-11-01 10:31:00,notification-service,staging,INFO,,Cache refreshed,REQ-59576,129.0,
+11/01/2024 10:00,notification-service,staging,INFO,,Request processed successfully,REQ-48926,106.0,
+2024-11-01 10:03:00,user-api,prod,INFO,,Request processed successfully,REQ-56808,577.0,
+2024-11-01 10:00:00,user-api,prod,INFO,,Connection established,REQ-53850,584.0,
+2024-11-01 10:01:00,notification-service,staging,INFO,,Health check passed,REQ-95699,72.0,
+2024-11-01 10:44:00,notification-service,staging,INFO,,Cache refreshed,REQ-97517,69.0,u***468
+2024-11-01 10:35:00,payment-gateway,staging,INFO,,Health check passed,REQ-43871,103.0,u***494
+2024-11-01 10:11:00,auth-service,prod,INFO,,Connection established,REQ-22067,494.0,
+2024-11-01 10:30:00,auth-service,prod,ERROR,ERR_001,Timeout after 30s,REQ-48773,302.0,u***506
+2024-11-01 10:06:00,notification-service,staging,INFO,,Request processed successfully,REQ-76218,174.0,
+2024-11-01 10:22:00,user-api,prod,INFO,,Cache refreshed,REQ-26132,93.0,
+2024-11-01 11:41:00,transaction-processor,prod,INFO,,Cache refreshed,REQ-19247,125.0,
+2024-11-01 11:23:00,user-api,prod,INFO,,Cache refreshed,REQ-47419,60.0,
+2024-11-01 11:02:00,notification-service,staging,WARN,,Rate limit approaching,REQ-29834,133.0,u***121
+2024-11-01 11:16:00,transaction-processor,prod,WARN,,Rate limit approaching,REQ-53040,108.0,u***931
+2024-11-01 11:05:00,user-api,prod,INFO,,Request processed successfully,REQ-57728,319.0,u***612
+2024-11-01 11:01:00,user-api,prod,WARN,,High latency detected,REQ-84050,407.0,u***387
+2024-11-01 11:06:00,auth-service,prod,WARN,,Memory usage at 80%,REQ-79303,372.0,u***448
+2024-11-01 11:04:00,transaction-processor,prod,INFO,,Connection established,REQ-79400,470.0,
+2024-11-01 11:27:00,notification-service,staging,INFO,,Request processed successfully,REQ-33752,308.0,
+2024-11-01 12:23:00,transaction-processor,prod,WARN,,High latency detected,REQ-12649,67.0,u***217
+2024-11-01 11:04:00,payment-gateway,staging,WARN,,Memory usage at 80%,REQ-84050,177.0,u***955
+2024-11-01 11:27:00,payment-gateway,staging,WARN,,Rate limit approaching,REQ-76354,139.0,u***502
+2024-11-01 11:22:00,transaction-processor,prod,INFO,,Cache refreshed,REQ-44013,311.0,u***866
+2024-11-01 11:21:00,user-api,prod,INFO,,Connection established,REQ-70478,50.0,u***464
+2024-11-01 11:06:00,auth-service,prod,INFO,,Cache refreshed,REQ-62340,144.0,
+11/01/2024 11:10,auth-service,prod,INFO,,Request processed successfully,REQ-34966,57.0,
+2024-11-01 11:04:00,notification-service,staging,FATAL,ERR_003,Out of memory,REQ-58430,,u***155
+2024-11-01 12:34:00,payment-gateway,staging,ERROR,ERR_500,,REQ-10236,,u***814
+2024-11-01 11:40:00,payment-gateway,staging,FATAL,ERR_404,Service crashed,REQ-32226,,u***401
+2024-11-01 11:37:00,payment-gateway,staging,INFO,,Request processed successfully,REQ-85341,113.0,
+2024-11-01 12:06:00,auth-service,prod,WARN,,Retry attempt 1 of 3,REQ-55427,143.0,u***811
+2024-11-01 12:04:00,notification-service,staging,INFO,,Cache refreshed,REQ-36415,143.0,
+2024-11-01 12:12:00,payment-gateway,staging,INFO,,Health check passed,REQ-64324,599.0,
+2024-11-01 12:07:00,transaction-processor,prod,INFO,,Health check passed,REQ-10839,257.0,u***682
+2024-11-01 12:40:00,auth-service,prod,INFO,,Connection established,REQ-97269,274.0,u***892
+2024-11-01 12:06:00,auth-service,prod,INFO,,Connection established,REQ-61919,183.0,u***338
+2024-11-01 12:05:00,transaction-processor,prod,WARN,,Rate limit approaching,REQ-18985,121.0,u***977
+2024-11-01 12:01:00,transaction-processor,prod,INFO,,Request processed successfully,REQ-24823,103.0,
+2024-11-01 12:02:00,notification-service,staging,INFO,,Health check passed,REQ-56663,54.0,
+2024-11-01 12:33:00,notification-service,staging,FATAL,ERR_404,Out of memory,REQ-13241,,u***824
+2024-11-01 12:12:00,user-api,prod,FATAL,ERR_003,,REQ-83123,,u***691
+2024-11-01 12:13:00,auth-service,prod,INFO,,Health check passed,REQ-37310,308.0,u***876
+2024-11-01 13:08:00,transaction-processor,prod,WARN,,Rate limit approaching,REQ-54827,82.0,u***131
+2024-11-01 12:36:00,transaction-processor,prod,INFO,,Cache refreshed,REQ-73478,827.0,
+2024-11-01 12:02:00,payment-gateway,staging,ERROR,ERR_003,Timeout after 30s,REQ-36463,,u***150
+2024-11-01 12:06:00,auth-service,prod,INFO,,Connection established,REQ-87698,675.0,u***850
+2024-11-01 12:00:00,payment-gateway,staging,INFO,,Health check passed,REQ-64154,77.0,
+2024-11-01 12:06:00,auth-service,prod,INFO,,Health check passed,REQ-96956,200.0,
+2024-11-01 12:13:00,auth-service,prod,INFO,,Request processed successfully,REQ-73478,207.0,
+2024-11-01 12:00:00,user-api,prod,INFO,,Health check passed,REQ-36540,141.0,
+11/01/2024 13:18,auth-service,prod,ERROR,ERR_002,,REQ-93854,496.0,u***639
+2024-11-01 13:07:00,transaction-processor,prod,WARN,,Retry attempt 1 of 3,REQ-14737,575.0,u***594
+2024-11-01 13:02:00,user-api,prod,INFO,,Request processed successfully,REQ-94804,73.0,
+2024-11-01 13:08:00,notification-service,staging,ERROR,,Timeout after 30s,REQ-52433,,u***318
+2024-11-01 13:02:00,auth-service,prod,INFO,,Health check passed,REQ-41627,303.0,
+2024-11-01 13:16:00,auth-service,prod,INFO,,Cache refreshed,REQ-76386,149.0,
+2024-11-01 13:53:00,notification-service,staging,WARN,,Memory usage at 80%,REQ-88823,146.0,u***259
+2024-11-01 13:42:00,payment-gateway,staging,INFO,,Request processed successfully,REQ-40600,64.0,
+2024-11-01 13:24:00,user-api,prod,WARN,,Retry attempt 1 of 3,REQ-87640,135.0,u***522
+2024-11-01 13:04:00,payment-gateway,staging,WARN,,Rate limit approaching,REQ-41627,460.0,u***415
+2024-11-01 13:10:00,transaction-processor,prod,INFO,,Cache refreshed,REQ-46342,93.0,u***262
+2024-11-01 13:00:00,auth-service,prod,INFO,,Cache refreshed,REQ-80649,63.0,
+2024-11-01 13:09:00,notification-service,staging,INFO,,Health check passed,REQ-15265,194.0,
+2024-11-01 13:26:00,user-api,prod,INFO,,Request processed successfully,REQ-11097,640.0,
+2024-11-01 13:00:00,auth-service,prod,INFO,,Connection established,REQ-17786,65.0,
+2024-11-01 13:17:00,transaction-processor,prod,INFO,,Connection established,REQ-46342,232.0,u***623
+2024-11-01 13:02:00,auth-service,prod,INFO,,Connection established,REQ-58567,251.0,
+2024-11-01 13:04:00,user-api,prod,ERROR,ERR_404,Timeout after 30s,REQ-60030,112.0,u***619
+2024-11-01 13:07:00,user-api,prod,INFO,,Request processed successfully,REQ-60026,61.0,
+2024-11-01 13:00:00,payment-gateway,staging,INFO,,Connection established,REQ-24124,319.0,
+2024-11-01 14:57:00,auth-service,prod,INFO,,Connection established,REQ-29711,352.0,
+2024-11-01 14:01:00,auth-service,prod,ERROR,ERR_002,,REQ-18422,220.0,u***149
+2024-11-01 14:02:00,payment-gateway,staging,WARN,,High latency detected,REQ-65971,83.0,u***936
+2024-11-01 14:14:00,user-api,prod,INFO,,Health check passed,REQ-83426,77.0,u***803
+2024-11-01 14:10:00,transaction-processor,prod,INFO,,Connection established,REQ-14685,222.0,u***202
+11/01/2024 14:07,notification-service,staging,INFO,,Health check passed,REQ-20047,82.0,u***435
+2024-11-01 14:11:00,notification-service,staging,INFO,,Request processed successfully,REQ-49554,312.0,u***207
+2024-11-01 14:28:00,payment-gateway,staging,INFO,,Cache refreshed,REQ-35823,220.0,u***670
+2024-11-01 14:00:00,payment-gateway,staging,INFO,,Request processed successfully,REQ-62677,453.0,
+2024-11-01 14:25:00,notification-service,staging,INFO,,Request processed successfully,REQ-75852,148.0,
+2024-11-01 14:51:00,notification-service,staging,WARN,,High latency detected,REQ-43302,567.0,u***266
+2024-11-01 14:41:00,auth-service,prod,INFO,,Health check passed,REQ-62798,104.0,
+2024-11-01 14:16:00,auth-service,prod,INFO,,Request processed successfully,REQ-89039,204.0,
+2024-11-01 14:12:00,user-api,prod,INFO,,Cache refreshed,REQ-45359,342.0,u***172
+2024-11-01 14:10:00,auth-service,prod,INFO,,Request processed successfully,REQ-16885,231.0,u***276
+2024-11-01 14:32:00,notification-service,staging,ERROR,,,REQ-45576,,u***759
+2024-11-01 14:23:00,payment-gateway,staging,WARN,,Retry attempt 1 of 3,REQ-33834,146.0,u***717
+2024-11-01 14:01:00,user-api,prod,INFO,,Connection established,REQ-47463,86.0,
+2024-11-01 14:28:00,transaction-processor,prod,INFO,,Health check passed,REQ-55564,535.0,u***898
+2024-11-01 14:37:00,transaction-processor,prod,INFO,,Cache refreshed,REQ-54555,154.0,
+2024-11-01 15:19:00,transaction-processor,prod,INFO,,Cache refreshed,REQ-95083,482.0,u***885
+2024-11-01 15:25:00,notification-service,staging,INFO,,Cache refreshed,REQ-93753,164.0,
+2024-11-01 15:14:00,notification-service,staging,INFO,,Connection established,REQ-20585,115.0,u***233
+2024-11-01 15:14:00,payment-gateway,staging,WARN,,High latency detected,REQ-73527,221.0,u***335
+2024-11-01 15:14:00,auth-service,prod,INFO,,Request processed successfully,REQ-58347,182.0,
+2024-11-01 15:05:00,payment-gateway,staging,WARN,,Rate limit approaching,REQ-27531,101.0,u***494
+2024-11-01 15:02:00,payment-gateway,staging,WARN,,Rate limit approaching,REQ-84336,60.0,u***682
+2024-11-01 15:03:00,payment-gateway,staging,WARN,,Rate limit approaching,REQ-47073,152.0,u***965
+2024-11-01 15:27:00,transaction-processor,prod,INFO,,Connection established,REQ-95140,94.0,u***926
+2024-11-01 15:13:00,payment-gateway,staging,ERROR,ERR_001,Database connection failed,REQ-59408,,u***576
+11/01/2024 15:07,auth-service,prod,INFO,,Health check passed,REQ-85488,87.0,
+2024-11-01 15:19:00,payment-gateway,staging,INFO,,Request processed successfully,REQ-70958,287.0,u***984
+2024-11-01 15:21:00,payment-gateway,staging,INFO,,Cache refreshed,REQ-25248,102.0,
+2024-11-01 15:04:00,notification-service,staging,INFO,,Cache refreshed,REQ-44766,377.0,
+2024-11-01 15:20:00,notification-service,staging,WARN,,Rate limit approaching,REQ-87754,89.0,u***222
+2024-11-01 15:07:00,transaction-processor,prod,INFO,,Health check passed,REQ-36781,218.0,
+2024-11-01 15:36:00,notification-service,staging,ERROR,ERR_002,,REQ-79712,595.0,u***427
+2024-11-01 15:29:00,auth-service,prod,WARN,,Memory usage at 80%,REQ-43580,170.0,u***226
+2024-11-01 15:10:00,payment-gateway,staging,INFO,,Health check passed,REQ-37589,147.0,
+2024-11-01 15:30:00,auth-service,prod,ERROR,,,REQ-59844,403.0,u***222
+2024-11-01 16:04:00,user-api,prod,INFO,,Cache refreshed,REQ-32729,207.0,u***825
+2024-11-01 16:22:00,auth-service,prod,WARN,,High latency detected,REQ-85843,62.0,u***666
+2024-11-01 16:23:00,payment-gateway,staging,ERROR,ERR_500,Database connection failed,REQ-89805,396.0,u***955
+2024-11-01 16:06:00,auth-service,prod,INFO,,Cache refreshed,REQ-70666,255.0,u***681
+2024-11-01 16:04:00,auth-service,prod,WARN,,Retry attempt 1 of 3,REQ-50509,68.0,u***223
+2024-11-01 16:10:00,auth-service,prod,WARN,,Memory usage at 80%,REQ-90031,155.0,u***532
+2024-11-01 16:07:00,notification-service,staging,WARN,,Retry attempt 1 of 3,REQ-11972,85.0,u***731
+2024-11-01 16:04:00,transaction-processor,prod,INFO,,Cache refreshed,REQ-87909,343.0,
+2024-11-01 16:20:00,user-api,prod,WARN,,Retry attempt 1 of 3,REQ-31632,104.0,u***405
+2024-11-01 16:01:00,notification-service,staging,INFO,,Health check passed,REQ-92178,128.0,u***361
+2024-11-01 16:06:00,transaction-processor,prod,INFO,,Health check passed,REQ-15507,142.0,
+2024-11-01 16:00:00,auth-service,prod,INFO,,Connection established,REQ-54934,75.0,
+2024-11-01 16:17:00,auth-service,prod,ERROR,ERR_002,,REQ-35842,,u***270
+2024-11-01 16:04:00,notification-service,staging,INFO,,Connection established,REQ-38694,253.0,u***564
+2024-11-01 16:03:00,notification-service,staging,WARN,,Memory usage at 80%,REQ-15593,100.0,u***583
+11/01/2024 16:21,auth-service,prod,INFO,,Request processed successfully,REQ-91156,116.0,u***276
+2024-11-01 16:22:00,transaction-processor,prod,INFO,,Request processed successfully,REQ-17194,212.0,
+2024-11-01 16:06:00,user-api,prod,INFO,,Cache refreshed,REQ-19167,746.0,
+2024-11-01 16:18:00,auth-service,prod,INFO,,Connection established,REQ-69182,737.0,
+2024-11-01 16:01:00,user-api,prod,INFO,,Cache refreshed,REQ-81424,1068.0,u***307
+2024-11-01 17:01:00,auth-service,prod,INFO,,Health check passed,REQ-29255,189.0,
+2024-11-01 17:02:00,notification-service,staging,WARN,,Memory usage at 80%,REQ-26769,484.0,u***826
+2024-11-01 17:24:00,payment-gateway,staging,INFO,,Connection established,REQ-75155,176.0,
+2024-11-01 17:05:00,transaction-processor,prod,ERROR,ERR_003,Database connection failed,REQ-30333,,u***476
+2024-11-01 17:55:00,user-api,prod,WARN,,High latency detected,REQ-54116,215.0,u***871
+2024-11-01 17:28:00,notification-service,staging,INFO,,Health check passed,REQ-74999,84.0,
+2024-11-01 17:05:00,user-api,prod,INFO,,Request processed successfully,REQ-77089,279.0,u***175
+2024-11-01 17:12:00,user-api,prod,INFO,,Health check passed,REQ-65550,182.0,
+2024-11-01 17:11:00,notification-service,staging,INFO,,Connection established,REQ-46891,71.0,
+2024-11-01 17:12:00,payment-gateway,staging,INFO,,Health check passed,REQ-12860,64.0,u***898
+2024-11-01 17:17:00,user-api,prod,INFO,,Cache refreshed,REQ-65220,335.0,u***754
+2024-11-01 17:02:00,notification-service,staging,WARN,,Retry attempt 1 of 3,REQ-77089,596.0,u***508
+2024-11-01 17:02:00,payment-gateway,staging,ERROR,ERR_500,Timeout after 30s,REQ-18986,160.0,u***985
+2024-11-01 17:08:00,notification-service,staging,INFO,,Request processed successfully,REQ-13941,500.0,
+2024-11-01 17:02:00,user-api,prod,ERROR,ERR_DB_001,Timeout after 30s,REQ-81940,,u***548
+2024-11-01 17:12:00,user-api,prod,ERROR,,Database connection failed,REQ-52368,,u***420
+2024-11-01 18:11:00,payment-gateway,staging,WARN,,High latency detected,REQ-63823,516.0,u***601
+2024-11-01 17:06:00,user-api,prod,INFO,,Request processed successfully,REQ-83310,54.0,
+2024-11-01 17:07:00,transaction-processor,prod,WARN,,Rate limit approaching,REQ-24857,676.0,u***238
+2024-11-01 17:03:00,transaction-processor,prod,ERROR,ERR_404,,REQ-41911,166.0,u***348
+11/01/2024 18:06,transaction-processor,prod,WARN,,Retry attempt 1 of 3,REQ-61298,51.0,u***315
+2024-11-01 18:13:00,transaction-processor,prod,WARN,,Rate limit approaching,REQ-12737,134.0,u***888
+2024-11-01 18:38:00,payment-gateway,staging,WARN,,Memory usage at 80%,REQ-13887,203.0,u***459
+2024-11-01 18:00:00,user-api,prod,INFO,,Request processed successfully,REQ-87880,145.0,
+2024-11-01 18:55:00,payment-gateway,staging,INFO,,Connection established,REQ-47657,421.0,u***203
+2024-11-01 18:06:00,user-api,prod,INFO,,Connection established,REQ-20000,364.0,
+2024-11-01 18:10:00,auth-service,prod,FATAL,ERR_DB_001,Out of memory,REQ-93193,,u***148
+2024-11-01 18:43:00,transaction-processor,prod,INFO,,Request processed successfully,REQ-60747,284.0,
+2024-11-01 18:11:00,transaction-processor,prod,INFO,,Health check passed,REQ-37011,734.0,
+2024-11-01 18:24:00,notification-service,staging,INFO,,Health check passed,REQ-76518,104.0,u***801
+2024-11-01 18:03:00,user-api,prod,WARN,,Retry attempt 1 of 3,REQ-77897,82.0,u***929
+2024-11-01 18:08:00,notification-service,staging,INFO,,Request processed successfully,REQ-95615,516.0,
+2024-11-01 18:04:00,payment-gateway,staging,INFO,,Health check passed,REQ-69784,63.0,u***446
+2024-11-01 18:24:00,user-api,prod,INFO,,Connection established,REQ-42299,199.0,
+2024-11-01 18:06:00,auth-service,prod,INFO,,Health check passed,REQ-38712,200.0,
+2024-11-01 18:05:00,user-api,prod,INFO,,Connection established,REQ-54461,92.0,
+2024-11-01 18:24:00,user-api,prod,WARN,,Memory usage at 80%,REQ-94636,126.0,u***552
+2024-11-01 18:19:00,auth-service,prod,WARN,,Retry attempt 1 of 3,REQ-73681,110.0,u***524
+2024-11-01 18:09:00,payment-gateway,staging,WARN,,Retry attempt 1 of 3,REQ-19492,542.0,u***323
+2024-11-01 18:03:00,auth-service,prod,ERROR,ERR_001,,REQ-73081,364.0,u***982
+2024-11-01 19:14:00,notification-service,staging,INFO,,Request processed successfully,REQ-79748,331.0,
+2024-11-01 19:00:00,transaction-processor,prod,INFO,,Health check passed,REQ-90991,214.0,
+2024-11-01 19:32:00,transaction-processor,prod,INFO,,Connection established,REQ-97879,133.0,u***941
+2024-11-01 19:03:00,payment-gateway,staging,ERROR,,,REQ-10074,,u***706
+2024-11-01 19:01:00,transaction-processor,prod,INFO,,Health check passed,REQ-74747,524.0,
+11/01/2024 19:13,notification-service,staging,INFO,,Request processed successfully,REQ-44135,64.0,
+2024-11-01 19:05:00,user-api,prod,INFO,,Cache refreshed,REQ-91434,216.0,
+2024-11-01 20:04:00,notification-service,staging,WARN,,Retry attempt 1 of 3,REQ-74709,134.0,u***145
+2024-11-01 19:03:00,auth-service,prod,INFO,,Cache refreshed,REQ-12150,110.0,
+2024-11-01 19:14:00,transaction-processor,prod,ERROR,,,REQ-87298,455.0,u***204
+2024-11-01 19:03:00,payment-gateway,staging,WARN,,Memory usage at 80%,REQ-11843,110.0,u***517
+2024-11-01 19:27:00,notification-service,staging,FATAL,ERR_500,Out of memory,REQ-13820,,u***243
+2024-11-01 19:08:00,payment-gateway,staging,FATAL,,Out of memory,REQ-68677,,u***307
+2024-11-01 19:02:00,user-api,prod,ERROR,ERR_001,,REQ-77149,104.0,u***577
+2024-11-01 19:11:00,user-api,prod,INFO,,Cache refreshed,REQ-25186,97.0,u***970
+2024-11-01 19:23:00,user-api,prod,INFO,,Connection established,REQ-57335,191.0,u***394
+2024-11-01 19:09:00,user-api,prod,INFO,,Connection established,REQ-60159,222.0,
+2024-11-01 19:04:00,transaction-processor,prod,ERROR,ERR_500,,REQ-62398,242.0,u***461
+2024-11-01 19:27:00,payment-gateway,staging,INFO,,Health check passed,REQ-82294,390.0,
+2024-11-01 19:04:00,transaction-processor,prod,ERROR,,,REQ-20121,,u***585
+2024-11-01 20:09:00,payment-gateway,staging,INFO,,Connection established,REQ-43725,133.0,
+2024-11-01 20:04:00,auth-service,prod,FATAL,ERR_500,Service crashed,REQ-86777,,u***941
+2024-11-01 20:00:00,notification-service,staging,ERROR,,,REQ-57754,,u***433
+2024-11-01 20:50:00,auth-service,prod,INFO,,Health check passed,REQ-12994,377.0,
+2024-11-01 20:18:00,user-api,prod,ERROR,ERR_002,,REQ-59460,,u***604
+2024-11-01 20:29:00,auth-service,prod,WARN,,Rate limit approaching,REQ-50272,101.0,u***555
+2024-11-01 20:34:00,transaction-processor,prod,WARN,,High latency detected,REQ-34022,164.0,u***989
+2024-11-01 20:01:00,user-api,prod,INFO,,Request processed successfully,REQ-44083,192.0,
+2024-11-01 20:00:00,transaction-processor,prod,INFO,,Cache refreshed,REQ-77868,291.0,
+2024-11-01 20:06:00,auth-service,prod,INFO,,Connection established,REQ-93288,118.0,
+11/01/2024 20:11,payment-gateway,staging,WARN,,High latency detected,REQ-55026,689.0,u***774
+2024-11-01 20:18:00,payment-gateway,staging,INFO,,Request processed successfully,REQ-74136,238.0,
+2024-11-01 20:14:00,transaction-processor,prod,WARN,,Retry attempt 1 of 3,REQ-72519,57.0,u***494
+2024-11-01 20:19:00,notification-service,staging,INFO,,Health check passed,REQ-48573,92.0,
+2024-11-01 20:16:00,transaction-processor,prod,INFO,,Cache refreshed,REQ-96623,480.0,u***744
+2024-11-01 20:13:00,notification-service,staging,WARN,,High latency detected,REQ-89336,569.0,u***653
+2024-11-01 20:22:00,notification-service,staging,ERROR,ERR_500,,REQ-92838,,u***234
+2024-11-01 20:39:00,notification-service,staging,WARN,,Rate limit approaching,REQ-63512,157.0,u***352
+2024-11-01 20:00:00,user-api,prod,WARN,,High latency detected,REQ-50691,137.0,u***145
+2024-11-01 20:02:00,notification-service,staging,INFO,,Request processed successfully,REQ-99780,493.0,
+2024-11-01 21:56:00,auth-service,prod,INFO,,Connection established,REQ-57849,109.0,
+2024-11-01 21:00:00,transaction-processor,prod,INFO,,Cache refreshed,REQ-25378,529.0,
+2024-11-01 21:16:00,notification-service,staging,WARN,,Retry attempt 1 of 3,REQ-95379,1024.0,u***560
+2024-11-01 21:38:00,transaction-processor,prod,INFO,,Cache refreshed,REQ-59183,70.0,u***744
+2024-11-01 21:07:00,transaction-processor,prod,INFO,,Connection established,REQ-93347,84.0,
+2024-11-01 21:03:00,notification-service,staging,WARN,,Rate limit approaching,REQ-73757,393.0,u***987
+2024-11-01 21:23:00,user-api,prod,WARN,,Retry attempt 1 of 3,REQ-63125,247.0,u***860
+2024-11-01 21:02:00,notification-service,staging,ERROR,ERR_500,Database connection failed,REQ-44107,216.0,u***136
+2024-11-01 21:01:00,notification-service,staging,ERROR,,,REQ-33044,,u***543
+2024-11-01 21:22:00,notification-service,staging,WARN,,Rate limit approaching,REQ-17270,133.0,u***730
+2024-11-01 21:16:00,transaction-processor,prod,INFO,,Health check passed,REQ-56791,68.0,u***821
+2024-11-01 21:32:00,notification-service,staging,INFO,,Connection established,REQ-52175,419.0,
+2024-11-01 21:08:00,notification-service,staging,WARN,,High latency detected,REQ-53036,229.0,u***610
+2024-11-01 21:25:00,auth-service,prod,ERROR,ERR_404,Timeout after 30s,REQ-45715,183.0,u***345
+2024-11-01 21:01:00,auth-service,prod,INFO,,Cache refreshed,REQ-38520,207.0,
+11/01/2024 21:23,transaction-processor,prod,ERROR,ERR_DB_001,,REQ-95604,,u***821
+2024-11-01 21:09:00,transaction-processor,prod,INFO,,Health check passed,REQ-52175,113.0,u***315
+2024-11-01 21:10:00,transaction-processor,prod,INFO,,Connection established,REQ-32685,289.0,
+2024-11-01 21:19:00,auth-service,prod,INFO,,Request processed successfully,REQ-61254,609.0,
+2024-11-01 21:54:00,payment-gateway,staging,INFO,,Health check passed,REQ-79709,353.0,
+2024-11-01 22:33:00,notification-service,staging,WARN,,Memory usage at 80%,REQ-92337,670.0,u***993
+2024-11-01 22:10:00,transaction-processor,prod,INFO,,Request processed successfully,REQ-38428,191.0,
+2024-11-01 22:03:00,auth-service,prod,WARN,,Retry attempt 1 of 3,REQ-31475,162.0,u***653
+2024-11-01 22:23:00,notification-service,staging,WARN,,Memory usage at 80%,REQ-93268,124.0,u***165
+2024-11-01 22:18:00,transaction-processor,prod,ERROR,ERR_003,,REQ-38478,87.0,u***564
+2024-11-01 22:25:00,notification-service,staging,WARN,,Retry attempt 1 of 3,REQ-83179,369.0,u***374
+2024-11-01 22:34:00,auth-service,prod,INFO,,Connection established,REQ-51440,789.0,
+2024-11-01 22:14:00,user-api,prod,INFO,,Health check passed,REQ-71991,381.0,
+2024-11-01 22:23:00,transaction-processor,prod,INFO,,Request processed successfully,REQ-98523,128.0,
+2024-11-01 22:22:00,auth-service,prod,WARN,,Rate limit approaching,REQ-39054,460.0,u***311
+2024-11-01 22:00:00,payment-gateway,staging,INFO,,Connection established,REQ-60668,87.0,u***494
+2024-11-01 22:07:00,user-api,prod,INFO,,Health check passed,REQ-44775,53.0,
+2024-11-01 22:41:00,notification-service,staging,INFO,,Health check passed,REQ-20886,99.0,
+2024-11-01 22:25:00,user-api,prod,INFO,,Health check passed,REQ-34063,117.0,
+2024-11-01 22:09:00,notification-service,staging,ERROR,ERR_500,Timeout after 30s,REQ-15909,,u***721
+2024-11-01 22:31:00,transaction-processor,prod,ERROR,ERR_003,Timeout after 30s,REQ-19792,,u***781
+2024-11-01 22:16:00,user-api,prod,WARN,,Rate limit approaching,REQ-75740,562.0,u***241
+2024-11-01 22:51:00,payment-gateway,staging,INFO,,Health check passed,REQ-34864,111.0,
+2024-11-01 22:09:00,auth-service,prod,INFO,,Cache refreshed,REQ-78454,130.0,u***603
+2024-11-01 22:06:00,payment-gateway,staging,ERROR,ERR_001,Database connection failed,REQ-64092,157.0,u***581

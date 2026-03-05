@@ -79,4 +79,48 @@ For questions about this policy or requests for Restricted-tier analysis approva
 
 ---
 
+## 8. Copilot IDE Data Governance — What Gets Sent and What Doesn't
+
+Understanding what GitHub Copilot transmits is a prerequisite for responsible use. This section answers the most common employee questions about data exposure in the IDE.
+
+### What GitHub Copilot sends to servers
+
+When you use Copilot Chat in VS Code, the following is sent to GitHub's servers for each request:
+
+| What | Sent? | Notes |
+|------|-------|-------|
+| Your typed prompt | Yes | Always |
+| Files you attach with `#filename` | Yes | The full file content is included in the prompt context |
+| Your open editor tab (sometimes) | Yes | Copilot may include the currently active file as context |
+| Your entire repository | No | Copilot does not scan or upload your full repo |
+| Files not referenced in the prompt | No | Only explicitly referenced files are sent |
+| Your terminal output | No | Unless you paste it into the chat |
+
+**Key rule:** Copilot sees what you put in front of it. If you attach `#transaction_alerts.csv`, all 500 rows are sent. If you attach `#schema.md`, only the schema is sent. Reference schema and column names — not raw data rows — whenever possible.
+
+### Dos and Don'ts in the IDE
+
+| Do | Don't |
+|----|-------|
+| Reference files by name using `#filename` syntax | Paste raw CSV rows or transaction values into the prompt |
+| Use schema context (`#schema.md`) instead of raw data | Attach files containing Restricted-tier data (unmasked PII, full account numbers) |
+| Work in a local VS Code environment on approved hardware | Use personal GitHub accounts for enterprise data work |
+| Use enterprise-configured Copilot (signed in with your work account) | Use Copilot on a personal laptop outside corporate security controls |
+| Keep outputs in the local `outputs/` folder | Upload AI-generated outputs to external services without compliance review |
+| Report accidental data exposure within 24 hours | Attempt to delete evidence of a policy violation before reporting |
+
+### Verifying your Copilot configuration
+
+Before starting any data analysis session, confirm:
+
+1. **You are signed into VS Code with your enterprise account** — check the bottom-left corner of VS Code. It should show your work email, not a personal account.
+2. **Copilot is enterprise-managed** — your organization's IT policy determines content exclusions and data residency settings. If you are unsure whether your Copilot instance is enterprise-configured, ask your IT administrator before proceeding.
+3. **Content exclusions are active** — enterprise Copilot can be configured to prevent specific files or directories from being sent as context. Confirm with IT that production data paths are excluded if you work near production systems.
+
+### What this means for this lab
+
+The `transaction_alerts.csv` dataset is **synthetic** — no real customers, no real transactions. However, the lab is intentionally designed to treat it as if it were real Confidential-tier data, so participants practice the correct habits. The governance rules above apply throughout all lab stages regardless of dataset sensitivity.
+
+---
+
 *This is a fictional policy document created for training purposes. It does not represent the actual policies of Fidelity Investments, Hartwell Financial Services (a fictional entity), or any real financial institution.*

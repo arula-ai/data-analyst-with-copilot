@@ -68,3 +68,21 @@ Your interpretation:
 **Chart 3:**
 
 **Chart 4:**
+
+---
+
+## Export Log
+
+> Complete after exporting charts as `.png` files using `plt.savefig()`.
+
+| Chart # | Exported Filename | Contains account_masked? | Approved to Share? |
+|---------|------------------|--------------------------|-------------------|
+| 1 | `outputs/chart_01_risk_score_distribution.png` | No / Yes | |
+| 2 | `outputs/chart_02_fraud_rate_by_alert_type.png` | No / Yes | |
+| 3 | `outputs/chart_03_transaction_amount_by_segment.png` | No / Yes | |
+| 4 | `outputs/chart_04_prior_alerts_vs_fraud_rate.png` | No / Yes | |
+
+**Before sharing any exported image:**
+- [ ] Confirmed no `account_masked` values visible in the image
+- [ ] Image reviewed by analyst (you) — not just accepted from Copilot output
+- [ ] Sharing destination is within approved internal channels only
