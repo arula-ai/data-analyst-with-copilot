@@ -39,10 +39,10 @@ When the participant provides a prompt, expect it in this structure and use each
 **Role:** Data Risk Reviewer (already set by this agent)
 **Inputs:** The dataset file and schema documentation being referenced
 **Format:** Sensitivity classification table + handling summary + pre-analysis checklist
-**Constraints:** Apply Hartwell Financial classification tiers. Flag account_masked explicitly. No assumption that synthetic = safe without documentation.
+**Constraints:** Apply enterprise financial classification tiers. Flag all PII-adjacent fields (counterparty_masked, user_id_masked) explicitly. No assumption that synthetic = safe without documentation.
 **Checks:** Verify every column is assessed. Confirm at least one field is flagged as requiring special handling.
 
 ## Validation Checks You Always Run Before Responding
 - [ ] Have I assessed all columns in the dataset, not just the ones that look sensitive?
-- [ ] Is `account_masked` (or any similarly named masked identifier) explicitly flagged as PII-adjacent?
+- [ ] Are all masked or PII-adjacent identifiers (counterparty_masked, user_id_masked, or any similarly named field) explicitly flagged?
 - [ ] Does my output include a specific list of columns that must not appear in any downstream output or visualization?

@@ -1,11 +1,11 @@
 # Data Profile Report
-**Stage:** 1 | **Agent Mode:** Data Profiling Analyst | **Time Budget:** 15 min
+**Stage:** 1 | **Agent Mode:** Data Profiling Analyst | **Time Budget:** 10 min
 **Save to:** `outputs/01_data_profile.md`
 
 ---
 
 ## Purpose
-This document records the structural analysis and data quality findings for `transaction_alerts.csv`. It is the input for Stage 2 cleaning decisions. Every number here must come from actually running the profiling code — not from Copilot's estimates.
+This document records the structural analysis and data quality findings for your scenario dataset. It is the input for Stage 2 cleaning decisions. Every number here must come from actually running the profiling code — not from Copilot's estimates.
 
 ---
 
@@ -15,7 +15,7 @@ This document records the structural analysis and data quality findings for `tra
 
 | Property | Value |
 |---|---|
-| File | `data/transaction_alerts.csv` |
+| File | *(dataset filename)* |
 | Total Rows | |
 | Total Columns | |
 | Columns with Nulls | |
@@ -30,27 +30,21 @@ This document records the structural analysis and data quality findings for `tra
 
 | Column | Null Count | Null % | Unique Values | Data Type (actual) | Anomalies Found |
 |---|---|---|---|---|---|
-| alert_id | | | | | |
-| account_masked | | | | | |
-| region | | | | | |
-| alert_type | | | | | |
-| transaction_amount | | | | | |
-| prior_alerts_90d | | | | | |
-| account_age_days | | | | | |
-| days_since_last_txn | | | | | |
-| risk_score | | | | | |
-| analyst_confidence | | | | | |
-| fraud_confirmed | | | | | |
-| analyst_id | | | | | |
-| investigation_complete | | | | | |
-| escalation_date | | | | | |
-| client_segment | | | | | |
+| *(col 1)* | | | | | |
+| *(col 2)* | | | | | |
+| *(col 3)* | | | | | |
+| *(col 4)* | | | | | |
+| *(col 5)* | | | | | |
+| *(col 6)* | | | | | |
+| *(col 7)* | | | | | |
+| *(col 8)* | | | | | |
+| *(add more rows as needed)* | | | | | |
 
 ---
 
 ## Data Quality Issues Log
 
-> Document every quality issue found. Minimum 8 issues expected. Use severity: Low (cosmetic), Medium (affects analysis if uncorrected), High (invalidates analysis if uncorrected).
+> Document every quality issue found. Use severity: Low (cosmetic), Medium (affects analysis if uncorrected), High (invalidates analysis if uncorrected).
 
 | Issue # | Column | Description | Count | Severity |
 |---|---|---|---|---|
@@ -66,11 +60,21 @@ This document records the structural analysis and data quality findings for `tra
 
 ---
 
+## Sentinel Values and Special Codes
+
+> List any sentinel values or legacy codes found that require special handling in Stage 2.
+
+| Column | Sentinel Value | Meaning | Count | Action Required |
+|---|---|---|---|---|
+| | | | | |
+
+---
+
 ## Copilot Assumptions
 
 > Document anything Copilot assumed about the data that you have NOT yet manually verified. These need to be validated before Stage 2.
 
-- *Example: "Copilot assumed all date values in escalation_date are parseable — not verified against actual parse errors yet."*
+- *Example: "Copilot assumed all date values are parseable — not verified against actual parse errors yet."*
 - *[Add your own entries here]*
 
 ---
@@ -79,7 +83,7 @@ This document records the structural analysis and data quality findings for `tra
 
 > Document facts you confirmed by running code and checking the actual output — not Copilot's claims.
 
-- *Example: "Confirmed 12 duplicate alert_ids by running df.duplicated(subset=['alert_id']).sum() — output: 12."*
+- *Example: "Confirmed 12 duplicate IDs by running df.duplicated(subset=['id_col']).sum() — output: 12."*
 - *[Add your own verified facts here]*
 
 ---

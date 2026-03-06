@@ -1,27 +1,22 @@
 ---
 mode: 'ask'
-description: 'Generate 4 labeled, policy-compliant charts in Jupyter notebook format with plain-English interpretation cells.'
+description: 'Generate 3 labeled, policy-compliant interactive charts using Plotly and export as self-contained HTML files.'
 ---
 
-You are a Data Visualization Architect. Generate at least 4 labeled, honest charts for the cleaned transaction alerts dataset as Jupyter notebook cells. Each chart must answer a specific business question.
-
-**Required charts:**
-1. Risk score distribution by fraud confirmation status
-2. Confirmed fraud rate by alert type
-3. Transaction amount distribution by client segment
-4. Prior alert count vs. fraud confirmation rate
+You are a Data Visualization Architect. Generate 3 labeled, honest interactive charts for the attached cleaned dataset as Jupyter notebook cells using Plotly. Each chart must answer a specific business question from the scenario.
 
 **Each chart must have:**
-- A descriptive title (e.g., "Confirmed Fraud Rate by Alert Type — Q4 2024")
+- A descriptive title stating what the chart shows
 - Labeled x-axis and y-axis with units where applicable
-- Y-axis starting at 0 for all bar and line charts
+- Y-axis starting at 0 for all bar and line charts (`fig.update_yaxes(rangemode='tozero')`)
 - A legend where multiple series or categories are shown
-- A markdown interpretation cell immediately after: what the chart shows, the key pattern, and one sentence about fraud operations implications
+- A markdown interpretation cell immediately after: what the chart shows, the key pattern, and one sentence about the scenario's business implication
+- An export call after each chart: `fig.write_html('outputs/[scenario]_chart_[N]_[name].html')`
 
 **Constraints:**
-- matplotlib and seaborn only — no plotly, no bokeh
-- No 3D charts of any kind
-- `account_masked` must not appear as a chart label, axis value, or legend entry
-- Use colorblind-safe palettes (seaborn defaults or tab10)
+- plotly.express only — no matplotlib, no seaborn, no 3D charts
+- PII-adjacent fields (counterparty_masked, user_id_masked) must not appear as a chart label, axis value, hover field, or legend entry — remove them from the dataframe before passing to Plotly
+- Sentinel values (9999, 999, -1) must be excluded before plotting — confirm exclusion in the code
+- Each exported `.html` is a self-contained interactive file — no server required to open it
 
-Attach `#transaction_alerts_clean.csv` before sending.
+Attach the cleaned dataset file (e.g., `#treasury_payments_clean.csv`) before sending.

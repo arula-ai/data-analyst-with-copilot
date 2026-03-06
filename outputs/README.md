@@ -6,44 +6,45 @@
 
 ## Required Deliverables
 
-| Filename | Stage | Description | Required? | Template Available? |
-|---|---|---|---|---|
-| `00_data_risk_review.md` | Stage 0 | Sensitivity classification for all 15 columns + handling restrictions | **YES** | YES — `templates/00_data_risk_review_template.md` |
-| `01_data_profile.md` | Stage 1 | Data quality issue log with at least 8 issues, counts, and severity | **YES** | YES — `templates/01_data_profile_template.md` |
-| `../scripts/clean_alerts.py` | Stage 2 | Commented cleaning script with row counts before and after | **YES** | No — generate with Copilot |
-| `02_cleaning_decisions.md` | Stage 2 | Transformation log with justifications for every action | **YES** | YES — `templates/02_cleaning_decisions_template.md` |
-| `03_exploratory_insights.md` | Stage 3 | Business insights in plain English with assumptions and limitations | **YES** | YES — `templates/03_exploratory_insights_template.md` |
-| `04_visualizations.ipynb` | Stage 4 | At least 4 labeled charts with interpretation cells | **YES** | YES — `notebooks/starter_analysis.ipynb` as starting point |
-| `05_audit_review.md` | Stage 5 | Code and output compliance review with severity-rated findings | **YES** | YES — `templates/05_audit_review_template.md` |
-| `06_executive_summary.md` | Stage 6 | 3 insights, 2 recommendations, 1 risk note, 1 data limitation | **YES** | YES — `templates/06_executive_summary_template.md` |
-| `[stage]_handoff.md` | Any | Copilot-generated stage summary (3 bullet points) | No (bonus) | No |
+Complete 3 artifacts per scenario sprint. All 3 are required to mark the lab complete.
+
+| Filename | Stage | Description | Template |
+|---|---|---|---|
+| `01_data_profile.md` | Stage 1 | Data quality issue log — every issue found with count and severity | `templates/profile_template.md` |
+| `02_cleaning_decisions.md` | Stage 2 | Transformation log — every action justified, row counts before/after | `templates/cleaning_decisions_template.md` |
+| `03_visualization_notes.md` | Stage 3 | Chart design log + sharing checklist — one entry per chart | `templates/visualization_notes_template.md` |
+
+In addition to `03_visualization_notes.md`, export each chart as a PNG:
+
+| Filename | Chart |
+|---|---|
+| `chart_01_[description].png` | Chart 1 from Stage 3 |
+| `chart_02_[description].png` | Chart 2 from Stage 3 |
+| `chart_03_[description].png` | Chart 3 from Stage 3 |
 
 ---
 
-## Alternative Scenario Deliverables (Optional)
+## Cleaning Scripts
 
-Complete these only if you are working through the alternative scenarios in `LAB_ACTION_GUIDE.md` after finishing the main lab.
+Your generated cleaning script lives in `../scripts/`, not in `outputs/`. Name it after your scenario:
 
-| Filename | Scenario | Description | Required? |
-|---|---|---|---|
-| `rca_findings.md` | Scenario A — Root Cause Analysis | Root cause hypothesis with supporting evidence from `rca_app_logs.csv` | No (optional) |
-| `modernization_recommendations.md` | Scenario B — Product Usage & Modernization | Feature prioritization and migration recommendations from `mainframe_usage.xlsx` | No (optional) |
-| `treasury_findings.md` | Scenario C — Operational Anomaly Detection | Treasury payment anomaly patterns and trend analysis from `treasury_payments.xlsx` | No (optional) |
+| Script | Scenario |
+|---|---|
+| `scripts/clean_rca.py` | Sub-Lab A — Root Cause Analysis |
+| `scripts/clean_mainframe.py` | Sub-Lab B — Product Modernization |
+| `scripts/clean_treasury.py` | Sub-Lab C — Treasury Anomaly Detection |
 
 ---
 
 ## End-of-Lab Completion Checklist
 
-Use this to verify your work before the session ends. Go through it with your facilitator.
+Go through this with your facilitator before the session ends.
 
-- [ ] `outputs/00_data_risk_review.md`
-- [ ] `outputs/01_data_profile.md`
-- [ ] `scripts/clean_alerts.py`
-- [ ] `outputs/02_cleaning_decisions.md`
-- [ ] `outputs/03_exploratory_insights.md`
-- [ ] `outputs/04_visualizations.ipynb`
-- [ ] `outputs/05_audit_review.md`
-- [ ] `outputs/06_executive_summary.md`
+- [ ] `outputs/01_data_profile.md` — quality issues documented with counts and severity
+- [ ] `outputs/02_cleaning_decisions.md` — every transformation justified, row counts before/after
+- [ ] `scripts/clean_[scenario].py` — commented cleaning script that runs without errors
+- [ ] `outputs/03_visualization_notes.md` — chart log with sharing checklist marked complete
+- [ ] `outputs/chart_01_[...].png`, `chart_02_[...].png`, `chart_03_[...].png` — 3 exported charts
 
 **No artifact = incomplete lab. Check this list with your facilitator before leaving.**
 
@@ -52,5 +53,5 @@ Use this to verify your work before the session ends. Go through it with your fa
 ## Notes
 
 - All files in this folder (except this README) are excluded from git — your work stays local.
-- Use the templates in `/templates/` to structure each artifact. Don't start from a blank page.
-- If you generated stage hand-off summaries, save them here as `00_handoff.md`, `01_handoff.md`, etc.
+- Use the templates in `templates/` to structure each artifact. Don't start from a blank page.
+- The starter notebook for your scenario is at `scenarios/sub-lab-[X]-[name]/starter_notebook.ipynb`. Save it back to `outputs/` as `starter_notebook.ipynb` when done if you want it tracked.

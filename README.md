@@ -1,6 +1,6 @@
 # GitHub Copilot for Data Analysis — Hands-On Lab
 
-**Lab 3 | Fraud & Transaction Risk Signals | Hartwell Financial Services**
+**Lab 3 | Copilot Data Analysis Lab**
 
 ---
 
@@ -10,9 +10,9 @@
 |---|---|
 | Duration | 90 minutes |
 | Audience | Engineers and Analysts |
-| Focus | Using Copilot to analyze fraud alert data, generate visualizations, and operate responsibly |
-| Approach | Artifact-driven, stage-by-stage lab with RIFCC-DA prompting |
-| Dataset | 500 synthetic fraud alert records with 11 intentional data quality issues |
+| Focus | Using Copilot to profile, clean, query, and visualize operational data — and doing it responsibly |
+| Approach | Scenario-based, artifact-driven lab with RIFCC-DA prompting |
+| Format | 3 parallel sub-labs — pick one scenario and work through it end-to-end |
 
 ---
 
@@ -20,21 +20,34 @@
 
 - VS Code with GitHub Copilot Chat extension installed and authenticated
 - Python 3.10+ installed
-- `pip install pandas matplotlib seaborn numpy jupyter`
+- `pip install pandas matplotlib seaborn numpy jupyter openpyxl`
 - Basic Python familiarity helpful but not required
 - No database setup needed
-- **Read `data/schema.md` before starting — it is your ground truth**
+
+---
+
+## Choose Your Scenario
+
+This lab has three self-contained sub-labs. All three are identical in structure. Pick the one most relevant to your role, or whichever your facilitator assigns.
+
+| Sub-Lab | Scenario | Company | Dataset | Format |
+|---|---|---|---|---|
+| **A** | Root Cause Analysis (RCA) | Orion Payments Inc. | `rca_app_logs.csv` — 300 application log entries | CSV |
+| **B** | Product Modernization | Centrix Financial Systems | `mainframe_usage.xlsx` — 400 mainframe feature records | Excel |
+| **C** | Treasury Anomaly Detection | Meridian Asset Management | `treasury_payments.xlsx` — 500 Treasury payment records | Excel |
+
+Each sub-lab lives in `scenarios/sub-lab-[A/B/C]-[name]/`. Everything you need is inside that folder.
 
 ---
 
 ## Lab Objectives
 
-1. Apply responsible-use and data governance principles before touching financial data
-2. Profile a raw alert dataset to identify quality issues and anomalies
+1. Apply responsible-use and data governance principles before touching financial or operational data
+2. Profile a raw dataset to identify quality issues, sentinel values, and anomalies
 3. Generate safe, reversible data cleaning scripts with full transformation justification
-4. Conduct exploratory analysis and translate fraud patterns into business insights
-5. Create accurate, honest visualizations from cleaned alert data
-6. Audit AI-generated code and outputs for policy compliance and risk exposure
+4. Run SQL pattern queries using sqlite3 to surface operational signals
+5. Create accurate, honest visualizations from cleaned data
+6. Critically evaluate Copilot-generated outputs for correctness and policy compliance
 
 ---
 
@@ -42,110 +55,102 @@
 
 | Folder / File | Purpose | When to Use |
 |---|---|---|
-| `data/` | Source dataset and schema documentation | Always open — reference throughout lab |
-| `exercises/` | Flawed artifacts for validation practice | Stage 2 — spot the errors before trusting Copilot output |
-| `notebooks/` | Starter Jupyter notebook | Stages 3 and 4 — your working environment |
-| `outputs/` | Where all your lab artifacts go | Every stage — save here |
-| `reference/` | RIFCC-DA framework, glossary, policy, commands | As needed throughout |
-| `scripts/` | Cleaning scripts generated in Stage 2 | Stage 2 output |
-| `templates/` | Pre-structured output templates to fill in | Start of each stage |
+| `scenarios/sub-lab-A-rca/` | Sub-Lab A — RCA scenario, all files self-contained | If you chose Scenario A |
+| `scenarios/sub-lab-B-modernization/` | Sub-Lab B — Modernization scenario, all files self-contained | If you chose Scenario B |
+| `scenarios/sub-lab-C-treasury/` | Sub-Lab C — Treasury scenario, all files self-contained | If you chose Scenario C |
+| `reference/` | RIFCC-DA framework, glossary, responsible use policy, commands | As needed throughout |
+| `templates/` | Generic output templates for Stages 1, 2, and 3 | Start of each stage |
 | `.github/agents/` | Custom Copilot agent mode files | Activate at the start of each stage |
-| `LAB_ACTION_GUIDE.md` | **Primary participant runbook** | Follow this document throughout the entire lab |
-| `QUICK_START.md` | Copilot Chat setup in under 5 minutes | Before Stage 0 if you are new to Copilot Chat |
-| `VERIFY_BEFORE_SEND.md` | Pre-analysis safety checklist | **Read before Stage 0. Apply at every stage.** |
+| `.github/prompts/` | Named Copilot prompt files | Invoke with `/` in Copilot Chat |
+| `outputs/` | Where all your deliverables go | Every stage — save here |
+| `scripts/` | Cleaning scripts you generate in Stage 2 | Stage 2 output |
+| `LAB_ACTION_GUIDE.md` | **Primary participant runbook** | Follow this document throughout the lab |
+| `QUICK_START.md` | Copilot Chat setup in under 5 minutes | Before starting if you are new to Copilot Chat |
+| `VERIFY_BEFORE_SEND.md` | Pre-prompt safety checklist | Read before Stage 1. Apply at every stage. |
 | `FACILITATOR_GUIDE.md` | Instructor reference — not for participants | Facilitators only |
-| `reference/PROMPT_PATTERN.md` | RIFCC-DA prompt framework reference | When writing or improving prompts |
-| `reference/responsible_use.md` | Hartwell Financial data use policy | Stage 0 required reading |
 
 ---
 
-## Recommended Sequence
+## Sub-Lab Structure (all 3 are identical)
 
-| Stage | Time | What You Do |
+Each sub-lab contains:
+
+```
+scenarios/sub-lab-[X]-[name]/
+├── SCENARIO_BRIEF.md        ← Start here — half-page context for your role
+├── SUB_LAB_GUIDE.md         ← Stage-by-stage instructions (50 min)
+├── data/                    ← Dataset and schema for this scenario
+├── exercises/               ← Flawed analysis artifact — spot the errors
+└── starter_notebook.ipynb   ← Pre-loaded Jupyter notebook
+```
+
+---
+
+## Session Flow
+
+| Block | Time | What Happens |
 |---|---|---|
-| Pre-lab | 5 min | Read `VERIFY_BEFORE_SEND.md` and `QUICK_START.md` |
-| **Stage 0** | 10 min | Data Risk & Policy Review — classify all columns, flag sensitive fields |
-| **Stage 1** | 15 min | Data Profiling — identify all quality issues and anomalies |
-| **Stage 2** | 20 min | Data Cleaning — generate a safe, commented cleaning script |
-| **Stage 3** | 15 min | Exploratory Analysis — find fraud patterns, answer business questions |
-| **Stage 4** | 15 min | Visualization — build 4+ labeled, honest charts |
-| **Stage 5** | 10 min | Responsible Use Audit — review all generated code and outputs |
-| **Stage 6** | 5 min | Executive Summary — 3 insights, 2 recommendations, 1 risk |
+| **Shared Demo** | 0–30 min | Facilitator-led: workspace setup, RIFCC-DA framework, first agent demo |
+| **Scenario Pick** | 30–32 min | You choose Sub-Lab A, B, or C |
+| **Scenario Sprint** | 32–82 min | Work through your chosen sub-lab (3 stages) |
+| **Group Debrief** | 82–90 min | Each group shares 1 finding + 1 risk they caught |
+
+### Scenario Sprint — 3 Stages (50 min)
+
+| Stage | Time | What You Do | Agent |
+|---|---|---|---|
+| **Stage 1** | 10 min | Profile the dataset — find all quality issues | Data Profiling Analyst |
+| **Stage 2** | 25 min | Clean the data + run SQL pattern queries via sqlite3 | Data Cleaning Engineer |
+| **Stage 3** | 15 min | Build 3 labeled charts, export PNGs, run sharing checklist | Visualization Architect |
 
 ---
 
-## Key Files
+## Deliverables
 
-| File | Purpose | When to Use |
-|---|---|---|
-| `data/transaction_alerts.csv` | 500-row fraud alert dataset | Source data for all stages |
-| `data/schema.md` | Column definitions, valid ranges, 11 known issues | Ground truth — validate everything against this |
-| `LAB_ACTION_GUIDE.md` | Stage-by-stage instructions with review checklists | Primary guide — follow sequentially |
-| `reference/PROMPT_PATTERN.md` | RIFCC-DA framework with 6 example prompts | Write better prompts at every stage |
-| `reference/responsible_use.md` | Hartwell Financial AI use policy | Required reading for Stage 0 |
-| `VERIFY_BEFORE_SEND.md` | Data privacy preflight checklist | Before every prompt involving real-looking data |
+You need 3 artifacts in `outputs/` to complete the lab:
+
+- [ ] `01_data_profile.md` — quality issues documented with counts and severity
+- [ ] `02_cleaning_decisions.md` — every transformation justified
+- [ ] `03_visualization_notes.md` + exported chart PNGs — 3 labeled charts with sharing checklist complete
 
 ---
 
-## Success Criteria
+## Key Reference Files
 
-You are done when all of the following exist in `/outputs/`:
-
-- [ ] `00_data_risk_review.md` — sensitivity ratings and handling recommendations for all 15 columns
-- [ ] `01_data_profile.md` — at least 8 data quality issues documented with counts and severity
-- [ ] `scripts/clean_alerts.py` — commented cleaning script with row count before and after
-- [ ] `02_cleaning_decisions.md` — justification for every transformation
-- [ ] `03_exploratory_insights.md` — fraud pattern insights written for a business audience
-- [ ] `04_visualizations.ipynb` — at least 4 labeled charts with interpretation notes
-- [ ] `05_audit_review.md` — code and output compliance review findings
-- [ ] `06_executive_summary.md` — 3 insights, 2 recommendations, 1 risk note, 1 data limitation
-
-**No artifact = incomplete lab. No exceptions.**
-
----
-
-## Course Module Mapping
-
-This lab covers the practical exercises for the following course modules:
-
-| Course Module | Topic | Lab Stage(s) |
-|---------------|-------|-------------|
-| Module 1 | Setting the Stage — Data Analysis in VS Code | Pre-lab (`QUICK_START.md`, `VERIFY_BEFORE_SEND.md`) |
-| Module 2 | Collaborating with Copilot for Data Exploration | Stage 1 (Profiling) + Stage 3 (EDA) |
-| Module 3 | Data Cleaning and Transformation with Copilot | Stage 2 (Cleaning) |
-| Module 4 | Generating Visualizations with Copilot | Stage 4 (Visualization) |
-| Module 5 | Responsible Use — Security, Privacy, and Policy | Stage 0 (Risk Review) + Stage 5 (Audit) |
-
-> Stage 6 (Executive Summary) spans all modules — it synthesizes outputs from every prior stage.
-
----
-
-## Additional Datasets (Use Case Scenarios)
-
-This repo also contains mock datasets for the other two course use case scenarios:
-
-| Scenario | Dataset | Schema |
-|----------|---------|--------|
-| Root Cause Analysis (RCA) | `data/rca_app_logs.csv` — 300 synthetic application log entries | `data/rca_schema.md` |
-| Product Usage & Modernization | `data/mainframe_usage.xlsx` — 400 synthetic mainframe feature usage records (Excel) | `data/mainframe_schema.md` |
-| Operational Anomaly Detection & Trend Analysis | `data/treasury_payments.xlsx` — 500 synthetic Treasury payment records (Excel) | `data/treasury_schema.md` |
-
-These datasets are provided for the three course use case scenarios. Each has a corresponding sub-lab in `LAB_ACTION_GUIDE.md` (Scenarios A, B, and C). The primary 90-minute lab uses `data/transaction_alerts.csv`.
+| File | Purpose |
+|---|---|
+| `reference/PROMPT_PATTERN.md` | RIFCC-DA framework — how to write effective Copilot prompts |
+| `reference/responsible_use.md` | Meridian/Orion/Centrix AI use policy (fictional, training vehicle) |
+| `reference/GLOSSARY.md` | Terms and definitions |
+| `VERIFY_BEFORE_SEND.md` | Data privacy preflight checklist — apply before every prompt |
 
 ---
 
 ## Getting Started
 
-1. Read `VERIFY_BEFORE_SEND.md` — understand what data privacy obligations apply before you open the dataset
+1. Read `VERIFY_BEFORE_SEND.md` — understand what privacy obligations apply before opening any dataset
 2. If new to Copilot Chat, read `QUICK_START.md` — get operational in under 5 minutes
-3. Open `LAB_ACTION_GUIDE.md` — follow it stage by stage for the full 90 minutes
+3. Open `LAB_ACTION_GUIDE.md` — follow it for the full 90-minute session
+4. When the facilitator calls scenario selection, open your chosen `scenarios/sub-lab-[X]/SCENARIO_BRIEF.md`
 
 ---
 
 ## Important Reminders
 
 - Validate all generated code before executing it. Copilot produces plausible-looking code that can contain logic errors.
-- Document your assumptions at every stage. If Copilot assumes something you haven't verified, flag it.
-- Do not include `account_masked` in any output, visualization, chart, or exported file.
+- Never include PII-adjacent fields in any output, chart, or exported file (`counterparty_masked`, `account_masked`).
 - Row counts before and after cleaning are mandatory — silent data loss is not acceptable.
-- Business decisions in this lab (what to impute, what to drop, what to escalate) require written justification. "Copilot said so" is not a justification.
+- Sentinel values (999, -1, 9999) must be excluded from all calculations — not treated as real data.
+- "Copilot said so" is not a business justification. Every transformation decision requires written reasoning.
+
+---
+
+## Course Module Mapping
+
+| Course Module | Topic | Lab Coverage |
+|---|---|---|
+| Module 1 | Setting the Stage — Data Analysis in VS Code | Shared demo block (`QUICK_START.md`, workspace setup) |
+| Module 2 | Collaborating with Copilot for Data Exploration | Stage 1 (Profiling) |
+| Module 3 | Data Cleaning and Transformation with Copilot | Stage 2 (Cleaning + SQL) |
+| Module 4 | Generating Visualizations with Copilot | Stage 3 (Visualization) |
+| Module 5 | Responsible Use — Security, Privacy, and Policy | `VERIFY_BEFORE_SEND.md` + Group Debrief |

@@ -24,20 +24,28 @@ desktop.ini
 # Backup data files
 *.csv.bak
 *.csv.backup
+*.xlsx.bak
 
 # Participant output files
 # These stay local so each participant's work doesn't conflict with others.
 # Only starter and reference files are committed to the repo.
 outputs/*.md
 outputs/*.ipynb
+outputs/*.png
+outputs/*.html
 scripts/*.py
 
 # Preserve structural files that should be committed
 !outputs/README.md
 !scripts/.gitkeep
-!exercises/
-!notebooks/starter_analysis.ipynb
 
 # Facilitator/presenter assets — not part of participant lab
 *.pptx
 *.ppt
+assets/
+
+# Retired/archived files — kept locally for reference, not part of the lab
+_retired/
+
+# Claude Code working directory
+.claude/
