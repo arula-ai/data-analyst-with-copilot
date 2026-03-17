@@ -73,9 +73,9 @@ Script reviewed line-by-line before execution: [ ] Yes | [ ] No
 
 ---
 
-## SQL Pattern Analysis Summary
+## Exploratory Pattern Analysis Summary
 
-> After loading cleaned data into sqlite3, record the key findings from your SQL queries.
+> After loading cleaned data into Pandas, record the key findings from your exploratory queries.
 
 | Query | Result Summary |
 |---|---|

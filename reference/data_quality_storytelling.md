@@ -61,7 +61,7 @@ Different audiences need different levels of detail. Tailor your output accordin
 Before submitting any output, apply the traceability test to every key claim:
 
 1. Pick any number or finding in your output (e.g., "Velocity Check alerts had a 42% confirmed fraud rate")
-2. Open the notebook or script that produced it
+2. Open the script that produced it
 3. Run the relevant cell and confirm the number matches
 4. If it doesn't match — fix the output, not the code
 

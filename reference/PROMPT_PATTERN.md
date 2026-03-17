@@ -43,7 +43,7 @@ Exactly what you want back. Be specific — Copilot will fill in your ambiguity 
 **Examples:**
 - `"Python script with inline comments — one comment per transformation"`
 - `"Markdown table — Column | Sensitivity Tier | Risk Notes | Recommended Handling"`
-- `"Jupyter notebook cells — one chart per code cell, one markdown interpretation cell per chart"`
+- `"A standalone Python script that exports charts to HTML"`
 - `"Plain-English summary — no code, written for a VP of Fraud Operations"`
 
 ---
@@ -137,7 +137,7 @@ Checks: Verify fraud rates are calculated on rows where fraud_confirmed is 0 or 
 ```
 Role: Visualization Architect building honest, labeled charts for fraud operations reporting
 Inputs: data/transaction_alerts_clean.csv and #schema.md
-Format: Jupyter notebook cells — one matplotlib/seaborn chart per code cell, followed by a markdown cell with 2–3 sentence interpretation. Generate: (1) risk_score distribution by fraud_confirmed, (2) confirmed fraud rate by alert_type, (3) transaction_amount boxplot by client_segment, (4) prior_alerts_90d vs fraud_confirmed bar chart.
+Format: A standalone Python script exporting interactive plotly charts, followed by a markdown cell with 2–3 sentence interpretation. Generate: (1) risk_score distribution by fraud_confirmed, (2) confirmed fraud rate by alert_type, (3) transaction_amount boxplot by client_segment, (4) prior_alerts_90d vs fraud_confirmed bar chart.
 Constraints: matplotlib and seaborn only. Y-axis must start at 0. No 3D charts. No account_masked in any chart label, axis, or legend. All axes labeled with units. All charts must have titles.
 Checks: Verify Y-axis starts at 0 for all bar/line charts. Verify account_masked is absent. Verify each code cell is followed by a markdown interpretation cell. Verify chart type is appropriate for the data relationship shown.
 ```

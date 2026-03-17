@@ -82,8 +82,8 @@ A table-like data structure in Python used for data manipulation. Think of it as
 **Matplotlib / Seaborn**
 Python libraries for creating charts and visualizations. Matplotlib provides low-level control; Seaborn provides higher-level, statistically oriented chart types built on top of Matplotlib. Both are approved for this lab.
 
-**Jupyter Notebook**
-An interactive document that combines executable code cells, text cells (markdown), and output (charts, tables, printed values). Stages 3 and 4 use `notebooks/starter_analysis.ipynb` as the working environment.
+**Python Script**
+A standalone script that executes code and exports charts to HTML format. Stages 3 and 4 use your generated `.py` scripts as the working environment.
 
 **CSV (Comma-Separated Values)**
 A plain text file format for tabular data. Each row is a record; fields are separated by commas. `transaction_alerts.csv` is this format — it can be read by pandas, Excel, and most data tools.

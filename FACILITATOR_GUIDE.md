@@ -12,7 +12,7 @@
 | Recommended group size | 8–20 participants |
 | Format | 30-min shared demo + 50-min scenario sprint (individual) + 10-min group debrief |
 | Room setup | Individual workstations, VS Code installed, Python environment ready |
-| Pre-session checks | Verify all participants have Copilot Chat enabled and `pip install pandas matplotlib seaborn numpy jupyter openpyxl` completed |
+| Pre-session checks | Verify all participants have Copilot Chat enabled and `pip install -r requirements.txt` completed |
 | Scenarios | 3 equal sub-labs — A (RCA), B (Modernization), C (Treasury). Participants choose 1. |
 
 **Rotation model:** This lab runs 4x/month. Each session the facilitator fully demos 1 scenario. Participants build fluency across all 3 by attending multiple sessions or choosing the scenario most relevant to their role.
@@ -61,7 +61,7 @@ Walk through `reference/responsible_use.md`. Key points to emphasize:
 
 **Choose one scenario dataset to demo live.** The recommended default is Sub-Lab C (treasury_payments.xlsx) because it has the most issues (11) and no code pre-step — it demonstrates pure data analysis cleanly. Use Sub-Lab A if your audience is engineering-heavy.
 
-1. Open `scenarios/sub-lab-[X]-[name]/starter_notebook.ipynb`
+1. Discuss the business questions using Copilot.
 2. Run the imports cell and data load cell — show the dataset is real and loads correctly
 3. Select **Data Profiling Analyst** from the Agent Selector Dropdown
 4. Enter a profiling prompt live using `/data-profiling-analyst` + `#filename`
@@ -91,7 +91,7 @@ Walk through `reference/responsible_use.md`. Key points to emphasize:
 
 **Expected Stage 1 findings:** TransactionProcessor and PaymentGateway have the highest ERROR/FATAL counts. Log distribution skewed toward ERROR/FATAL in afternoon hours.
 
-**Expected Stage 2 SQL findings:** Top error_codes are clustered around 500-series for TransactionProcessor; AuthService has fewer fatal errors but high WARN rate.
+**Expected Stage 2 Pandas findings:** Top error_codes are clustered around 500-series for TransactionProcessor; AuthService has fewer fatal errors but high WARN rate.
 
 **Expected Stage 3 charts:**
 1. Error rate by service (bar) — TransactionProcessor highest
@@ -125,7 +125,7 @@ Walk through `reference/responsible_use.md`. Key points to emphasize:
 
 **Key constraint:** `estimated_migration_effort_days = 9999` means "effort not assessed" — must be excluded from all averages and rankings.
 
-**Expected Stage 2 SQL findings:** Risk & Compliance team has most legacy features. Core Banking has highest active users on legacy infrastructure.
+**Expected Stage 2 Pandas findings:** Risk & Compliance team has most legacy features. Core Banking has highest active users on legacy infrastructure.
 
 **Expected Stage 3 charts:**
 1. Legacy vs. modern count by team (grouped bar) — Risk & Compliance highest legacy ratio
@@ -172,7 +172,7 @@ Walk through `reference/responsible_use.md`. Key points to emphasize:
 - Exclude `analyst_confidence = -1` from all confidence calculations
 - Never include `counterparty_masked` in any output
 
-**Expected Stage 2 SQL findings:** Wire Transfer has highest anomaly rate. FX Settlement payments concentrate in the top amount ranges.
+**Expected Stage 2 Pandas findings:** Wire Transfer has highest anomaly rate. FX Settlement payments concentrate in the top amount ranges.
 
 **Expected Stage 3 charts:**
 1. Confirmed anomaly rate by payment_type (bar) — Wire Transfer highest after excluding anomaly_confirmed=2
@@ -195,7 +195,7 @@ Walk through `reference/responsible_use.md`. Key points to emphasize:
 | 1 | Accepts Copilot output without running the code | Trusts AI over verified execution | "What does your terminal actually show? Run the script and show me the output." |
 | 1 | Finds only 3–4 issues, not the expected count | Didn't check sentinel values or valid ranges | "What does `value_counts()` show for the flag column? Is every value in the valid range?" |
 | 2 | Cleaning script uses `df.dropna()` with no parameters | Copilot generated it; participant didn't read it | "How many rows does that remove? Run `df.dropna().shape` and compare to `df.shape`." |
-| 2 | SQL output is empty or wrong | DataFrame not loaded to SQLite before querying | "Did you call `df.to_sql()` before running the SELECT? Check the connection." |
+| 2 | Code output is empty or wrong | Code generated incorrectly | "Did you check the dataframe name? Does the script exclude the sentinel value?" |
 | 3 | Chart Y-axis starts mid-range | Copilot default; participant didn't check | "Set `ylim(0, ...)` explicitly. Show me the chart with Y-axis starting at 0." |
 | 3 | PII-adjacent field appears in chart | Forgot to exclude it | "Confirm `counterparty_masked` is not in any axis label, title, or legend. Remove if present." |
 | 3 | Charts have no titles or axis labels | Focused on code, not output quality | "If someone received this chart by email with no context, what would they know from looking at it?" |
@@ -208,7 +208,7 @@ Walk through `reference/responsible_use.md`. Key points to emphasize:
 | Check-in | Time | Typical State | Action if Behind |
 |---|---|---|---|
 | First check | 45 min | Should be finishing Stage 1 and starting Stage 2 | If still on Stage 1 profiling: focus on the top 5 issues, skip exhaustive documentation, move to cleaning |
-| Second check | 65 min | Should be finishing Stage 2 SQL | If stuck on SQL: skip the optional queries, confirm at least 2 SQL results documented, move to Stage 3 |
+| Second check | 65 min | Should be finishing Stage 2 EDA | If stuck on EDA: skip the optional questions, confirm at least 2 Pandas results documented, move to Stage 3 |
 | Third check | 77 min | Should have at least 2 charts done | If only 1 chart: complete charts 2 and 3 without interpretation cells, add notes in visualization_notes_template |
 
 **Where participants typically fall behind:**
@@ -255,9 +255,9 @@ Remind participants:
 |---|---|---|
 | Copilot Chat not responding | Extension not authenticated or rate limited | Check extension status bar; sign out and back into GitHub account |
 | Copilot doesn't see the file | `#filename` not used — pasted text instead | Retype `#` in chat input and use the file picker dropdown |
-| Jupyter kernel not starting | Python path not configured | `Ctrl+Shift+P` → "Python: Select Interpreter" → choose Python 3.10+ |
-| `import pandas` fails | Not installed in active environment | `pip install pandas matplotlib seaborn numpy jupyter openpyxl` |
+| Script not executing | Python path not configured | `Ctrl+Shift+P` → "Python: Select Interpreter" → choose Python 3.10+ |
+| `import pandas` fails | Not installed in active environment | `pip install -r requirements.txt` |
 | Excel file not loading | `openpyxl` not installed | `pip install openpyxl` then reload kernel |
 | Agent not in dropdown | `.github/agents/` folder missing or misnamed | Verify `.agent.md` files exist in `.github/agents/` at workspace root |
 | `pd.to_datetime()` fails | Mixed date formats (intentional) | Use `errors='coerce'` — returns NaT for unparseable rows |
-| Notebook relative path error | Notebook run from wrong directory | Path `../data/filename` assumes notebook is in `scenarios/sub-lab-X/`; verify working directory |
+| Script execution error | Path issues | Path `../data/filename` vs `data/filename`... verify working directory |

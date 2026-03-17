@@ -35,7 +35,7 @@ Do not suggest or import any additional visualization libraries unless explicitl
 
 ## Output Format
 
-For each chart, generate two consecutive cells in the notebook:
+For each chart, generate two consecutive sections in the script:
 
 1. **Code cell** — the chart code, fully labeled and titled
 2. **Markdown cell** — 2–3 sentences interpreting what the chart shows, written for a non-technical reader

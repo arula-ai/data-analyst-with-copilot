@@ -1,6 +1,25 @@
 # Lab Action Guide
 
+## Prerequisites Installation
+
+Before starting the lab, ensure all required dependencies are installed by running the following command in your terminal:
+
+```
+pip install -r requirements.txt
+```
+
+This installs all packages needed for data analysis, visualization, and  across all scenarios.
+
 You will complete all three scenarios in order: A, B, then C. Finish each scenario fully before moving to the next.
+
+## Enterprise Usage Considerations
+
+**Production-Grade Analytics:** In production financial services environments, analytics workflows are highly governed:
+
+- **Script-Based Workflows**: Analysis is typically converted to Python scripts (`.py` files) for better version control, code review, CI/CD integration, and automated execution.
+- **Reproducibility**: Artifacts must be reproducible without manual intervention.
+
+The lab artifacts reflect this enterprise reality: All phases generate production-ready `.py` scripts (`profile_*.py`, `clean_*.py`, `visualize_*.py`) that output automated reports, cleaned data, and self-contained interactive HTML dashboards.
 
 ## Quick Reference
 
@@ -8,13 +27,13 @@ You will complete all three scenarios in order: A, B, then C. Finish each scenar
 |---|---|---|---|---|
 | **A — Treasury Anomaly Detection** | Phase 1 — Data Ingestion & Quality Assessment | Data Profiling Analyst | `/data-profiling-analyst` | `outputs/A_profile.md` |
 | | Phase 2 — Data Cleaning & Exploratory Analysis | Data Cleaning Engineer → Exploratory Data Analyst | `/data-cleaning-engineer` | `scripts/clean_treasury.py` |
-| | Phase 3 — Insight Visualization & Reporting | Visualization Architect | `/visualization-architect` | `outputs/A_visualizations.ipynb` |
+| | Phase 3 — Insight Visualization & Reporting | Visualization Architect | `/visualization-architect` | `scripts/visualize_treasury.py` |
 | **B — Root Cause Analysis** | Phase 1 — Data Ingestion & Quality Assessment | Data Profiling Analyst | `/data-profiling-analyst` | `outputs/B_profile.md` |
-| | Phase 2 — Analysis Critique, Cleaning & SQL Interrogation | Data Cleaning Engineer | `/data-cleaning-engineer` | `scripts/clean_logs.py` |
-| | Phase 3 — Insight Visualization & Reporting | Visualization Architect | `/visualization-architect` | `outputs/B_visualizations.ipynb` |
+| | Phase 2 — Analysis Critique, Cleaning & Exploratory Analysis | Data Cleaning Engineer | `/data-cleaning-engineer` | `scripts/clean_logs.py` |
+| | Phase 3 — Insight Visualization & Reporting | Visualization Architect | `/visualization-architect` | `scripts/visualize_logs.py` |
 | **C — Product Modernization** | Phase 1 — Data Ingestion & Quality Assessment | Data Profiling Analyst | `/data-profiling-analyst` | `outputs/C_profile.md` |
-| | Phase 2 — Analysis Critique, Cleaning & SQL Prioritization | Data Cleaning Engineer | `/data-cleaning-engineer` | `scripts/clean_mainframe.py` |
-| | Phase 3 — Insight Visualization & Reporting | Visualization Architect | `/visualization-architect` | `outputs/C_visualizations.ipynb` |
+| | Phase 2 — Analysis Critique, Cleaning & Exploratory Analysis | Data Cleaning Engineer | `/data-cleaning-engineer` | `scripts/clean_mainframe.py` |
+| | Phase 3 — Insight Visualization & Reporting | Visualization Architect | `/visualization-architect` | `scripts/visualize_mainframe.py` |
 
 ---
 
@@ -42,7 +61,7 @@ Agents are selected using the **Agent Selector Dropdown** in Copilot Chat (not b
 |---|---|
 | `/data-profiling-analyst` | Profile dataset, flag quality issues |
 | `/data-cleaning-engineer` | Generate cleaning script with justifications |
-| `/visualization-architect` | Build labeled charts as notebook cells |
+| `/visualization-architect` | Build labeled charts via Python scripts |
 
 > **Attaching files:** Use `#filename` syntax in your prompt to attach any file from your workspace. Always attach both the dataset and the schema — Copilot uses the schema to understand column definitions and generate more accurate code.
 
@@ -74,12 +93,11 @@ Agents are selected using the **Agent Selector Dropdown** in Copilot Chat (not b
    scenarios/
    ├── sub-lab-A-treasury/
    │   ├── SCENARIO_BRIEF.md        ← Read this before Phase 1
-   │   ├── exercises/               ← Flawed analysis artifact (used in Phase 2 of Scenarios B and C)
-   │   └── starter_notebook.ipynb   ← Your working notebook for Stage 3
+   │   └── exercises/               ← Flawed analysis artifact (used in Phase 2 of Scenarios B and C)
    ├── sub-lab-B-rca/               ← Same structure
    └── sub-lab-C-modernization/     ← Same structure
    outputs/                         ← All deliverables go here
-   scripts/                         ← Your cleaning scripts go here
+   scripts/                         ← Your cleaning and visualization scripts go here
    templates/                       ← Copy these to outputs/ for each stage
    reference/                       ← RIFCC-DA framework, policy, glossary
    ```
@@ -235,18 +253,16 @@ Agents are selected using the **Agent Selector Dropdown** in Copilot Chat (not b
 
 ### Actions
 
-1. **Open:** `scenarios/sub-lab-A-treasury/starter_notebook.ipynb`
+1. **Select agent:** Click Agent Selector Dropdown → **Visualization Architect**
 
-2. **Select agent:** Click Agent Selector Dropdown → **Visualization Architect**
-
-3. **Prompt**
+2. **Prompt**
 
    **Option 1 — Prompt file (recommended):**
    Type `/visualization-architect` in Copilot Chat, then attach `#treasury_payments_clean.csv`.
 
    **Option 2 — Custom prompt:**
    ```
-   Using data/treasury_payments_clean.csv, generate 3 interactive charts as Jupyter notebook cells using plotly.express:
+   Using data/treasury_payments_clean.csv, generate a Python script (scripts/visualize_treasury.py) that creates 3 interactive charts using plotly.express:
    1. Confirmed anomaly rate by payment_type (bar chart)
       — exclude rows where anomaly_confirmed is not 0 or 1
    2. payment_amount distribution for confirmed anomalies only (histogram)
@@ -254,39 +270,35 @@ Agents are selected using the **Agent Selector Dropdown** in Copilot Chat (not b
    Rules: Y-axis starts at 0 (fig.update_yaxes(rangemode='tozero')). No 3D charts.
    No counterparty_masked in any chart label, axis, or hover field.
    All axes labeled with units. All charts titled.
-   Export each chart: fig.write_html('outputs/A_chart_0N_name.html')
-   Follow each chart with a 2-sentence markdown interpretation.
+   Export each chart to HTML: fig.write_html('outputs/A_chart_0N_name.html')
+   Include a comment block in the script evaluating the charts for the business.
    ```
 
-4. **Review each chart before saving:**
+3. **Run the visualization script:**
+   ```
+   python scripts/visualize_treasury.py
+   ```
+
+4. **Review each HTML file in your browser:**
+   - [ ] All 3 charts export to `outputs/` and open correctly in a browser
    - [ ] All 3 charts have descriptive titles
    - [ ] Axes labeled with units (e.g., "Confirmed Anomaly Rate", "Payment Amount ($)", "Week")
-   - [ ] Y-axis starts at 0 (`rangemode='tozero'`) — confirm `fig.update_yaxes` is in the code
+   - [ ] Y-axis starts at 0 (`rangemode='tozero'`)
    - [ ] `counterparty_masked` not visible in chart labels, axis values, or hover tooltips
-   - [ ] Anomaly rate chart excludes `anomaly_confirmed = 2` — confirm in the code
-   - [ ] Each chart followed by a markdown interpretation cell
+   - [ ] Anomaly rate chart excludes `anomaly_confirmed = 2`
 
-5. **Export charts as interactive HTML** — confirm each chart cell includes:
-   ```python
-   fig.write_html('outputs/A_chart_01_anomaly_by_type.html')
-   ```
-   Filenames: `A_chart_01_anomaly_by_type.html`, `A_chart_02_amount_distribution.html`, `A_chart_03_anomaly_trend.html`
-
-   Each `.html` is a self-contained interactive file — open in any browser, no server needed. Hover over data points to explore values.
-
-6. **Before sharing any exported file:**
+5. **Before sharing any exported file:**
    - [ ] `counterparty_masked` not visible in the chart (including hover tooltips)
    - [ ] File reviewed by you — not accepted directly from Copilot output
    - [ ] Sharing destination is within approved internal channels only
-
-7. **Save notebook to:** `outputs/A_visualizations.ipynb`
 
 ### Completion Checklist — Scenario A
 
 - [ ] `outputs/A_profile.md` — payment dataset profiled, all known quality issues documented
 - [ ] `scripts/clean_treasury.py` — runs without error; row counts before/after printed
 - [ ] `outputs/A_cleaning_decisions.md` — every transformation justified; sentinel handling for `prior_alerts_90d = 999`, `analyst_confidence = -1`, and `anomaly_confirmed = 2` each documented; answers to 3 business questions recorded
-- [ ] `outputs/A_visualizations.ipynb` — 3 labeled interactive charts with interpretation cells; HTML exports saved to `outputs/`
+- [ ] `scripts/visualize_treasury.py` — script runs without error and generates HTML outputs
+- [ ] `outputs/A_chart_*.html` — 3 labeled interactive charts saved to outputs folder
 - [ ] `counterparty_masked` absent from all outputs, charts, and printed DataFrames
 - [ ] Sentinel values (`prior_alerts_90d = 999`, `analyst_confidence = -1`) excluded from all calculations
 
@@ -385,7 +397,7 @@ Before touching the log data, read the source code to form a hypothesis about wh
 
 ---
 
-## Phase 2 – Analysis Critique, Cleaning & SQL Interrogation (25 min)
+## Phase 2 – Analysis Critique, Cleaning & Exploratory Analysis (25 min)
 
 **Agent:** Data Cleaning Engineer (select from dropdown)
 **Prompt:** `/data-cleaning-engineer`
@@ -444,27 +456,22 @@ The previous RCA analyst produced a report with embedded errors. Before generati
 8. **Save to:** `scripts/clean_logs.py` + `outputs/B_cleaning_decisions.md`
    *(Use template: `templates/cleaning_decisions_template.md`)*
 
-### Step 3 — SQL Interrogation (10 min)
+### Step 3 — Exploratory Analysis (10 min)
 
 9. **Custom prompt:**
    ```
-   Using data/rca_app_logs_clean.csv, generate a Python script that:
-   1. Loads the CSV into a pandas DataFrame
-   2. Writes it to an in-memory SQLite database using sqlite3 (standard library — no installs)
-      conn = sqlite3.connect(':memory:')
-      df.to_sql('logs', conn, index=False)
-   3. Runs these SQL queries and prints results:
-      - Count of rows grouped by service_name and log_level, ordered by service_name
-      - Average response_time_ms by service_name (exclude nulls)
-      - All ERROR and FATAL rows for the service with the highest failure rate
-      - Count of duplicate request_ids remaining (should be 0 after cleaning)
-   Do not include user_id_masked in any SELECT output.
+   Using data/rca_app_logs_clean.csv, generate a Python pandas script (scripts/analyze_logs.py) that calculates and prints:
+   - Count of rows grouped by service_name and log_level, ordered by service_name
+   - Average response_time_ms by service_name (exclude nulls)
+   - All ERROR and FATAL rows for the service with the highest failure rate
+   - Count of duplicate request_ids remaining (should be 0 after cleaning)
+   Do not include user_id_masked in any output.
    ```
 
 10. **Follow-up prompt:**
     ```
-    Write a SQL query that finds all rows where log_level IN ('ERROR', 'FATAL')
-    AND response_time_ms IS NOT NULL, ordered by response_time_ms descending.
+    Using pandas, find all rows where log_level IN ('ERROR', 'FATAL')
+    AND response_time_ms is not null, ordered by response_time_ms descending.
     Does the service with the most failures also have the highest response times?
     Does this confirm or contradict your original hypothesis from the code review?
     ```
@@ -472,7 +479,7 @@ The previous RCA analyst produced a report with embedded errors. Before generati
 11. **Review output for:**
     - [ ] Counts consistent with profiling results
     - [ ] No `user_id_masked` in printed results
-    - [ ] SQL results confirm or explicitly contradict the code review hypothesis
+    - [ ] Pandas results confirm or explicitly contradict the code review hypothesis
 
 ---
 
@@ -483,61 +490,55 @@ The previous RCA analyst produced a report with embedded errors. Before generati
 
 ### Actions
 
-1. **Open:** `scenarios/sub-lab-B-rca/starter_notebook.ipynb`
+1. **Select agent:** Click Agent Selector Dropdown → **Visualization Architect**
 
-2. **Select agent:** Click Agent Selector Dropdown → **Visualization Architect**
-
-3. **Prompt**
+2. **Prompt**
 
    **Option 1 — Prompt file (recommended):**
    Type `/visualization-architect` in Copilot Chat, then attach `#rca_app_logs_clean.csv`.
 
    **Option 2 — Custom prompt:**
    ```
-   Using data/rca_app_logs_clean.csv, generate 3 interactive charts as Jupyter notebook cells using plotly.express:
+   Using data/rca_app_logs_clean.csv, generate a Python script (scripts/visualize_logs.py) that creates 3 interactive charts using plotly.express:
    1. ERROR + FATAL count by service_name (horizontal bar chart)
    2. response_time_ms distribution for the top failing service (histogram)
    3. ERROR and FATAL log count over time by hour (line chart — parse timestamp column first)
    Rules: Y-axis starts at 0 (fig.update_yaxes(rangemode='tozero')). No 3D charts.
    No user_id_masked in any chart label, axis, or hover field.
    All axes labeled with units. All charts titled.
-   Export each chart: fig.write_html('outputs/B_chart_0N_name.html')
-   Follow each chart with a 2-sentence markdown interpretation.
+   Export each chart to HTML: fig.write_html('outputs/B_chart_0N_name.html')
+   Include a comment block in the script evaluating the charts for the business.
    ```
 
-4. **Review each chart before saving:**
+3. **Run the visualization script:**
+   ```
+   python scripts/visualize_logs.py
+   ```
+
+4. **Review each HTML file before sharing:**
+   - [ ] All 3 charts export to `outputs/` and open correctly in a browser
    - [ ] All 3 charts have descriptive titles
    - [ ] All axes labeled with units (e.g., "Number of Errors", "Response Time (ms)", "Hour of Day")
-   - [ ] Y-axis starts at 0 (`rangemode='tozero'`) — confirm `fig.update_yaxes` is in the code
+   - [ ] Y-axis starts at 0 (`rangemode='tozero'`) 
    - [ ] `user_id_masked` not visible in chart labels, axis values, or hover tooltips
-   - [ ] Each chart followed by a markdown interpretation cell
 
-5. **Export charts as interactive HTML** — confirm each chart cell includes:
-   ```python
-   fig.write_html('outputs/B_chart_01_errors_by_service.html')
-   ```
-   Filenames: `B_chart_01_errors_by_service.html`, `B_chart_02_response_time_dist.html`, `B_chart_03_errors_over_time.html`
-
-   Each `.html` is a self-contained interactive file — hover over bars to see exact error counts per service.
-
-6. **Before sharing any exported file:**
+5. **Before sharing any exported file:**
    - [ ] No `user_id_masked` values visible in the chart (including hover tooltips)
    - [ ] File reviewed by you — not accepted directly from Copilot output
    - [ ] Sharing destination is within approved internal channels only
-
-7. **Save notebook to:** `outputs/B_visualizations.ipynb`
 
 ### Completion Checklist — Scenario B
 
 - [ ] `outputs/B_profile.md` — log dataset profiled, all known quality issues documented
 - [ ] `scripts/clean_logs.py` — runs without error; row counts before/after printed
 - [ ] `outputs/B_cleaning_decisions.md` — every transformation justified; all 5 critique flaws addressed
-- [ ] `outputs/B_visualizations.ipynb` — 3 labeled interactive charts with interpretation cells; HTML exports saved to `outputs/`
-- [ ] SQL queries ran; highest-failure service confirmed or contradicted by data
+- [ ] `scripts/visualize_logs.py` — script runs without error and generates HTML outputs
+- [ ] `outputs/B_chart_*.html` — 3 labeled interactive charts saved to outputs folder
+- [ ] Pandas analysis ran; highest-failure service confirmed or contradicted by data
 - [ ] No `user_id_masked` visible in any output, chart, or printed DataFrame
 
 **For the debrief:**
-1. Which service is the most likely root cause — and what SQL evidence supports it
+1. Which service is the most likely root cause — and what data evidence supports it
 2. One flaw from the flawed analysis that would have produced a wrong conclusion if repeated
 3. One thing Copilot generated that you had to correct
 
@@ -628,7 +629,7 @@ Before touching the usage data, assess the technical complexity of each legacy f
 
 ---
 
-## Phase 2 – Analysis Critique, Cleaning & SQL Prioritization (25 min)
+## Phase 2 – Analysis Critique, Cleaning & Exploratory Analysis (25 min)
 
 **Agent:** Data Cleaning Engineer (select from dropdown)
 **Prompt:** `/data-cleaning-engineer`
@@ -691,26 +692,21 @@ The previous modernization analyst produced a report with embedded errors. Befor
 9. **Save to:** `scripts/clean_mainframe.py` + `outputs/C_cleaning_decisions.md`
    *(Use template: `templates/cleaning_decisions_template.md`)*
 
-### Step 3 — SQL Prioritization (10 min)
+### Step 3 — Exploratory Analysis (10 min)
 
 10. **Custom prompt:**
     ```
-    Using data/mainframe_usage_clean.csv, generate a Python script that:
-    1. Loads the CSV into a pandas DataFrame
-    2. Writes it to an in-memory SQLite database using sqlite3 (standard library — no installs)
-       conn = sqlite3.connect(':memory:')
-       df.to_sql('features', conn, index=False)
-    3. Runs these SQL queries and prints results:
-       - Count of legacy features (legacy_flag = True) grouped by team
-       - Top 5 features by monthly_active_users where legacy_flag = True (exclude null users)
-       - Features where modernization_priority = 'High' AND estimated_migration_effort_days != 9999,
-         ordered by monthly_active_users descending
-       - Average error_rate_pct by team (exclude negative values)
+    Using data/mainframe_usage_clean.csv, generate a pandas script (scripts/analyze_mainframe.py) that calculates and prints:
+    - Count of legacy features (legacy_flag = True) grouped by team
+    - Top 5 features by monthly_active_users where legacy_flag = True (exclude null users)
+    - Features where modernization_priority = 'High' AND estimated_migration_effort_days != 9999,
+      ordered by monthly_active_users descending
+    - Average error_rate_pct by team (exclude negative values)
     ```
 
 11. **Follow-up prompt:**
     ```
-    Write a SQL query that ranks the top 3 legacy features that are both:
+    Using pandas, rank the top 3 legacy features that are both:
     - modernization_priority = 'High'
     - monthly_active_users in the top 25% of all features
     Order by monthly_active_users descending. Exclude rows where effort = 9999.
@@ -731,57 +727,51 @@ The previous modernization analyst produced a report with embedded errors. Befor
 
 ### Actions
 
-1. **Open:** `scenarios/sub-lab-C-modernization/starter_notebook.ipynb`
+1. **Select agent:** Click Agent Selector Dropdown → **Visualization Architect**
 
-2. **Select agent:** Click Agent Selector Dropdown → **Visualization Architect**
-
-3. **Prompt**
+2. **Prompt**
 
    **Option 1 — Prompt file (recommended):**
    Type `/visualization-architect` in Copilot Chat, then attach `#mainframe_usage_clean.csv`.
 
    **Option 2 — Custom prompt:**
    ```
-   Using data/mainframe_usage_clean.csv, generate 3 interactive charts as Jupyter notebook cells using plotly.express:
+   Using data/mainframe_usage_clean.csv, generate a Python script (scripts/visualize_mainframe.py) that creates 3 interactive charts using plotly.express:
    1. Count of legacy vs modern features by team (grouped bar chart)
    2. monthly_active_users distribution for legacy features only (histogram)
    3. Scatter plot: monthly_active_users (x) vs estimated_migration_effort_days (y),
       colored by modernization_priority — exclude rows where effort = 9999
    Rules: Y-axis starts at 0 for bar and histogram (fig.update_yaxes(rangemode='tozero')).
    No 3D charts. All axes labeled with units. All charts titled.
-   Export each chart: fig.write_html('outputs/C_chart_0N_name.html')
-   Follow each chart with a 2-sentence markdown interpretation.
+   Export each chart to HTML: fig.write_html('outputs/C_chart_0N_name.html')
+   Include a comment block in the script evaluating the charts for the business.
    ```
 
-4. **Review each chart before saving:**
+3. **Run the visualization script:**
+   ```
+   python scripts/visualize_mainframe.py
+   ```
+
+4. **Review each HTML file in your browser:**
+   - [ ] All 3 charts export to `outputs/` and open correctly in a browser
    - [ ] All 3 charts have descriptive titles
    - [ ] Axes labeled with units (e.g., "Monthly Active Users", "Migration Effort (days)")
-   - [ ] Y-axis starts at 0 on bar chart and histogram — confirm `fig.update_yaxes` is in the code
+   - [ ] Y-axis starts at 0 on bar chart and histogram 
    - [ ] Scatter plot excludes sentinel 9999 — confirm in the code before accepting output
-   - [ ] Each chart followed by a markdown interpretation cell
 
-5. **Export charts as interactive HTML** — confirm each chart cell includes:
-   ```python
-   fig.write_html('outputs/C_chart_01_legacy_by_team.html')
-   ```
-   Filenames: `C_chart_01_legacy_by_team.html`, `C_chart_02_user_distribution.html`, `C_chart_03_effort_vs_usage.html`
-
-   The scatter plot is especially useful as HTML — hover over each point to see feature name, team, and exact usage count without any data being obscured.
-
-6. **Before sharing any exported file:**
+5. **Before sharing any exported file:**
    - [ ] File reviewed by you — not accepted directly from Copilot output
    - [ ] No internal identifiers visible that should not be shared (check hover tooltips)
    - [ ] Sharing destination is within approved internal channels only
-
-7. **Save notebook to:** `outputs/C_visualizations.ipynb`
 
 ### Completion Checklist — Scenario C
 
 - [ ] `outputs/C_profile.md` — usage dataset profiled, all known quality issues documented
 - [ ] `scripts/clean_mainframe.py` — runs without error; row counts before/after printed
 - [ ] `outputs/C_cleaning_decisions.md` — every transformation justified; all 5 critique flaws addressed; sentinel 9999 and null monthly_active_users decisions documented
-- [ ] `outputs/C_visualizations.ipynb` — 3 labeled interactive charts with interpretation cells; HTML exports saved to `outputs/`
-- [ ] SQL queries ran and top modernization candidates identified
+- [ ] `scripts/visualize_mainframe.py` — script runs without error and generates HTML outputs
+- [ ] `outputs/C_chart_*.html` — 3 labeled interactive charts saved to outputs folder
+- [ ] Pandas analysis ran and top modernization candidates identified
 - [ ] Sentinel 9999 excluded from all calculations and charts
 
 **For the debrief:**
@@ -825,17 +815,15 @@ The facilitator will ask:
 |---|---|
 | Agent not in dropdown | Verify `.github/agents/` folder exists at workspace root with `.agent.md` files |
 | Copilot Chat not opening | Check extension status bar — sign out and back into GitHub |
-| Jupyter kernel not starting | `Ctrl+Shift+P` → "Python: Select Interpreter" → choose Python 3.10+ |
-| `import pandas` fails | Run `pip install pandas plotly numpy jupyter openpyxl` in terminal |
-| `import plotly` error | Run `pip install plotly` — required for all Stage 3 charts |
+| `import pandas` fails | Run `pip install -r requirements.txt` in terminal |
+| `import plotly` error | Run `pip install -r requirements.txt` — required for all Stage 3 charts |
 | HTML file not opening | Open the `.html` file directly in a browser — no server needed. Right-click → Open With → Browser |
 | Hover tooltip shows PII field | Drop the column before passing to Plotly: `df.drop(columns=['counterparty_masked'])` |
-| `import openpyxl` error | Run `pip install openpyxl` — required for Scenarios A and C |
+| `import openpyxl` error | Run `pip install -r requirements.txt` — required for Scenarios A and C |
 | Excel file not loading | Confirm you are using `pd.read_excel('data/filename.xlsx')` from the workspace root |
 | Script fails with FileNotFoundError | Run scripts from the workspace root, not from inside a subfolder |
 | Output too generic | Attach files explicitly with `#filename` — do not rely on Copilot's general knowledge |
 | `pd.to_datetime()` error | Use `errors='coerce'` — some date columns have mixed formats (intentional) |
-| SQL returns empty | Confirm `df.to_sql('tablename', conn, index=False)` ran before the SELECT |
 | Anomaly rate > 1.0 (Scenario A) | Check you excluded `anomaly_confirmed = 2` before calculating rate |
 | Scatter shows 9999 points (Scenario C) | Add `df = df[df['estimated_migration_effort_days'] != 9999]` before plotting |
 | PII field in chart output or hover (Scenario A) | Drop before passing to Plotly: `df.drop(columns=['counterparty_masked'])` |

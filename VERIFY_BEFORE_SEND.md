@@ -13,7 +13,7 @@ Complete this once at the start of the lab. If any item fails, stop and resolve 
 - [ ] VS Code shows your **enterprise/work account** in the bottom-left corner — not a personal GitHub account
 - [ ] Copilot Chat opens with `Ctrl+Shift+I` and responds to a test message
 - [ ] You are working on **approved corporate hardware** — not a personal laptop outside IT management
-- [ ] You are **not** in a shared cloud notebook, public Codespace, or any environment outside your local VS Code install
+- [ ] You are **not** in a shared cloud environment, public Codespace, or any environment outside your local VS Code install
 - [ ] **RED FLAG:** Are you unsure whether your Copilot instance is enterprise-managed or personal? If YES → ask your IT administrator before proceeding. Personal Copilot accounts have different data handling rules than enterprise accounts.
 
 > **Why this matters:** When you use `#filename` to attach a file in Copilot Chat, the full file content is sent to GitHub's servers as part of your prompt. Enterprise accounts have organization-managed data residency and content exclusion policies. Personal accounts do not. Using the wrong account is a policy violation.
@@ -28,7 +28,7 @@ Answer these questions before loading `transaction_alerts.csv`:
 
 - [ ] Have I read `reference/responsible_use.md`? *(Required — do not skip)*
 - [ ] Do I know which data classification tier this dataset is? *(Answer: Internal — see schema.md)*
-- [ ] Am I working in a local VS Code environment, not a shared cloud notebook or a publicly accessible endpoint?
+- [ ] Am I working in a local VS Code environment, not a shared cloud environment or a publicly accessible endpoint?
 - [ ] **RED FLAG:** Does this dataset contain unmasked personal identifiers — real names, unmasked account numbers, phone numbers, or social security numbers? If YES → stop, consult your facilitator before proceeding.
 - [ ] **RED FLAG:** Are you connected to a corporate network with data loss prevention (DLP) policies that might flag CSV file activity? If YES → confirm with IT or your facilitator before proceeding.
 

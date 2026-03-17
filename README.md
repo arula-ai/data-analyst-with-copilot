@@ -20,7 +20,7 @@
 
 - VS Code with GitHub Copilot Chat extension installed and authenticated
 - Python 3.10+ installed
-- `pip install pandas matplotlib seaborn numpy jupyter openpyxl`
+- `pip install -r requirements.txt`
 - Basic Python familiarity helpful but not required
 - No database setup needed
 
@@ -40,14 +40,14 @@ Each sub-lab lives in `scenarios/sub-lab-[A/B/C]-[name]/`. Everything you need i
 
 ---
 
-## Lab Objectives
+## Enterprise Usage Considerations
 
-1. Apply responsible-use and data governance principles before touching financial or operational data
-2. Profile a raw dataset to identify quality issues, sentinel values, and anomalies
-3. Generate safe, reversible data cleaning scripts with full transformation justification
-4. Run SQL pattern queries using sqlite3 to surface operational signals
-5. Create accurate, honest visualizations from cleaned data
-6. Critically evaluate Copilot-generated outputs for correctness and policy compliance
+**Production-Grade Analytics:** In production financial services environments, analytics workflows are highly governed:
+
+- **Script-Based Workflows**: Analysis is typically converted to Python scripts (`.py` files) for better version control, code review, CI/CD integration, and automated execution.
+- **Reproducibility**: Artifacts must be reproducible without manual intervention.
+
+The lab artifacts reflect this enterprise reality: All phases generate production-ready `.py` scripts (`profile_*.py`, `clean_*.py`, `visualize_*.py`) that output automated reports, cleaned data, and self-contained interactive HTML dashboards.
 
 ---
 
@@ -80,8 +80,7 @@ scenarios/sub-lab-[X]-[name]/
 ├── SCENARIO_BRIEF.md        ← Start here — half-page context for your role
 ├── SUB_LAB_GUIDE.md         ← Stage-by-stage instructions (50 min)
 ├── data/                    ← Dataset and schema for this scenario
-├── exercises/               ← Flawed analysis artifact — spot the errors
-└── starter_notebook.ipynb   ← Pre-loaded Jupyter notebook
+└── exercises/               ← Flawed analysis artifact — spot the errors
 ```
 
 ---
@@ -100,7 +99,7 @@ scenarios/sub-lab-[X]-[name]/
 | Stage | Time | What You Do | Agent |
 |---|---|---|---|
 | **Stage 1** | 10 min | Profile the dataset — find all quality issues | Data Profiling Analyst |
-| **Stage 2** | 25 min | Clean the data + run SQL pattern queries via sqlite3 | Data Cleaning Engineer |
+| **Stage 2** | 25 min | Clean the data + run exploratory analysis with Pandas | Data Cleaning Engineer |
 | **Stage 3** | 15 min | Build 3 labeled charts, export PNGs, run sharing checklist | Visualization Architect |
 
 ---
@@ -151,6 +150,6 @@ You need 3 artifacts in `outputs/` to complete the lab:
 |---|---|---|
 | Module 1 | Setting the Stage — Data Analysis in VS Code | Shared demo block (`QUICK_START.md`, workspace setup) |
 | Module 2 | Collaborating with Copilot for Data Exploration | Stage 1 (Profiling) |
-| Module 3 | Data Cleaning and Transformation with Copilot | Stage 2 (Cleaning + SQL) |
+| Module 3 | Data Cleaning and Transformation with Copilot | Stage 2 (Cleaning & Exploration) |
 | Module 4 | Generating Visualizations with Copilot | Stage 3 (Visualization) |
 | Module 5 | Responsible Use — Security, Privacy, and Policy | `VERIFY_BEFORE_SEND.md` + Group Debrief |

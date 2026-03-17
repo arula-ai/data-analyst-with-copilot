@@ -54,4 +54,4 @@ Go through this with your facilitator before the session ends.
 
 - All files in this folder (except this README) are excluded from git — your work stays local.
 - Use the templates in `templates/` to structure each artifact. Don't start from a blank page.
-- The starter notebook for your scenario is at `scenarios/sub-lab-[X]-[name]/starter_notebook.ipynb`. Save it back to `outputs/` as `starter_notebook.ipynb` when done if you want it tracked.
+- The starter script for your scenario is at `scenarios/sub-lab-[X]-[name]/explore_data.py`. Save it back to `outputs/` as `explore_data.py` when done if you want it tracked.

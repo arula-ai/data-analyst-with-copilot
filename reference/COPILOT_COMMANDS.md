@@ -47,40 +47,40 @@ Review #clean_alerts.py for any operations that could expose account_masked.
 
 ---
 
-## Section 3: Prompting Copilot for SQL (Stage 2B)
+## Section 3: Prompting Copilot for Exploratory Analysis (Stage 2B)
 
-Use `sqlite3` from Python's standard library to run SQL against your CSV — no new installs needed.
+Use `pandas` from Python's standard library to run Pandas against your CSV — no new installs needed.
 
 **Setup pattern — always start with this:**
 ```
-Load #transaction_alerts_clean.csv into an in-memory SQLite database using pandas and sqlite3.
-Use conn = sqlite3.connect(':memory:') and df.to_sql('alerts', conn, index=False).
+Load #transaction_alerts_clean.csv into an in-memory Pandasite database using pandas and pandas.
+Use conn = pandas.connect(':memory:') and df.to_sql('alerts', conn, index=False).
 ```
 
 **Exploration queries:**
 ```
-Write SQL to count rows grouped by alert_type, ordered by count descending.
+Write Pandas to count rows grouped by alert_type, ordered by count descending.
 ```
 
 ```
-Write SQL to find the average risk_score per region, excluding nulls.
+Write Pandas to find the average risk_score per region, excluding nulls.
 ```
 
 ```
-Write SQL to list all fraud_confirmed = 1 alerts where risk_score > 0.8,
+Write Pandas to list all fraud_confirmed = 1 alerts where risk_score > 0.8,
 ordered by transaction_amount descending.
 ```
 
-**Cleaning via SQL:**
+**Cleaning via Pandas:**
 ```
-Write SQL to identify duplicate alert_id values and return their count.
-```
-
-```
-Write SQL to find all rows where analyst_confidence = -1 (invalid sentinel value).
+Write Pandas to identify duplicate alert_id values and return their count.
 ```
 
-> **Key difference from Python:** SQL is declarative — you describe WHAT you want, not HOW to get it. Use it for filtering, aggregation, and joins. Use Python/pandas for transformations, imputation, and visualization.
+```
+Write Pandas to find all rows where analyst_confidence = -1 (invalid sentinel value).
+```
+
+> **Key difference from Python:** Pandas is declarative — you describe WHAT you want, not HOW to get it. Use it for filtering, aggregation, and joins. Use Python/pandas for transformations, imputation, and visualization.
 
 ---
 
@@ -92,7 +92,7 @@ Write SQL to find all rows where analyst_confidence = -1 (invalid sentinel value
 | `/profile-data` | Data Profiling Analyst | Generates profiling code and a numbered data quality issue log |
 | `/clean-data-safely` | Data Cleaning Engineer | Generates a cleaning script with inline justifications and before/after row counts |
 | `/eda-hypotheses` | Exploratory Data Analyst | Generates hypothesis-driven EDA code with plain-English findings |
-| `/make-visuals` | Visualization Architect | Generates labeled, policy-compliant chart code in Jupyter notebook format |
+| `/make-visuals` | Visualization Architect | Generates labeled, policy-compliant chart code in a standalone Python script format |
 | `/audit-for-policy` | Responsible Use Auditor | Reviews referenced code and outputs for security and compliance issues |
 
 ---
