@@ -83,7 +83,9 @@ scenarios/sub-lab-B-rca/
 1. Select **Data Profiling Analyst** from Agent dropdown
 
 2. **Recommended prompt:**
-   Type `/data-profiling-analyst` then attach `#data/rca_app_logs.csv` and `#data/rca_schema.md`
+   Select **Data Profiling Analyst** from the Agent dropdown, then type `/data-profiling-analyst` and attach `#data/rca_app_logs.csv` and `#data/rca_schema.md`
+
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
 
    **Or use this custom prompt:**
    ```
@@ -93,15 +95,11 @@ scenarios/sub-lab-B-rca/
    Flag any service with more than 5 FATAL log entries.
    Flag columns where null % > 5%.
    Do not modify the dataframe. Do not print user_id_masked values.
+   Write the script to scripts/profile_logs.py and run it.
    Save the quality summary to outputs/B_profile.md.
    ```
 
-3. **Save the generated code** to `scripts/profile_logs.py`, then run:
-   ```
-   python scripts/profile_logs.py
-   ```
-
-4. **Review output for:**
+3. **Confirm the script ran** and check terminal output for:
    - [ ] Total row count = 300
    - [ ] `log_level` distribution documented with counts
    - [ ] ERROR + FATAL count per `service_name`
@@ -149,6 +147,7 @@ scenarios/sub-lab-B-rca/
    comment explaining the business justification. Print row count before cleaning,
    after each major step, and at the end. Save cleaned data to data/rca_app_logs_clean.csv.
    Do not overwrite the original. pandas only. Do not print user_id_masked values.
+   Write the script to scripts/clean_logs.py and run it.
    ```
 
 5. **Review code before running.** Verify:
@@ -158,19 +157,14 @@ scenarios/sub-lab-B-rca/
    - Null `response_time_ms` on ERROR rows documented — not silently dropped
    - `user_id_masked` never printed in row-level output
 
-6. **Save the generated code** to `scripts/clean_logs.py`, then run:
-   ```
-   python scripts/clean_logs.py
-   ```
-
-7. **Review output for:**
+6. **Confirm the script ran** and review output for:
    - [ ] Every transformation has a written justification comment
    - [ ] Row count documented before AND after cleaning
    - [ ] Duplicate removal documented with count
    - [ ] Null `response_time_ms` on FATAL rows retained with comment
    - [ ] `user_id_masked` never printed
 
-8. Save to: `scripts/clean_logs.py` + `outputs/B_cleaning_decisions.md`
+7. Save to: `outputs/B_cleaning_decisions.md`
    *(Use template: `templates/cleaning_decisions_template.md`)*
 
 > **SQL Reference (Optional — Module 3):** See `scenarios/sub-lab-B-rca/exercises/sql_cleaning_reference.sql` for equivalent SQL cleaning logic. SQL is not required — Python is the deliverable.
@@ -184,11 +178,7 @@ scenarios/sub-lab-B-rca/
    - Average response_time_ms by service_name (exclude nulls)
    - All ERROR and FATAL rows for the service with the highest failure rate
    Do not include user_id_masked in any output.
-   ```
-
-   **Save the generated code** to `scripts/analyze_logs.py`, then run:
-   ```
-   python scripts/analyze_logs.py
+   Write the script to scripts/analyze_logs.py and run it.
    ```
 
 10. **Follow-up prompt:**
@@ -214,7 +204,9 @@ scenarios/sub-lab-B-rca/
 1. Select **Visualization Architect** from Agent dropdown
 
 2. **Recommended prompt:**
-   Type `/visualization-architect` then attach `#data/rca_app_logs_clean.csv`
+   Select **Visualization Architect** from the Agent dropdown, then type `/visualization-architect` and attach `#data/rca_app_logs_clean.csv`
+
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
 
    **Or use this custom prompt:**
    ```
@@ -227,21 +219,17 @@ scenarios/sub-lab-B-rca/
    All axes labeled with units. All charts titled.
    Export each chart: fig.write_html('outputs/B_chart_0N_name.html')
    Include a comment block evaluating the charts for the business.
+   Write the script to scripts/visualize_logs.py and run it.
    ```
 
-3. **Save the generated code** to `scripts/visualize_logs.py`, then run:
-   ```
-   python scripts/visualize_logs.py
-   ```
-
-4. **Review each HTML file before sharing:**
+3. **Confirm the script ran** and review each HTML file before sharing:
    - [ ] All 3 charts open correctly in a browser
    - [ ] All 3 charts have descriptive titles
    - [ ] All axes labeled with units (e.g., "Number of Errors", "Response Time (ms)", "Hour of Day")
    - [ ] Y-axis starts at 0 (`rangemode='tozero'`)
    - [ ] `user_id_masked` not visible in labels, axis values, or hover tooltips
 
-5. **Sharing and Exporting Visuals**
+4. **Sharing and Exporting Visuals**
 
    | Format | How | When to Use |
    |--------|-----|-------------|

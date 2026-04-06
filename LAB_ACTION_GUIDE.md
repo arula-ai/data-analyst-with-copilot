@@ -277,6 +277,7 @@ The facilitator will ask:
 |---|---|
 | Agent not in dropdown | Verify `.github/agents/` folder exists at workspace root with `.agent.md` files |
 | Slash command `/` not showing prompts | Verify `.github/prompts/` folder exists with `.prompt.md` files |
+| Copilot Chat responds with "To generate tests, open a file and select code to test" | You accidentally selected the built-in `/tests` command — use the Agent dropdown to select the agent first, then type your prompt without browsing `/` commands |
 | Copilot Chat not opening | Check extension status bar — sign out and back into GitHub |
 | `import pandas` fails | Run `pip install -r requirements.txt` in terminal |
 | `import plotly` error | Run `pip install -r requirements.txt` — required for all Phase 3 charts |

@@ -1,6 +1,6 @@
 ---
-mode: 'ask'
-description: 'Generate 3 labeled, policy-compliant interactive charts using Plotly and export as self-contained HTML files.'
+mode: 'agent'
+description: 'Write a Plotly visualization script to scripts/visualize_[scenario].py, run it, and export 3 labeled policy-compliant interactive HTML charts.'
 ---
 
 ## Role
@@ -10,7 +10,7 @@ You are a Data Visualization Architect. Generate 3 labeled, honest interactive c
 - The cleaned dataset file (e.g., `#data/treasury_payments_clean.csv`).
 
 ## Format
-- A single Python script containing the code to generate all 3 charts
+- Write the complete Python script to `scripts/visualize_[scenario].py` (e.g., `scripts/visualize_treasury.py`, `scripts/visualize_logs.py`, `scripts/visualize_mainframe.py`). Run it immediately after writing.
 - For each chart (using plotly.express), include clear code comments, export the figure `fig.write_html('outputs/...')`. There is no need to call `fig.show()` or create markdown cells.
 - A block comment immediately after each chart export code with: what the chart shows, what pattern is visible, and one sentence about what this means for the scenario's business question.
 

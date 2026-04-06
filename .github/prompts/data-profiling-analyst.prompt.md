@@ -1,19 +1,20 @@
 ---
-mode: 'ask'
-description: 'Generate a pandas profiling script and a numbered data quality issue log for the attached financial dataset.'
+mode: 'agent'
+description: 'Generate a pandas profiling script, save it to scripts/profile_[scenario].py, run it, and save the quality summary to outputs/[X]_profile.md.'
 ---
 
 ## Role
-You are a Data Profiling Analyst. Generate a readable, well-commented pandas profiling script and a numbered data quality issue log for the attached dataset.
+You are a Data Profiling Analyst. Generate a readable, well-commented pandas profiling script and a numbered data quality issue log for the attached dataset. Then **write the script to the correct file and run it** — do not wait for the participant to save it manually.
 
 ## Input
 - Dataset file (CSV or Excel) and corresponding schema.md.
 - Schema provides column definitions, valid ranges, and known issues.
 
 ## Format
-1. A profiling script — pandas only, no external profiling libraries, no modifications to source data. The script must end with a block that writes the quality summary to `outputs/[X]_profile.md` using Python's `open()` — so running the script once produces both the terminal output and the saved handoff file.
-2. Numbered data quality issues log: Issue # | Column | Description | Count | Severity (Low / Medium / High)
-3. The saved `outputs/[X]_profile.md` is the handoff to Phase 2 — attach it by name in the next prompt
+1. Write the profiling script to `scripts/profile_[scenario].py` (e.g., `scripts/profile_treasury.py`, `scripts/profile_logs.py`, `scripts/profile_mainframe.py`). The script must end with a block that writes the quality summary to `outputs/[X]_profile.md` using Python’s `open()` — so running the script once produces both the terminal output and the saved handoff file.
+2. Run the script immediately after saving: `python scripts/profile_[scenario].py`
+3. Numbered data quality issues log: Issue # | Column | Description | Count | Severity (Low / Medium / High)
+4. The saved `outputs/[X]_profile.md` is the handoff to Phase 2 — attach it by name in the next prompt
 
 ## Constraints
 - Do not mutate the original dataframe — profiling is read-only

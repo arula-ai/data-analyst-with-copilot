@@ -51,7 +51,9 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 1. Open Copilot Chat → select **Data Profiling Analyst** from Agent dropdown
 
 2. **Recommended prompt:**
-   Type `/data-profiling-analyst` then attach `#data/treasury_payments.xlsx` and `#data/treasury_schema.md`
+   Select **Data Profiling Analyst** from the Agent dropdown, then type `/data-profiling-analyst` and attach `#data/treasury_payments.xlsx` and `#data/treasury_schema.md`
+
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
 
    **Or use this custom prompt:**
    ```
@@ -63,15 +65,11 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    anomaly_confirmed = 2 (invalid for a binary flag), blank review_status entries,
    duplicate payment_id count, mixed date formats in payment_date.
    Do not modify the dataframe. Do not print counterparty_masked values.
+   Write the script to scripts/profile_treasury.py and run it.
    Save the quality summary to outputs/A_profile.md.
    ```
 
-3. **Save the generated code** to `scripts/profile_treasury.py`, then run:
-   ```
-   python scripts/profile_treasury.py
-   ```
-
-4. **Review output for:**
+3. **Confirm the script ran** and check terminal output for:
    - [ ] Row count = 500
    - [ ] Sentinel `999` in `prior_alerts_90d` flagged separately from nulls
    - [ ] Sentinel `-1` in `analyst_confidence` flagged as "not rated" — not a real score
@@ -94,7 +92,9 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 1. Select **Data Cleaning Engineer** from Agent dropdown
 
 2. **Recommended prompt:**
-   Type `/data-cleaning-engineer` then attach `#data/treasury_payments.xlsx` and `#outputs/A_profile.md`
+   Select **Data Cleaning Engineer** from the Agent dropdown, then type `/data-cleaning-engineer` and attach `#data/treasury_payments.xlsx` and `#outputs/A_profile.md`
+
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
 
    **Or use this custom prompt:**
    ```
@@ -104,6 +104,7 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    cleaning, after each major step, and at the end. Save cleaned data to
    data/treasury_payments_clean.csv. pandas only. Do not overwrite the original xlsx.
    Do not include counterparty_masked in any printed output.
+   Write the script to scripts/clean_treasury.py and run it.
    ```
 
 3. **Review code before running.** Verify:
@@ -114,25 +115,20 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    - Mixed date formats resolved using `pd.to_datetime(errors='coerce')`
    - `counterparty_masked` never printed
 
-4. **Save the generated code** to `scripts/clean_treasury.py`, then run:
-   ```
-   python scripts/clean_treasury.py
-   ```
-
-5. **Review output for:**
+4. **Confirm the script ran** and review output for:
    - [ ] Every transformation has a written justification comment
    - [ ] Row count printed before AND after cleaning
    - [ ] All three sentinel exclusions documented
    - [ ] `counterparty_masked` absent from all printed output
    - [ ] `data/treasury_payments_clean.csv` created
 
-6. **Follow-up prompt:**
+5. **Follow-up prompt:**
    ```
    For the anomaly_confirmed = 2 rows: what are the business-valid options for handling them?
    What assumption does each option make about the validity of these records?
    ```
 
-7. Save to: `scripts/clean_treasury.py` + `outputs/A_cleaning_decisions.md`
+6. Save to: `outputs/A_cleaning_decisions.md`
    *(Use template: `templates/cleaning_decisions_template.md`)*
 
 > **SQL Reference (Optional — Module 3):** See `scenarios/sub-lab-A-treasury/exercises/sql_cleaning_reference.sql` for equivalent SQL cleaning logic. SQL is not required — Python is the deliverable.
@@ -155,14 +151,10 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    3. Regional pattern — average payment_amount by region for confirmed anomalies only.
       Which region has the highest average confirmed anomaly amount?
    Print results for each question. Do not include counterparty_masked in any output.
+   Write the script to scripts/eda_treasury.py and run it.
    ```
 
-   **Save the generated code** to `scripts/eda_treasury.py`, then run:
-   ```
-   python scripts/eda_treasury.py
-   ```
-
-10. **Review output for:**
+10. **Confirm the script ran** and review output for:
     - [ ] Anomaly rates calculated on clean rows only (no `anomaly_confirmed = 2`)
     - [ ] `counterparty_masked` absent from all printed results
     - [ ] All 3 business questions answered with actual numbers
@@ -179,7 +171,9 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 1. Select **Visualization Architect** from Agent dropdown
 
 2. **Recommended prompt:**
-   Type `/visualization-architect` then attach `#data/treasury_payments_clean.csv`
+   Select **Visualization Architect** from the Agent dropdown, then type `/visualization-architect` and attach `#data/treasury_payments_clean.csv`
+
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
 
    **Or use this custom prompt:**
    ```
@@ -193,14 +187,10 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    or hover. All axes labeled with units. All charts titled.
    Export each chart: fig.write_html('outputs/A_chart_0N_name.html')
    Include a comment block evaluating the charts for the business.
+   Write the script to scripts/visualize_treasury.py and run it.
    ```
 
-3. **Save the generated code** to `scripts/visualize_treasury.py`, then run:
-   ```
-   python scripts/visualize_treasury.py
-   ```
-
-4. **Review each HTML file in your browser:**
+3. **Confirm the script ran** and review each HTML file in your browser:
    - [ ] All 3 charts open correctly in a browser
    - [ ] All 3 charts have descriptive titles
    - [ ] Axes labeled with units (e.g., "Confirmed Anomaly Rate", "Payment Amount ($)", "Week")
@@ -208,7 +198,7 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    - [ ] `counterparty_masked` not visible in labels, axis values, or hover tooltips
    - [ ] `anomaly_confirmed = 2` excluded from anomaly rate chart
 
-5. **Sharing and Exporting Visuals**
+4. **Sharing and Exporting Visuals**
 
    | Format | How | When to Use |
    |--------|-----|-------------|

@@ -1,6 +1,6 @@
 ---
-mode: 'ask'
-description: 'Critique a flawed analysis artifact, then generate a safe, commented cleaning script with row counts before and after every transformation.'
+mode: 'agent'
+description: 'Critique a flawed analysis artifact, then write a safe commented cleaning script to scripts/clean_[scenario].py and run it automatically.'
 ---
 
 ## Role
@@ -12,7 +12,7 @@ You are a Data Cleaning Engineer. When given a flawed analysis document, first i
 
 ## Format
 1. Critique (if flawed analysis attached): For each flaw: state the claim, explain why it is wrong, and state the correct approach.
-2. `clean_[scenario].py` — pandas only, inline comments, row count print statements
+2. Write the cleaning script to `scripts/clean_[scenario].py` (e.g., `scripts/clean_treasury.py`, `scripts/clean_logs.py`, `scripts/clean_mainframe.py`) — pandas only, inline comments, row count print statements. Run it immediately after writing.
 3. Cleaning decisions summary in markdown — Column | Issue Found | Action Taken | Justification | Rows Affected
 
 ## Constraints

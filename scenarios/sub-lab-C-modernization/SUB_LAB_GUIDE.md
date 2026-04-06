@@ -83,7 +83,9 @@ scenarios/sub-lab-C-modernization/
 1. Select **Data Profiling Analyst** from Agent dropdown
 
 2. **Recommended prompt:**
-   Type `/data-profiling-analyst` then attach `#data/mainframe_usage.xlsx` and `#data/mainframe_schema.md`
+   Select **Data Profiling Analyst** from the Agent dropdown, then type `/data-profiling-analyst` and attach `#data/mainframe_usage.xlsx` and `#data/mainframe_schema.md`
+
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
 
    **Or use this custom prompt:**
    ```
@@ -95,15 +97,11 @@ scenarios/sub-lab-C-modernization/
    null monthly_active_users (do not treat as zero — telemetry was not collected),
    mixed date formats in last_accessed_date.
    Do not modify the dataframe.
+   Write the script to scripts/profile_mainframe.py and run it.
    Save the quality summary to outputs/C_profile.md.
    ```
 
-3. **Save the generated code** to `scripts/profile_mainframe.py`, then run:
-   ```
-   python scripts/profile_mainframe.py
-   ```
-
-4. **Review output for:**
+3. **Confirm the script ran** and check terminal output for:
    - [ ] Row count = 400
    - [ ] Sentinel `9999` in `estimated_migration_effort_days` flagged separately — not treated as a real value
    - [ ] Null `monthly_active_users` flagged — explicitly noted as "telemetry not collected", not zero
@@ -149,6 +147,7 @@ scenarios/sub-lab-C-modernization/
    have an inline comment explaining the business justification. Print row count before
    cleaning, after each major step, and at the end. Save cleaned data to
    data/mainframe_usage_clean.csv. pandas only. Do not overwrite the original xlsx.
+   Write the script to scripts/clean_mainframe.py and run it.
    ```
 
 5. **Review code before running.** Verify:
@@ -157,24 +156,19 @@ scenarios/sub-lab-C-modernization/
    - Null `monthly_active_users` documented as "telemetry not collected" — NOT imputed as 0
    - Mixed date formats resolved with `pd.to_datetime(errors='coerce')`
 
-6. **Save the generated code** to `scripts/clean_mainframe.py`, then run:
-   ```
-   python scripts/clean_mainframe.py
-   ```
-
-7. **Follow-up prompt:**
+6. **Confirm the script ran** and then use this **follow-up prompt:**
    ```
    For null monthly_active_users: what are the business-valid options for handling them?
    Why does imputing 0 introduce bias in a modernization prioritization context?
    ```
 
-8. **Review output for:**
+7. **Review output for:**
    - [ ] Every transformation has a written justification comment
    - [ ] Row count documented before AND after cleaning
    - [ ] Sentinel `9999` handling explicitly documented — not silently dropped
    - [ ] Null `monthly_active_users` not imputed as 0 — decision documented
 
-9. Save to: `scripts/clean_mainframe.py` + `outputs/C_cleaning_decisions.md`
+8. Save to: `outputs/C_cleaning_decisions.md`
    *(Use template: `templates/cleaning_decisions_template.md`)*
 
 > **SQL Reference (Optional — Module 3):** See `scenarios/sub-lab-C-modernization/exercises/sql_cleaning_reference.sql` for equivalent SQL cleaning logic. SQL is not required — Python is the deliverable.
@@ -189,11 +183,7 @@ scenarios/sub-lab-C-modernization/
     - Features where modernization_priority = 'High' AND estimated_migration_effort_days != 9999,
       ordered by monthly_active_users descending
     - Average error_rate_pct by team (exclude negative values)
-    ```
-
-    **Save the generated code** to `scripts/analyze_mainframe.py`, then run:
-    ```
-    python scripts/analyze_mainframe.py
+    Write the script to scripts/analyze_mainframe.py and run it.
     ```
 
 11. **Follow-up prompt:**
@@ -220,7 +210,9 @@ scenarios/sub-lab-C-modernization/
 1. Select **Visualization Architect** from Agent dropdown
 
 2. **Recommended prompt:**
-   Type `/visualization-architect` then attach `#data/mainframe_usage_clean.csv`
+   Select **Visualization Architect** from the Agent dropdown, then type `/visualization-architect` and attach `#data/mainframe_usage_clean.csv`
+
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
 
    **Or use this custom prompt:**
    ```
@@ -236,21 +228,17 @@ scenarios/sub-lab-C-modernization/
    All axes labeled with units. All charts titled.
    Export each chart: fig.write_html('outputs/C_chart_0N_name.html')
    Include a comment block evaluating the charts for the business.
+   Write the script to scripts/visualize_mainframe.py and run it.
    ```
 
-3. **Save the generated code** to `scripts/visualize_mainframe.py`, then run:
-   ```
-   python scripts/visualize_mainframe.py
-   ```
-
-4. **Review each HTML file in your browser:**
+3. **Confirm the script ran** and review each HTML file in your browser:
    - [ ] All 3 charts open correctly in a browser
    - [ ] All 3 charts have descriptive titles
    - [ ] Axes labeled with units (e.g., "Monthly Active Users", "Migration Effort (days)")
    - [ ] Y-axis starts at 0 on bar chart and histogram
    - [ ] Scatter plot excludes sentinel `9999` — verify in the code before accepting output
 
-5. **Sharing and Exporting Visuals**
+4. **Sharing and Exporting Visuals**
 
    | Format | How | When to Use |
    |--------|-----|-------------|
