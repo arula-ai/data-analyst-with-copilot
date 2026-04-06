@@ -1,11 +1,11 @@
 # Visualization Notes
-**Stage:** 3 | **Agent Mode:** Visualization Architect | **Time Budget:** 15 min
-**Save to:** `outputs/03_visualization_notes.md`
+**Phase:** 3 | **Agent Mode:** Visualization Architect | **Time Budget:** 15 min
+**Save to:** `outputs/[X]_chart_*.html` *(replace [X] with your scenario letter: A, B, or C)*
 
 ---
 
 ## Purpose
-This document records chart design decisions, Copilot corrections, and sharing checklist compliance. One entry per chart produced. Required as the Stage 3 deliverable alongside your exported chart images.
+This document records chart design decisions, Copilot corrections, and sharing checklist compliance. One entry per chart produced. Required as the Phase 3 deliverable alongside your exported interactive HTML charts.
 
 ---
 
@@ -22,7 +22,7 @@ This document records chart design decisions, Copilot corrections, and sharing c
 | Y-axis starts at 0 | [ ] Yes |
 | Data filtered/excluded before plotting | *(describe any pre-filter, e.g., excluded sentinel values)* |
 | Copilot prompt used | *(paste abbreviated prompt or reference)* |
-| Exported as | *(filename.png)* |
+| Exported as | *(filename.html)* |
 
 **Finding this chart shows:**
 *(1–2 sentences describing what the chart communicates)*
@@ -81,6 +81,37 @@ This document records chart design decisions, Copilot corrections, and sharing c
 - [ ] Chart titles accurately describe what is shown (no overstated causal claims)
 - [ ] Charts reviewed for misleading visual patterns (truncated axes, misleading color scales)
 - [ ] Exported files saved to `outputs/` folder
+
+---
+
+## Export Options — Module 4: Sharing Visuals
+
+Your Plotly charts are exported as self-contained interactive HTML. Choose the format that fits your recipient:
+
+| Format | How to Export | Best For |
+|--------|--------------|---------|
+| **Interactive HTML** | Already done — `.html` file in `outputs/` | Internal stakeholders who open files locally |
+| **Static PNG** | Open `.html` in Chrome → click Hamburger icon (top-right of chart) → **Download plot as PNG** | Slide decks, email, tools that don't render HTML |
+| **Clipboard screenshot** | `Windows+Shift+S` (Windows) / `Cmd+Shift+4` (Mac) — capture chart area | Quick Teams/Slack/chat sharing |
+| **Notebook embed** | Copy Plotly code into a Jupyter notebook cell → run inline → save `.ipynb` | Reproducible analysis documents |
+| **Reporting pipeline** | Export cleaned `.csv` from `data/` → import into Power BI / Tableau / Looker as data source | Production reporting dashboards |
+
+### Reporting Integration Notes
+
+> Fill in during or after the lab session.
+
+**If connecting to Power BI:**
+- Data source: `data/[scenario]_[clean].csv`
+- Recommended chart type mapping: bar → Clustered Bar, histogram → Histogram visual, line → Line chart
+
+**If connecting to Tableau:**
+- Import as Text File (CSV) or Excel
+- Date columns: confirm format after `pd.to_datetime()` normalization
+
+**If using Jupyter notebook:**
+- Install: `pip install jupyter` (included in requirements.txt)
+- Run: `jupyter notebook` from workspace root
+- Reference: `reference/notebooks_and_data_wrangler.md`
 
 ---
 

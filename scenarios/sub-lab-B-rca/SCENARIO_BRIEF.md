@@ -50,8 +50,11 @@ Save these to `outputs/` before the debrief:
 | File | What It Contains |
 |---|---|
 | `outputs/B_profile.md` | Log dataset profile — row count, null counts, error distribution by service |
+| `scripts/clean_logs.py` | Cleaning script — every transformation commented and justified |
 | `outputs/B_cleaning_decisions.md` | How you handled data quality issues in the logs + all 5 critique flaws addressed |
-| `outputs/B_visualizations.ipynb` | 3 charts showing error patterns across services and time |
+| `scripts/analyze_logs.py` | Pandas EDA script — error counts by service, response times, highest-failure service identified |
+| `scripts/visualize_logs.py` | Python script that generates 3 interactive charts |
+| `outputs/B_chart_*.html` | 3 interactive HTML charts showing error patterns across services and time |
 
 ---
 

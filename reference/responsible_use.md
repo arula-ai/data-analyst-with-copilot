@@ -1,4 +1,4 @@
-# Hartwell Financial Services — Responsible Use Policy for AI-Assisted Data Analysis
+# Arula Financial Group — Responsible Use Policy for AI-Assisted Data Analysis
 
 **Version 2.1 | Effective: Q1 2025 | Owner: Data Governance Office**
 
@@ -6,17 +6,17 @@
 
 ## 1. Purpose and Scope
 
-This policy governs the use of AI-assisted tools, including GitHub Copilot, in data analysis workflows at Hartwell Financial Services. It applies to all employees, contractors, and partners who use AI tools to interact with internal data assets, generate analytical code, or produce outputs derived from Hartwell data systems.
+This policy governs the use of AI-assisted tools, including GitHub Copilot, in data analysis workflows at Arula Financial Group and its subsidiaries (Meridian Asset Management, Orion Payments Inc., and Centrix Financial Systems). It applies to all employees, contractors, and partners who use AI tools to interact with internal data assets, generate analytical code, or produce outputs derived from corporate data systems.
 
-The purpose of this policy is to ensure that AI-assisted analysis is conducted in a manner consistent with Hartwell's data classification standards, applicable financial regulations, and internal security requirements. AI tools augment analyst judgment — they do not replace analyst accountability. Compliance with this policy is a condition of continued access to analytical tooling and data systems.
+The purpose of this policy is to ensure that AI-assisted analysis is conducted in a manner consistent with Arula Financial Group's data classification standards, applicable financial regulations, and internal security requirements. AI tools augment analyst judgment — they do not replace analyst accountability. Compliance with this policy is a condition of continued access to analytical tooling and data systems.
 
 ---
 
 ## 2. Approved Use Cases for GitHub Copilot in Data Analysis
 
-The following uses of GitHub Copilot are approved for data analysis work at Hartwell Financial Services:
+The following uses of GitHub Copilot are approved for data analysis work at Arula Financial Group and its subsidiaries:
 
-- Generating Python scripts for data profiling, cleaning, and transformation using approved libraries (pandas, matplotlib, seaborn, numpy)
+- Generating Python scripts for data profiling, cleaning, and transformation using approved libraries (pandas, numpy, plotly, openpyxl)
 - Creating visualizations of anonymized or synthetic datasets within a local VS Code environment
 - Drafting markdown documentation for analysis decisions, data quality findings, and executive summaries
 - Generating unit tests or validation assertions for data pipelines
@@ -29,11 +29,11 @@ The following uses of GitHub Copilot are approved for data analysis work at Hart
 
 The following actions are prohibited when using AI tools for data analysis:
 
-- **Sending raw transaction data, customer records, or account identifiers to external AI endpoints.** GitHub Copilot processes your prompt in context — do not paste row-level data containing account_masked values, transaction amounts linked to identifiable accounts, or any Restricted-tier data.
-- **Including PII or PII-adjacent data in prompts without masking.** Even masked fields (such as account_masked) must be referenced by name and schema context only — not pasted as raw values.
+- **Sending raw transaction data, customer records, or account identifiers to external AI endpoints.** GitHub Copilot processes your prompt in context — do not paste row-level data containing counterparty_masked, user_id_masked values, transaction amounts linked to identifiable accounts, or any Restricted-tier data.
+- **Including PII or PII-adjacent data in prompts without masking.** Even masked fields (such as counterparty_masked or user_id_masked) must be referenced by name and schema context only — not pasted as raw values.
 - **Auto-deploying AI-generated code without human review.** All generated scripts must be read, understood, and validated against business rules before execution or deployment.
 - **Using AI tools to generate insights from Restricted-tier data without prior approval from the Data Governance Office.** Restricted data requires a documented approval before any AI-assisted analysis begins.
-- **Sharing AI-generated outputs externally without a compliance review.** Reports, charts, and summaries derived from Internal or higher-tier data must be reviewed before distribution outside Hartwell.
+- **Sharing AI-generated outputs externally without a compliance review.** Reports, charts, and summaries derived from Internal or higher-tier data must be reviewed before distribution outside Arula Financial Group.
 - **Using AI tools to circumvent data access controls** — including generating code that reads from data sources your role does not have approved access to.
 - **Accepting AI output as fact without validation.** AI tools can produce plausible but incorrect statistics, fabricated column names, and logic errors that violate business rules. Validation is the analyst's responsibility.
 - **Hard-coding credentials, account numbers, or API keys in generated scripts**, regardless of whether those values appear synthetic.
@@ -44,12 +44,12 @@ The following actions are prohibited when using AI tools for data analysis:
 
 | Tier | Description | Examples | AI Analysis Allowed? |
 |---|---|---|---|
-| **Public** | Freely shareable outside Hartwell | Published reports, press releases, marketing materials | Yes |
-| **Internal** | For Hartwell use only — not for external distribution | Operational metrics, anonymized aggregates, synthetic training data | Yes, with activity logging |
+| **Public** | Freely shareable outside Arula Financial Group | Published reports, press releases, marketing materials | Yes |
+| **Internal** | For corporate use only — not for external distribution | Operational metrics, anonymized aggregates, synthetic training data | Yes, with activity logging |
 | **Confidential** | Sensitive business data requiring restricted handling | Customer transaction records, financial risk models, masked account identifiers | Yes, with manager approval and documented justification |
 | **Restricted** | Highest sensitivity — requires formal review before any processing | Unmasked PII, full account numbers, fraud investigation case files, regulatory submissions | No — requires Data Governance Office review before AI-assisted analysis |
 
-The `transaction_alerts.csv` dataset used in this training lab is classified as **Internal (Synthetic)**. It may be analyzed using approved AI tools without additional approval. However, the handling requirements for `account_masked` follow Confidential-tier protocols as a training exercise in appropriate caution.
+The lab datasets — `treasury_payments.xlsx` (Meridian Asset Management), `rca_app_logs.csv` (Orion Payments Inc.), and `mainframe_usage.xlsx` (Centrix Financial Systems) — are classified as **Internal (Synthetic)**. They may be analyzed using approved AI tools without additional approval. However, the handling requirements for PII-adjacent fields (`counterparty_masked` in treasury data and `user_id_masked` in RCA logs) follow Confidential-tier protocols as a training exercise in appropriate caution.
 
 ---
 
@@ -67,7 +67,7 @@ The `transaction_alerts.csv` dataset used in this training lab is classified as 
 
 If you believe you have sent sensitive data to an AI system in violation of this policy, or if an AI-generated output contains identifiable information that should not have been included, you must report the incident within **24 hours** to:
 
-**Data Governance Office:** datagovernance@hartwellfinancial.com *(fictional — for training purposes only)*
+**Data Governance Office:** datagovernance@arulafg.com *(fictional — for training purposes only)*
 
 Include in your report: the tool used, the nature of the data involved, the approximate time of the incident, and any outputs generated. Do not attempt to delete evidence of the incident before reporting.
 
@@ -96,15 +96,15 @@ When you use Copilot Chat in VS Code, the following is sent to GitHub's servers 
 | Files not referenced in the prompt | No | Only explicitly referenced files are sent |
 | Your terminal output | No | Unless you paste it into the chat |
 
-**Key rule:** Copilot sees what you put in front of it. If you attach `#transaction_alerts.csv`, all 500 rows are sent. If you attach `#schema.md`, only the schema is sent. Reference schema and column names — not raw data rows — whenever possible.
+**Key rule:** Copilot sees what you put in front of it. If you attach a lab dataset file (`#treasury_payments.xlsx`, `#rca_app_logs.csv`, or `#mainframe_usage.xlsx`), the entire file content is sent. If you attach `#schema.md`, only the schema is sent. Reference schema and column names — not raw data rows — whenever possible.
 
 ### Dos and Don'ts in the IDE
 
 | Do | Don't |
 |----|-------|
-| Reference files by name using `#filename` syntax | Paste raw CSV rows or transaction values into the prompt |
+| Reference files by name using `#filename` syntax | Paste raw rows or field values into the prompt |
 | Use schema context (`#schema.md`) instead of raw data | Attach files containing Restricted-tier data (unmasked PII, full account numbers) |
-| Work in a local VS Code environment on approved hardware | Use personal GitHub accounts for enterprise data work |
+| Work in a local VS Code environment on approved hardware | Use personal GitHub accounts for corporate data work |
 | Use enterprise-configured Copilot (signed in with your work account) | Use Copilot on a personal laptop outside corporate security controls |
 | Keep outputs in the local `outputs/` folder | Upload AI-generated outputs to external services without compliance review |
 | Report accidental data exposure within 24 hours | Attempt to delete evidence of a policy violation before reporting |
@@ -119,8 +119,8 @@ Before starting any data analysis session, confirm:
 
 ### What this means for this lab
 
-The `transaction_alerts.csv` dataset is **synthetic** — no real customers, no real transactions. However, the lab is intentionally designed to treat it as if it were real Confidential-tier data, so participants practice the correct habits. The governance rules above apply throughout all lab stages regardless of dataset sensitivity.
+The lab datasets — `treasury_payments.xlsx` (500 rows), `rca_app_logs.csv` (300 rows), and `mainframe_usage.xlsx` (400 rows) — are **synthetic**. No real customers, no real transactions. However, the lab is intentionally designed to treat them as if they were real Confidential-tier data, so participants practice the correct habits with PII-adjacent fields like `counterparty_masked` and `user_id_masked`. The governance rules above apply throughout all lab stages regardless of dataset sensitivity.
 
 ---
 
-*This is a fictional policy document created for training purposes. It does not represent the actual policies of Fidelity Investments, Hartwell Financial Services (a fictional entity), or any real financial institution.*
+*This is a fictional policy document created for training purposes. It does not represent the actual policies of Fidelity Investments, Arula Financial Group (a fictional entity), or any real financial institution.*

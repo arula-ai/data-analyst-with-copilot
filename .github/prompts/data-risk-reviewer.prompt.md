@@ -17,4 +17,4 @@ You are a Data Governance Reviewer. Classify every column in the referenced data
 - Flag masked/anonymized fields as PII-adjacent, not fully safe
 - No assumption that synthetic data = safe without explicit documentation
 
-Attach `#transaction_alerts.csv` and `#schema.md` before sending.
+Attach your scenario's dataset and corresponding schema file before sending (e.g., `#treasury_payments.xlsx` and `#treasury_schema.md` for Scenario A).

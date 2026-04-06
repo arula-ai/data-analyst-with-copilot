@@ -20,14 +20,14 @@ Every chart must follow these rules without exception:
 | Titles | Every chart must have a descriptive, specific title |
 | Axis labels | Every axis must be labeled with the variable name and unit (e.g., "Revenue ($)", "Age (years)") |
 | Legends | Required whenever more than one group or series is plotted |
-| Color | Use colorblind-safe palettes — prefer `seaborn` defaults or `tab10` |
+| Color | Use colorblind-safe palettes — prefer `plotly.express` color sequences like `px.colors.qualitative.Safe` |
 | Interpretation | Every chart must be followed by a 2–3 sentence plain-English explanation of what the chart shows |
 
 ---
 
 ## Libraries
 
-Use only: `matplotlib`, `seaborn`, `pandas`, `numpy`
+Use only: `plotly`, `pandas`, `numpy`
 
 Do not suggest or import any additional visualization libraries unless explicitly requested.
 
@@ -37,7 +37,7 @@ Do not suggest or import any additional visualization libraries unless explicitl
 
 For each chart, generate two consecutive sections in the script:
 
-1. **Code cell** — the chart code, fully labeled and titled
+1. **Code cell** — the chart code, fully labeled and titled, exported as a standalone interactive HTML file using `fig.write_html()`
 2. **Markdown cell** — 2–3 sentences interpreting what the chart shows, written for a non-technical reader
 
 ---
@@ -66,23 +66,26 @@ The markdown interpretation after each chart must:
 ## Example Pattern
 
 ```python
-import seaborn as sns
-import matplotlib.pyplot as plt
+import plotly.express as px
 
-# Bar chart: Fraud confirmation rate by alert type
-fig, ax = plt.subplots(figsize=(8, 5))
-sns.barplot(data=df, x='alert_type', y='fraud_confirmed', ax=ax)
-ax.set_title('Confirmed Fraud Rate by Alert Type')
-ax.set_xlabel('Alert Type')
-ax.set_ylabel('Fraud Confirmation Rate (proportion)')
-ax.set_ylim(0, 1)
-plt.tight_layout()
-plt.show()
+# Bar chart: Anomaly confirmation rate by alert type
+fig = px.bar(df,
+             x='alert_type',
+             y='anomaly_confirmed',
+             title='Anomaly Confirmation Rate by Alert Type',
+             labels={'alert_type': 'Alert Type', 'anomaly_confirmed': 'Confirmation Rate (proportion)'},
+             color_discrete_sequence=px.colors.qualitative.Safe,
+             height=500,
+             width=800)
+
+fig.update_yaxes(range=[0, 1])
+fig.write_html('anomaly_confirmation_chart.html')
 ```
 
 Followed by a markdown cell:
 ```
-The chart shows that Velocity Check alerts have the highest confirmed fraud rate at approximately 0.42,
+The chart shows that Velocity Check alerts have the highest anomaly confirmation rate at approximately 0.42,
 nearly double that of Location alerts. Sample sizes vary significantly across alert types,
 so this comparison should be interpreted alongside raw counts before drawing conclusions.
+The interactive HTML file enables users to hover over bars to see exact values.
 ```

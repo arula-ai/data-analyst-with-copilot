@@ -23,7 +23,7 @@ This report summarizes findings from the Q4 2024 log analysis for the payments p
 
 Log analysis confirmed that NotificationService generated the most failures during the incident window. Its ERROR + FATAL rate as a percentage of its own total log entries was 61%, significantly higher than any other service.
 
-<!-- FLAW 1: Wrong service blamed without evidence. The rca_schema.md Known Issues section documents that 8 duplicate request_ids exist in the dataset. If duplicates were not removed before calculating per-service rates, the counts are inflated and the ranking is unreliable. A correct analysis removes duplicates first, then calculates rates. -->
+<!-- FLAW 1: Wrong service blamed without evidence. The rca_schema.md Known Issues section documents that 15 duplicate request_ids exist in the dataset. If duplicates were not removed before calculating per-service rates, the counts are inflated and the ranking is unreliable. A correct analysis removes duplicates first, then calculates rates. -->
 
 Based on this finding, we conclude that **NotificationService directly caused all payment transaction failures** observed during the incident window.
 
@@ -43,7 +43,7 @@ These results confirm that **slow response times cause service errors** and that
 
 The log dataset was cleaned prior to analysis. Null values were handled and duplicate entries were addressed using standard cleaning procedures.
 
-<!-- FLAW 3: Logical contradiction. The rca_schema.md documents 27 ERROR/FATAL rows with null or empty message fields. If these were dropped during cleaning, the ERROR/FATAL count used in the analysis is understated. The statement below contradicts the cleaning that was described. -->
+<!-- FLAW 3: Logical contradiction. The rca_schema.md Known Issues section documents 15 duplicate request_ids. If duplicates were removed during cleaning, at most 285 rows could remain — not 300. The statement that all 300 log entries were retained is impossible if any deduplication occurred. The correct analysis documents the exact number of rows removed and updates the total count accordingly. -->
 
 After cleaning, **all 300 log entries were retained with no data loss**. The cleaned dataset contains the complete record of platform activity during the incident window.
 

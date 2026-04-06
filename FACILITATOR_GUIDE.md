@@ -13,7 +13,7 @@
 | Format | 30-min shared demo + 50-min scenario sprint (individual) + 10-min group debrief |
 | Room setup | Individual workstations, VS Code installed, Python environment ready |
 | Pre-session checks | Verify all participants have Copilot Chat enabled and `pip install -r requirements.txt` completed |
-| Scenarios | 3 equal sub-labs — A (RCA), B (Modernization), C (Treasury). Participants choose 1. |
+| Scenarios | 3 equal sub-labs — A (Treasury), B (RCA), C (Modernization). Participants choose 1. |
 
 **Rotation model:** This lab runs 4x/month. Each session the facilitator fully demos 1 scenario. Participants build fluency across all 3 by attending multiple sessions or choosing the scenario most relevant to their role.
 
@@ -31,12 +31,12 @@ Walk participants through:
 - Opening the repo in VS Code
 - `VERIFY_BEFORE_SEND.md` — read it aloud; establish that this applies before every prompt
 - `QUICK_START.md` — point to it for anyone new to Copilot Chat
-- Agent Selector Dropdown — verify all 6 agents visible
+- Agent Selector Dropdown — verify all 6 agents visible. The 4 primary agents (Data Profiling Analyst, Data Cleaning Engineer, Exploratory Data Analyst, Visualization Architect) are used in every scenario sprint. The 2 optional agents (Data Risk Reviewer, Responsible Use Auditor) are available for advanced participants or as optional governance extensions — see Section 7 for guidance.
 - Folder layout: `scenarios/`, `reference/`, `templates/`, `outputs/`, `.github/agents/`
 
 ### 2b. RIFCC-DA Framework (5 min)
 
-Open `reference/PROMPT_PATTERN.md` and walk through the 6 components:
+Open `reference/PROMPT_PATTERN.md` and walk through the 5 components:
 
 | Component | Explain as |
 |---|---|
@@ -45,7 +45,8 @@ Open `reference/PROMPT_PATTERN.md` and walk through the 6 components:
 | Format | "How you want the answer structured" |
 | Constraints | "What it must NOT do" |
 | Checks | "What to verify before answering" |
-| Domain Awareness | "What business context it needs to interpret the data correctly" |
+
+> **Facilitator tip:** Emphasise that domain context — business rules, valid ranges, known issues — travels in the **Inputs** field via the schema file attachment. Participants sometimes want a 6th "Domain" field; redirect them to pack that context into `I` using `#schema.md`.
 
 Show one full example prompt using the `/` picker and explain the `#filename` attachment pattern.
 
@@ -59,7 +60,7 @@ Walk through `reference/responsible_use.md`. Key points to emphasize:
 
 ### 2d. First Agent Demo (15 min)
 
-**Choose one scenario dataset to demo live.** The recommended default is Sub-Lab C (treasury_payments.xlsx) because it has the most issues (11) and no code pre-step — it demonstrates pure data analysis cleanly. Use Sub-Lab A if your audience is engineering-heavy.
+**Choose one scenario dataset to demo live.** The recommended default is Sub-Lab A (treasury_payments.xlsx) because it has the most issues (11) and no code pre-step — it demonstrates pure data analysis cleanly. Use Sub-Lab B if your audience is engineering-heavy.
 
 1. Discuss the business questions using Copilot.
 2. Run the imports cell and data load cell — show the dataset is real and loads correctly
@@ -73,78 +74,10 @@ Walk through `reference/responsible_use.md`. Key points to emphasize:
 
 ## 3. Scenario Ground Truths
 
-### Sub-Lab A — Root Cause Analysis (rca_app_logs.csv)
-
-**Dataset:** 300 rows, 9 columns
-**Schema:** `scenarios/sub-lab-A-rca/data/rca_schema.md`
-
-**Pre-step:** Read `app_service.py` BUG comments. Expected hypotheses: PaymentGateway and TransactionProcessor produce the most errors.
-
-**Known data quality issues (4):**
-
-| Issue | Column | Count | Discovery |
-|---|---|---|---|
-| Duplicate request_ids | `request_id` | 15 | `df.duplicated(subset=['request_id']).sum()` |
-| Null response_time_ms | `response_time_ms` | 22 | `df.isnull().sum()` |
-| Mixed timestamp formats | `timestamp` | 18 | `pd.to_datetime(..., errors='coerce').isnull().sum()` |
-| Sentinel -1 in response_time_ms | `response_time_ms` | 9 | `(df['response_time_ms'] < 0).sum()` |
-
-**Expected Stage 1 findings:** TransactionProcessor and PaymentGateway have the highest ERROR/FATAL counts. Log distribution skewed toward ERROR/FATAL in afternoon hours.
-
-**Expected Stage 2 Pandas findings:** Top error_codes are clustered around 500-series for TransactionProcessor; AuthService has fewer fatal errors but high WARN rate.
-
-**Expected Stage 3 charts:**
-1. Error rate by service (bar) — TransactionProcessor highest
-2. response_time_ms distribution (histogram) — long right tail on ERROR events
-3. ERROR+FATAL count over time (line) — afternoon clustering visible
-
-**Flawed analysis errors (in exercises/):**
-1. Wrong service blamed — PaymentGateway named as root cause, but TransactionProcessor has higher ERROR rate
-2. Causal claim — "high response times cause errors" (correlation, not causation)
-3. Logical contradiction — "300 rows retained after deduplication" but 15 duplicates removed
-4. Sentinel in average — FATAL nulls filled with 0 rather than excluded, skews response time average
-5. False completeness — claims "all error_codes present" but null error_codes not counted
-
----
-
-### Sub-Lab B — Product Modernization (mainframe_usage.xlsx)
-
-**Dataset:** 400 rows, 10 columns
-**Schema:** `scenarios/sub-lab-B-modernization/data/mainframe_schema.md`
-
-**Pre-step:** Read `legacy_mainframe.py` BUG comments. Expected assessment: `process_wire_transfer` and `get_fx_rate` are highest migration risk due to hardcoded values and no error handling.
-
-**Known data quality issues (4):**
-
-| Issue | Column | Count | Discovery |
-|---|---|---|---|
-| Null monthly_active_users | `monthly_active_users` | 27 | `df['monthly_active_users'].isnull().sum()` |
-| Negative error_rate_pct | `error_rate_pct` | 18 | `(df['error_rate_pct'] < 0).sum()` |
-| Mixed date formats | `last_accessed_date` | 14 | `pd.to_datetime(..., errors='coerce').isnull().sum()` |
-| Sentinel 9999 in migration effort | `estimated_migration_effort_days` | 13 | `(df['estimated_migration_effort_days'] == 9999).sum()` |
-
-**Key constraint:** `estimated_migration_effort_days = 9999` means "effort not assessed" — must be excluded from all averages and rankings.
-
-**Expected Stage 2 Pandas findings:** Risk & Compliance team has most legacy features. Core Banking has highest active users on legacy infrastructure.
-
-**Expected Stage 3 charts:**
-1. Legacy vs. modern count by team (grouped bar) — Risk & Compliance highest legacy ratio
-2. monthly_active_users distribution (histogram) — right-skewed, few very high-usage features
-3. migration effort vs. usage (scatter) — no strong correlation; high-effort features not necessarily high-usage
-
-**Flawed analysis errors (in exercises/):**
-1. Sentinel 9999 included in ranking — inflates estimated effort dramatically
-2. Causal claim — "high legacy count causes operational risk" (correlation only)
-3. Logical contradiction — "all 400 rows intact" after claiming nulls were dropped
-4. Negative error_rate in average — invalid values included, skews error rate statistics
-5. Unverified statistic — "78% of features are High priority" (actual value differs)
-
----
-
-### Sub-Lab C — Treasury Anomaly Detection (treasury_payments.xlsx)
+### Sub-Lab A — Treasury Anomaly Detection (treasury_payments.xlsx)
 
 **Dataset:** 500 rows, 14 columns
-**Schema:** `scenarios/sub-lab-C-treasury/data/treasury_schema.md`
+**Schema:** `data/treasury_schema.md`
 
 **No pre-step** — pure data analysis, no codebase review.
 
@@ -172,9 +105,9 @@ Walk through `reference/responsible_use.md`. Key points to emphasize:
 - Exclude `analyst_confidence = -1` from all confidence calculations
 - Never include `counterparty_masked` in any output
 
-**Expected Stage 2 Pandas findings:** Wire Transfer has highest anomaly rate. FX Settlement payments concentrate in the top amount ranges.
+**Expected Phase 2 Pandas findings:** Wire Transfer has highest anomaly rate. FX Settlement payments concentrate in the top amount ranges.
 
-**Expected Stage 3 charts:**
+**Expected Phase 3 charts:**
 1. Confirmed anomaly rate by payment_type (bar) — Wire Transfer highest after excluding anomaly_confirmed=2
 2. payment_amount distribution for confirmed anomalies (histogram) — bimodal or right-skewed
 3. Confirmed anomaly count by week of Q4 2024 (line) — trend visible, possible spike in late November
@@ -185,6 +118,74 @@ Walk through `reference/responsible_use.md`. Key points to emphasize:
 3. Logical contradiction — "500 rows intact" after claiming duplicates and invalid values were removed
 4. Sentinel 999 in average — prior_alerts_90d average skewed by sentinel values not excluded
 5. Legacy code in calculation — analyst_confidence = -1 included in average, dragging it negative
+
+---
+
+### Sub-Lab B — Root Cause Analysis (rca_app_logs.csv)
+
+**Dataset:** 300 rows, 9 columns
+**Schema:** `data/rca_schema.md`
+
+**Pre-step:** Read `app_service.py` BUG comments. Expected hypotheses: PaymentGateway and TransactionProcessor produce the most errors.
+
+**Known data quality issues (4):**
+
+| Issue | Column | Count | Discovery |
+|---|---|---|---|
+| Duplicate request_ids | `request_id` | 15 | `df.duplicated(subset=['request_id']).sum()` |
+| Null response_time_ms | `response_time_ms` | 22 | `df.isnull().sum()` |
+| Mixed timestamp formats | `timestamp` | 18 | `pd.to_datetime(..., errors='coerce').isnull().sum()` |
+| Sentinel -1 in response_time_ms | `response_time_ms` | 9 | `(df['response_time_ms'] < 0).sum()` |
+
+**Expected Phase 1 findings:** TransactionProcessor and PaymentGateway have the highest ERROR/FATAL counts. Log distribution skewed toward ERROR/FATAL in afternoon hours.
+
+**Expected Phase 2 Pandas findings:** Top error_codes are clustered around 500-series for TransactionProcessor; AuthService has fewer fatal errors but high WARN rate.
+
+**Expected Phase 3 charts:**
+1. Error rate by service (bar) — TransactionProcessor highest
+2. response_time_ms distribution (histogram) — long right tail on ERROR events
+3. ERROR+FATAL count over time (line) — afternoon clustering visible
+
+**Flawed analysis errors (in exercises/):**
+1. Wrong service blamed — NotificationService named as root cause, but TransactionProcessor has higher raw ERROR count after deduplication
+2. Causal claim — "high response times cause errors" (correlation, not causation)
+3. Logical contradiction — "300 rows retained after deduplication" but 15 duplicates removed
+4. Sentinel in average — FATAL nulls filled with 0 rather than excluded, skews response time average
+5. False completeness — claims "all error_codes present" but null error_codes not counted
+
+---
+
+### Sub-Lab C — Product Modernization (mainframe_usage.xlsx)
+
+**Dataset:** 400 rows, 10 columns
+**Schema:** `data/mainframe_schema.md`
+
+**Pre-step:** Read `legacy_mainframe.py` BUG comments. Expected assessment: `process_wire_transfer` and `get_fx_rate` are highest migration risk due to hardcoded values and no error handling.
+
+**Known data quality issues (4):**
+
+| Issue | Column | Count | Discovery |
+|---|---|---|---|
+| Null monthly_active_users | `monthly_active_users` | 27 | `df['monthly_active_users'].isnull().sum()` |
+| Negative error_rate_pct | `error_rate_pct` | 18 | `(df['error_rate_pct'] < 0).sum()` |
+| Mixed date formats | `last_accessed_date` | 14 | `pd.to_datetime(..., errors='coerce').isnull().sum()` |
+| Sentinel 9999 in migration effort | `estimated_migration_effort_days` | 13 | `(df['estimated_migration_effort_days'] == 9999).sum()` |
+
+**Key constraint:** `estimated_migration_effort_days = 9999` means "effort not assessed" — must be excluded from all averages and rankings.
+
+**Expected Phase 2 Pandas findings:** Risk & Compliance team has most legacy features. Core Banking has highest active users on legacy infrastructure.
+
+**Expected Phase 3 charts:**
+1. Legacy vs. modern count by team (grouped bar) — Risk & Compliance highest legacy ratio
+2. monthly_active_users distribution (histogram) — right-skewed, few very high-usage features
+3. migration effort vs. usage (scatter) — no strong correlation; high-effort features not necessarily high-usage
+
+**Flawed analysis errors (in exercises/):**
+1. Sentinel 9999 included in ranking — inflates estimated effort dramatically
+2. Causal claim — "high legacy count causes operational risk" (correlation only)
+3. Logical contradiction — "all 400 rows intact" after claiming nulls were dropped
+4. Negative error_rate in average — invalid values included, skews error rate statistics
+5. Unverified statistic — "78% of features are High priority" (actual value differs)
 
 ---
 
@@ -207,14 +208,14 @@ Walk through `reference/responsible_use.md`. Key points to emphasize:
 
 | Check-in | Time | Typical State | Action if Behind |
 |---|---|---|---|
-| First check | 45 min | Should be finishing Stage 1 and starting Stage 2 | If still on Stage 1 profiling: focus on the top 5 issues, skip exhaustive documentation, move to cleaning |
-| Second check | 65 min | Should be finishing Stage 2 EDA | If stuck on EDA: skip the optional questions, confirm at least 2 Pandas results documented, move to Stage 3 |
+| First check | 45 min | Should be finishing Phase 1 and starting Phase 2 | If still on Phase 1 profiling: focus on the top 5 issues, skip exhaustive documentation, move to cleaning |
+| Second check | 65 min | Should be finishing Phase 2 EDA | If stuck on EDA: skip the optional questions, confirm at least 2 Pandas results documented, move to Phase 3 |
 | Third check | 77 min | Should have at least 2 charts done | If only 1 chart: complete charts 2 and 3 without interpretation cells, add notes in visualization_notes_template |
 
 **Where participants typically fall behind:**
-- Stage 2 is the most time-consuming — 25 minutes is tight if the cleaning script needs significant corrections
-- Stage 1 takes longer than expected when code needs to actually be run — don't let participants skip execution
-- Stage 3 is fast if the data is clean — reinforce that 3 charts minimum is the goal, not 6
+- Phase 2 is the most time-consuming — 25 minutes is tight if the cleaning script needs significant corrections
+- Phase 1 takes longer than expected when code needs to actually be run — don't let participants skip execution
+- Phase 3 is fast if the data is clean — reinforce that 3 charts minimum is the goal, not 6
 
 ---
 
@@ -249,7 +250,25 @@ Remind participants:
 
 ---
 
-## 7. Technical Troubleshooting
+## 7. Optional Agent Extensions (Advanced / Time Permitting)
+
+Two additional agents exist in `.github/agents/` that are not part of the standard 3-phase flow. Use them for advanced participants, governance-focused sessions, or when time allows.
+
+### Data Risk Reviewer
+**When to use:** At the very start of a scenario, before Phase 1 — as a data governance pre-check.
+**What it does:** Classifies every column by sensitivity tier (Public / Internal / Confidential / Restricted), flags PII-adjacent fields, and produces a handling recommendations table and Pre-Analysis Checklist.
+**How to activate:** Select "Data Risk Reviewer" from the agent dropdown, then attach the scenario dataset and schema file.
+**Facilitator note:** This is a strong opener if the session audience includes data governance, security, or compliance roles. It reinforces the VERIFY_BEFORE_SEND.md checklist with an AI-assisted classification layer.
+
+### Responsible Use Auditor
+**When to use:** After Phase 3, as a closing quality gate — before sharing any outputs.
+**What it does:** Reviews all generated scripts and outputs for policy compliance. Flags external API calls, hardcoded sensitive values, PII-adjacent field exposure, and unsafe file operations. Produces a Risk Findings table and an Auditor Sign-off with Pass / Pass with conditions / Fail verdict.
+**How to activate:** Select "Responsible Use Auditor" from the agent dropdown, then attach the generated scripts and output files for review.
+**Facilitator note:** This is a strong closing exercise for engineering-heavy audiences. The Risk Findings table maps directly to the debrief Round 2 ("what risk did you catch?") discussion.
+
+---
+
+## 8. Technical Troubleshooting
 
 | Issue | Likely Cause | Fix |
 |---|---|---|

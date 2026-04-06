@@ -1,57 +1,92 @@
 **Project Overview: GitHub Copilot for Data Analysis — Hands-On Lab**
 
-**Lab 3 | Fraud & Transaction Risk Signals | Hartwell Financial Services**  
-**Duration:** 90 minutes  
-**Audience:** Engineers and Analysts  
-**Focus:** Using GitHub Copilot to analyze synthetic fraud alert data, generate visualizations, and ensure responsible AI use in financial data analysis.  
-**Approach:** Artifact-driven, stage-by-stage lab using the RIFCC-DA (Responsible, Iterative, Framework-driven Copilot Collaboration for Data Analysis) prompting framework.  
-**Dataset:** 500 synthetic fraud alert records (`transaction_alerts.csv`) with 11 intentional data quality issues. Ground truth is in `data/schema.md`.
+**Lab Type:** Instructor-Led Training (ILT) | Blended Audience: Engineers & Analysts
+**Duration:** 90 minutes
+**Offering:** Weekly, 4x per month
+**Focus:** Using GitHub Copilot in VS Code to profile, clean, query, and visualize operational financial data — responsibly and accurately.
+**Approach:** Scenario-based, artifact-driven lab using the RIFCC-DA (Responsible, Iterative, Framework-driven Copilot Collaboration for Data Analysis) prompting framework.
+**Format:** 3 parallel sub-labs — participants choose one scenario and work through it end-to-end.
 
-**Prerequisites:**
-- VS Code with GitHub Copilot Chat extension (authenticated).
-- Python 3.10+ with libraries: `pandas`, `matplotlib`, `seaborn`, `numpy`, `jupyter`.
-- Basic Python familiarity (helpful but not required).
-- No database setup needed.
-- Always reference `data/schema.md` for column definitions and valid ranges.
+---
 
-**Lab Objectives:**
-1. Apply responsible-use and data governance principles before handling financial data.
-2. Profile raw alert dataset to identify quality issues and anomalies.
-3. Generate safe, reversible data cleaning scripts with full transformation justification.
-4. Conduct exploratory analysis and translate fraud patterns into business insights.
-5. Create accurate, honest visualizations from cleaned data.
-6. Audit AI-generated code and outputs for policy compliance and risk exposure.
+**Three Scenarios (Sub-Labs):**
 
-**Repository Structure and Workflow:**
-- **`data/`**: Source dataset (`transaction_alerts.csv`) and schema documentation (`schema.md`) — reference throughout.
-- **`exercises/`**: Flawed artifacts (e.g., `flawed_analysis.md`, `flawed_cleaning_script.py`, `flawed_visualization.py`) for validation practice in Stage 2.
-- **`notebooks/`**: Starter Jupyter notebook (`starter_analysis.ipynb`) for Stages 3-4.
-- **`outputs/`**: All lab artifacts saved here (using templates from `templates/` folder).
-- **`reference/`**: RIFCC-DA framework, glossary, policy, commands, and responsible use guidelines.
-- **`scripts/`**: Cleaning scripts generated in Stage 2.
-- **`templates/`**: Structured templates for each output artifact (e.g., `00_data_risk_review_template.md`).
+1. **Sub-Lab A — Treasury Anomaly Detection** (Meridian Asset Management)
+   - Dataset: `data/treasury_payments.xlsx` — 500 Q4 2024 treasury payment records, 14 columns
+   - 11 intentional data quality issues (documented in `data/treasury_schema.md`)
+   - Goal: Detect abnormal payment patterns, surface anomalies, produce 3 interactive HTML charts
+   - PII-adjacent field: `counterparty_masked` — never include in outputs
 
-**Stage-by-Stage Workflow (90 minutes total):**
-1. **Stage 0 — Data Risk & Policy Review (10 min)**: Use "Data Risk Reviewer" agent. Input: `transaction_alerts.csv` + `schema.md`. Output: `outputs/00_data_risk_review.md` (assess risks, compliance, and access controls).
-2. **Stage 1 — Data Profiling (15 min)**: Use "Data Profiling Analyst" agent. Input: `transaction_alerts.csv`. Output: `outputs/01_data_profile.md` (identify data quality issues, anomalies, and profiling stats).
-3. **Stage 2 — Data Cleaning (20 min)**: Use "Data Cleaning Engineer" agent. Input: `transaction_alerts.csv` + `01_data_profile.md`. Outputs: `scripts/clean_alerts.py` + `outputs/02_cleaning_decisions.md` (generate reversible cleaning scripts with justifications).
-4. **Stage 3 — Exploratory Analysis (15 min)**: Use "Exploratory Data Analyst" agent. Input: Cleaned dataset. Output: `outputs/03_exploratory_insights.md` (translate patterns into business insights).
-5. **Stage 4 — Visualization (15 min)**: Use "Visualization Architect" agent. Input: Cleaned dataset. Output: `outputs/04_visualizations.ipynb` (create accurate visualizations).
-6. **Stage 5 — Audit & Responsible Use (10 min)**: Use "Responsible Use Auditor" agent. Input: All scripts + outputs. Output: `outputs/05_audit_review.md` (audit for compliance and risks).
-7. **Stage 6 — Executive Summary (5 min)**: No agent. Input: All outputs. Output: `outputs/06_executive_summary.md` (synthesize findings).
+2. **Sub-Lab B — Root Cause Analysis** (Orion Payments Inc.)
+   - Dataset: `data/rca_app_logs.csv` — 300 application log entries, 9 columns
+   - Pre-step: Review `data/app_service.py` (5 microservices with intentional BUG comments)
+   - 4 data quality issues (documented in `data/rca_schema.md`)
+   - Goal: Identify root cause service from log patterns, produce 3 charts
+   - PII-adjacent field: `user_id_masked` — never include in outputs
+
+3. **Sub-Lab C — Product Modernization** (Centrix Financial Systems)
+   - Dataset: `data/mainframe_usage.xlsx` — 400 feature usage records, 10 columns
+   - Pre-step: Review `data/legacy_mainframe.py` (6 legacy functions with intentional BUG comments)
+   - 4 data quality issues including sentinel 9999 (documented in `data/mainframe_schema.md`)
+   - Goal: Prioritize legacy features for modernization, produce 3 charts
+   - No direct PII — Internal classification tier
+
+---
+
+**Repository Structure:**
+
+- **`data/`** — Source datasets (xlsx, csv), schema files, and pre-step source code
+- **`scenarios/`** — 3 sub-lab folders (sub-lab-A-treasury, sub-lab-B-rca, sub-lab-C-modernization)
+  - Each contains: `SCENARIO_BRIEF.md`, `SUB_LAB_GUIDE.md`, `exercises/` (flawed analysis + SQL reference + answer key)
+- **`.github/agents/`** — 6 custom Copilot agent mode files (data-profiling-analyst, data-cleaning-engineer, exploratory-data-analyst, visualization-architect, data-risk-reviewer, responsible-use-auditor)
+- **`.github/prompts/`** — 6 named Copilot prompt files (invoked with `/` slash commands)
+- **`outputs/`** — Participant deliverables saved here (profile.md, cleaning_decisions.md, chart_*.html)
+- **`scripts/`** — Cleaning scripts generated in Phase 2 (profile_*.py, clean_*.py, visualize_*.py)
+- **`templates/`** — Structured templates for each phase deliverable
+- **`reference/`** — RIFCC-DA framework, responsible use policy, glossary, Copilot commands, notebooks guide
+- **`LAB_ACTION_GUIDE.md`** — Primary participant runbook (all 3 scenarios, all phases)
+- **`QUICK_START.md`** — VS Code extension setup + Copilot Chat orientation in under 5 minutes
+- **`VERIFY_BEFORE_SEND.md`** — Pre-prompt data privacy preflight checklist
+- **`FACILITATOR_GUIDE.md`** — Instructor reference (ground truths, timing, debrief script, known failure patterns)
+- **`.devcontainer/`** — GitHub Codespaces configuration (Python 3.11, auto-installs requirements)
+- **`GitHub_Copilot_for_Data_Analysis.pptx`** — 90-minute presentation deck
+
+---
+
+**Lab Workflow (90 minutes total):**
+
+| Block | Time | Content |
+|-------|------|---------|
+| Shared Demo | 0–30 min | Facilitator-led: workspace setup, RIFCC-DA framework, iterative prompting demo, first agent walkthrough |
+| Scenario Selection | 30–32 min | Participants choose Sub-Lab A, B, or C |
+| Scenario Sprint | 32–82 min | Phase 1 (10 min: profile) → Phase 2 (25 min: clean + EDA) → Phase 3 (15 min: visualize + export) |
+| Group Debrief | 82–90 min | Round-robin: 1 finding + 1 risk caught + 1 Copilot correction per participant |
+
+---
+
+**Course Module Mapping:**
+
+| Module | Topic | Lab Coverage |
+|--------|-------|-------------|
+| Module 1 | Setting the Stage — VS Code, extensions, data import | Stage 0 setup, outside-repo import |
+| Module 2 | Copilot for Data Exploration | Phase 1 profiling + iterative prompting demo |
+| Module 3 | Data Cleaning & Transformation | Phase 2 Python + SQL cleaning scripts |
+| Module 4 | Generating Visualizations | Phase 3 Plotly charts + multi-format export |
+| Module 5 | Responsible Use | Governance Quick Reference + VERIFY_BEFORE_SEND.md |
+
+---
 
 **Key Principles:**
-- Use Copilot Chat agents (selected via dropdown) to constrain responses for each stage.
-- Reference files with `#filename` in prompts (e.g., `#transaction_alerts.csv`).
-- Follow RIFCC-DA framework from `reference/PROMPT_PATTERN.md`.
-- Ensure responsible AI use: No silent data drops, full justifications, policy compliance.
-- All outputs must be saved in `/outputs/` using provided templates.
-- Validate against flawed examples in `/exercises/` before trusting Copilot outputs.
+- Use Copilot Chat agents (selected via dropdown) — not `@` syntax
+- Reference files with `#filename` in prompts (schema always attached alongside data)
+- Follow RIFCC-DA framework: Role, Inputs, Format, Constraints, Checks
+- Validate every generated script before running — no silent data drops allowed
+- Sentinel values (999, -1, 9999) must be excluded from all calculations
+- PII-adjacent fields (`counterparty_masked`, `user_id_masked`) never in any output, chart, or print
+- All deliverables saved to `outputs/` using provided templates
 
 **Technical Requirements:**
-- Windows/Linux/Mac compatible.
-- No external databases; all data is CSV-based.
-- Outputs are Markdown and Python/Jupyter artifacts.
-- Emphasis on ethical AI: Audit for biases, data privacy, and financial risk exposure.
-
-This project is designed as a self-contained lab for learning responsible data analysis with AI assistance, focusing on fraud detection in financial services.
+- Python 3.10+ with pandas, numpy, openpyxl, plotly
+- VS Code with GitHub Copilot Chat, Python, Jupyter
+- No external databases — all data is xlsx/csv
+- GitHub Codespaces supported via `.devcontainer/`

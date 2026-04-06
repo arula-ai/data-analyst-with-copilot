@@ -1,11 +1,11 @@
 # Data Profile Report
-**Stage:** 1 | **Agent Mode:** Data Profiling Analyst | **Time Budget:** 10 min
-**Save to:** `outputs/01_data_profile.md`
+**Phase:** 1 | **Agent Mode:** Data Profiling Analyst | **Time Budget:** 10 min
+**Save to:** `outputs/[X]_profile.md` *(replace [X] with your scenario letter: A, B, or C)*
 
 ---
 
 ## Purpose
-This document records the structural analysis and data quality findings for your scenario dataset. It is the input for Stage 2 cleaning decisions. Every number here must come from actually running the profiling code — not from Copilot's estimates.
+This document records the structural analysis and data quality findings for your scenario dataset. It is the input for Phase 2 cleaning decisions. Every number here must come from actually running the profiling code — not from Copilot's estimates.
 
 ---
 
@@ -62,7 +62,7 @@ This document records the structural analysis and data quality findings for your
 
 ## Sentinel Values and Special Codes
 
-> List any sentinel values or legacy codes found that require special handling in Stage 2.
+> List any sentinel values or legacy codes found that require special handling in Phase 2.
 
 | Column | Sentinel Value | Meaning | Count | Action Required |
 |---|---|---|---|---|
@@ -72,7 +72,7 @@ This document records the structural analysis and data quality findings for your
 
 ## Copilot Assumptions
 
-> Document anything Copilot assumed about the data that you have NOT yet manually verified. These need to be validated before Stage 2.
+> Document anything Copilot assumed about the data that you have NOT yet manually verified. These need to be validated before Phase 2.
 
 - *Example: "Copilot assumed all date values are parseable — not verified against actual parse errors yet."*
 - *[Add your own entries here]*

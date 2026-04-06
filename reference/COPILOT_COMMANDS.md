@@ -6,37 +6,37 @@
 
 Use `#filename` to reference a file in your Copilot Chat prompt. Copilot reads the file content automatically — you do not need to paste the data.
 
-**Attaching a single file:**
+**Attaching a single file (Scenario A — Treasury):**
 ```
-Analyze #transaction_alerts.csv for data quality issues.
+Analyze #data/treasury_payments.xlsx for data quality issues.
 ```
 
 **Attaching multiple files:**
 ```
-Using #transaction_alerts.csv and #schema.md, generate a profiling script.
+Using #data/treasury_payments.xlsx and #data/treasury_schema.md, generate a profiling script.
 ```
 
 **Attaching a script for review:**
 ```
-Review #clean_alerts.py for any operations that could expose account_masked.
+Review #scripts/clean_treasury.py for any operations that could expose counterparty_masked.
 ```
 
-> **Note:** Type `#` in the Copilot Chat input and VS Code will open a file picker. Select the file or type to filter. Copilot reads the file content — do not paste raw CSV rows into the prompt.
+> **Note:** Type `#` in the Copilot Chat input and VS Code will open a file picker. Select the file or type to filter. Copilot reads the file content — do not paste raw rows into the prompt.
 
 ---
 
 ## Section 2: Agent Mode Activation
 
+The lab uses **3 phases per scenario**, each with its own agent mode:
+- **Phase 1 (Profile)** → "Data Profiling Analyst"
+- **Phase 2 (Clean)** → "Data Cleaning Engineer"
+- **Phase 3 (Visualize)** → "Visualization Architect"
+- **Cross-phase support** → "Exploratory Data Analyst"
+
 **Option A — Agent dropdown (if custom agents are configured):**
 1. Open Copilot Chat (`Ctrl+Shift+I` / `Cmd+Shift+I`)
 2. Click the agent dropdown at the top of the chat panel (shows "Ask" or "Claude" by default)
-3. Select the mode for your current stage:
-   - Stage 0 → "Data Risk & Policy Reviewer"
-   - Stage 1 → "Data Profiling Analyst"
-   - Stage 2 → "Data Cleaning Engineer"
-   - Stage 3 → "Exploratory Data Analyst"
-   - Stage 4 → "Visualization Architect"
-   - Stage 5 → "Responsible Use Auditor"
+3. Select the mode for your current phase
 4. Type your prompt — the mode behavior is active for this conversation
 
 **Option B — Paste-in method (always works, no configuration required):**
@@ -47,53 +47,76 @@ Review #clean_alerts.py for any operations that could expose account_masked.
 
 ---
 
-## Section 3: Prompting Copilot for Exploratory Analysis (Stage 2B)
+## Section 3: Prompting Copilot for Exploratory Analysis (Phases 1–2)
 
-Use `pandas` from Python's standard library to run Pandas against your CSV — no new installs needed.
+> **Note:** The examples below use Scenario A (Treasury) column names. Scenario B participants substitute `service_name`, `log_level`, `error_code`, `response_time_ms`. Scenario C participants substitute `feature_name`, `usage_count`, `last_used_date`, `estimated_migration_effort_days`.
+
+Use `pandas` (already installed via `requirements.txt`) to explore DataFrames directly. The lab works with pandas DataFrames, not SQLite.
 
 **Setup pattern — always start with this:**
 ```
-Load #transaction_alerts_clean.csv into an in-memory Pandasite database using pandas and pandas.
-Use conn = pandas.connect(':memory:') and df.to_sql('alerts', conn, index=False).
+import pandas as pd
+df = pd.read_excel('data/treasury_payments.xlsx')
+df.info()
+df.head()
 ```
+
+> **Note:** The `#filename` syntax is for **Copilot Chat prompts only** — it is not a valid Python file path. In Python scripts, always use the actual relative path (e.g., `'data/treasury_payments.xlsx'`).
 
 **Exploration queries:**
 ```
-Write Pandas to count rows grouped by alert_type, ordered by count descending.
+Write pandas to count rows grouped by region, ordered by count descending.
 ```
 
 ```
-Write Pandas to find the average risk_score per region, excluding nulls.
+Write pandas to find the average risk_score per alert_type, excluding nulls.
 ```
 
 ```
-Write Pandas to list all fraud_confirmed = 1 alerts where risk_score > 0.8,
+Write pandas to list all rows where anomaly_confirmed = 1 and risk_score > 0.8,
 ordered by transaction_amount descending.
 ```
 
-**Cleaning via Pandas:**
+**Profiling via Pandas:**
 ```
-Write Pandas to identify duplicate alert_id values and return their count.
+Write pandas to identify duplicate alert_id values and return their count.
+```
+
+```
+Write pandas to find all rows where analyst_confidence < 0 (invalid sentinel value).
+```
+
+**Grouping & Aggregation:**
+```
+Write pandas to group by region and count unique payment_id values.
 ```
 
 ```
-Write Pandas to find all rows where analyst_confidence = -1 (invalid sentinel value).
+Write pandas to calculate max(transaction_amount) and mean(risk_score) by region.
 ```
 
-> **Key difference from Python:** Pandas is declarative — you describe WHAT you want, not HOW to get it. Use it for filtering, aggregation, and joins. Use Python/pandas for transformations, imputation, and visualization.
+> **Key approach:** Use pandas DataFrames directly. Chain methods for filtering, grouping, and aggregation. Use plotly.express (NOT matplotlib/seaborn) for visualizations.
 
 ---
 
-## Section 4: Suggested Slash Commands (if configured)
+## Section 4: Slash Commands
 
-| Slash Command | Mode | What It Does |
+Type `/` in Copilot Chat to see all available slash commands. All 6 prompt files are in `.github/prompts/`.
+
+| Slash Command | Agent Mode | What It Does |
 |---|---|---|
-| `/review-data-risk` | Data Risk & Policy Reviewer | Classifies all columns by sensitivity tier and produces handling recommendations |
-| `/profile-data` | Data Profiling Analyst | Generates profiling code and a numbered data quality issue log |
-| `/clean-data-safely` | Data Cleaning Engineer | Generates a cleaning script with inline justifications and before/after row counts |
-| `/eda-hypotheses` | Exploratory Data Analyst | Generates hypothesis-driven EDA code with plain-English findings |
-| `/make-visuals` | Visualization Architect | Generates labeled, policy-compliant chart code in a standalone Python script format |
-| `/audit-for-policy` | Responsible Use Auditor | Reviews referenced code and outputs for security and compliance issues |
+| `/data-profiling-analyst` | Data Profiling Analyst | Generates profiling code and a numbered data quality issue log; outputs `[X]_profile.md` |
+| `/data-cleaning-engineer` | Data Cleaning Engineer | Generates a cleaning script with inline justifications and before/after row counts; outputs `[X]_cleaning_decisions.md` |
+| `/exploratory-data-analyst` | Exploratory Data Analyst | Generates hypothesis-driven EDA code with plain-English findings using pandas groupby and aggregation |
+| `/visualization-architect` | Visualization Architect | Generates labeled, policy-compliant chart code using plotly.express; outputs `[X]_chart_*.html` |
+| `/data-risk-reviewer` | Data Risk Reviewer | Classifies every column by sensitivity tier (Public/Internal/Confidential/Restricted); flags PII-adjacent fields with handling recommendations |
+| `/responsible-use-auditor` | Responsible Use Auditor | Reviews all generated scripts and outputs for policy compliance; produces risk findings table and auditor sign-off |
+
+**VS Code Extension Quick Commands:**
+
+| Extension | Command | What It Does |
+|-----------|---------|--------------|
+| Jupyter | `Ctrl+Shift+P` → "Create New Jupyter Notebook" | New blank notebook for exploratory analysis |
 
 ---
 
@@ -108,7 +131,7 @@ You are a Data Cleaning Engineer. Every transformation must have a written justi
 
 **Add Constraints:**
 ```
-Use pandas only. No external libraries. No API calls. Do not include account_masked in any output.
+Use pandas only. No external libraries. No API calls. Do not include counterparty_masked in any output.
 ```
 
 **Specify Format:**
@@ -118,17 +141,22 @@ Return as a Python script with one inline comment per transformation explaining 
 
 **Add Checks:**
 ```
-Print row count before and after. Include an assertion that fraud_confirmed contains only 0 and 1.
+Print row count before and after. Include an assertion that anomaly_confirmed contains only 0 and 1.
 ```
 
 **Narrow the scope:**
 ```
-Focus only on the transaction_amount column. Ignore all other columns for now.
+Focus only on the transaction_amount and risk_score columns. Ignore all other columns for now.
 ```
 
-**Reference the actual file:**
+**Reference the actual schema:**
 ```
-Use #schema.md to verify the valid range for risk_score before writing the assertion.
+Use #treasury_schema.md to verify the valid range for risk_score before writing the assertion.
+```
+
+**Verify PII handling:**
+```
+Ensure that counterparty_masked is never written to CSV outputs — only use it for analysis.
 ```
 
 ---

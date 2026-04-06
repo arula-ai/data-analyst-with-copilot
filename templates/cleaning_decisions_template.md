@@ -1,6 +1,6 @@
 # Cleaning Decisions Log
 **Stage:** 2 | **Agent Mode:** Data Cleaning Engineer | **Time Budget:** 25 min
-**Save to:** `outputs/02_cleaning_decisions.md`
+**Save to:** `outputs/[X]_cleaning_decisions.md` *(replace [X] with your scenario letter: A, B, or C)*
 
 ---
 

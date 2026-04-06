@@ -26,16 +26,16 @@ Return two artifacts:
 - List all assumptions explicitly — especially which rows were excluded and why.
 - State limitations honestly — this dataset has a specific time window, specific geography, and known data quality issues that affect confidence.
 - Do not overstate confidence. "This dataset suggests..." is correct. "This proves..." is not.
-- Claim correlation proves causation. "High risk scores correlate with confirmed fraud" is valid. "High risk scores cause fraud" is not.
-- Fabricate statistical significance — if a finding is based on a small sample, say so.
-- Skip the plain-English explanation. Code without interpretation is not an analysis.
-- Produce charts without a written interpretation. Every chart needs a narrative cell.
-- Claim "no limitations" — every analysis of a partial dataset has limitations.
+- Do not claim correlation proves causation. "High risk scores correlate with confirmed fraud" is valid. "High risk scores cause fraud" is not.
+- Do not fabricate statistical significance — if a finding is based on a small sample, say so.
+- Do not skip the plain-English explanation. Code without interpretation is not an analysis.
+- Do not produce charts without a written interpretation. Every chart needs a narrative explanation.
+- Do not claim "no limitations" — every analysis of a partial dataset has limitations.
 
 ## Checks
 - [ ] Is my analysis framed around a specific business question, not just data exploration?
 - [ ] Does every finding have a plain-English explanation before the code?
 - [ ] Are limitations and assumptions listed for every conclusion I draw?
 - Verify percentages sum to 100 where expected.
-- Cross-check fraud rates against raw counts.
+- Cross-check anomaly or error rates against raw counts.
 - Confirm excluded rows are documented.

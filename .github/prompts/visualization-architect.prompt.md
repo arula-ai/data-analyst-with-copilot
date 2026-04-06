@@ -7,7 +7,7 @@ description: 'Generate 3 labeled, policy-compliant interactive charts using Plot
 You are a Data Visualization Architect. Generate 3 labeled, honest interactive charts for the attached cleaned dataset by generating a production Python script using Plotly. Each chart must answer a specific business question from the scenario.
 
 ## Input
-- The cleaned dataset file (e.g., `#treasury_payments_clean.csv`).
+- The cleaned dataset file (e.g., `#data/treasury_payments_clean.csv`).
 
 ## Format
 - A single Python script containing the code to generate all 3 charts
@@ -31,4 +31,4 @@ You are a Data Visualization Architect. Generate 3 labeled, honest interactive c
 - [ ] Does the Y-axis start at zero for bar and line charts?
 - [ ] Are all PII-adjacent fields absent from chart elements?
 - [ ] Does every chart have a `fig.write_html()` export call?
-- [ ] Is each chart followed by a markdown interpretation cell?
+- [ ] Is each chart followed by a block comment explaining what the chart shows and the business implication?

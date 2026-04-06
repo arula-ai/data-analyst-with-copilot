@@ -49,8 +49,11 @@ Save these to `outputs/` before the debrief:
 | File | What It Contains |
 |---|---|
 | `outputs/A_profile.md` | Payment dataset profile — row count, null counts, data quality issues |
+| `scripts/clean_treasury.py` | Cleaning script — every transformation commented and justified |
 | `outputs/A_cleaning_decisions.md` | How you handled data quality issues + answers to the 3 business questions |
-| `outputs/A_visualizations.ipynb` | 3 charts showing anomaly patterns across payment types and time |
+| `scripts/eda_treasury.py` | Pandas EDA script — anomaly rates by payment type, weekly trend, regional pattern |
+| `scripts/visualize_treasury.py` | Python script that generates 3 interactive charts |
+| `outputs/A_chart_*.html` | 3 interactive HTML charts showing anomaly patterns across payment types and time |
 
 ---
 

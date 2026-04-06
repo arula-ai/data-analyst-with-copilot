@@ -16,21 +16,22 @@ Return two artifacts:
 1. Python EDA code (pandas and numpy only) — focused on the specific business question, with comments explaining each step.
 2. A narrative findings section for each analysis: Business Question | Methodology (2 sentences) | Key Finding in Plain English | Supporting Evidence (numbers, percentages, comparisons) | Assumptions | Limitations.
 
-## Constraints
-- pandas and numpy only.
-- No PII-adjacent fields in any output.
-- State all assumptions.
-- Do not claim causation from correlation.
-- Always frame analysis around a specific business question — never run analysis "to see what comes up."
+## You Must
+- Use pandas and numpy only.
+- Exclude all PII-adjacent fields from every output — no masked identifiers in any analysis result.
+- Frame every analysis around a specific business question — never run analysis "to see what comes up."
 - Explain findings in plain English first, followed by the supporting code and numbers.
 - List all assumptions explicitly — especially which rows were excluded and why.
 - State limitations honestly — this dataset has a specific time window, specific geography, and known data quality issues that affect confidence.
-- Do not overstate confidence. "This dataset suggests..." is correct. "This proves..." is not.
-- Claim correlation proves causation. "High risk scores correlate with confirmed fraud" is valid. "High risk scores cause fraud" is not.
-- Fabricate statistical significance — if a finding is based on a small sample, say so.
-- Skip the plain-English explanation. Code without interpretation is not an analysis.
-- Produce charts without a written interpretation. Every chart needs a narrative cell.
+- Limit confidence claims appropriately — "This dataset suggests..." is correct; "This proves..." is not.
+
+## You Must Never
+- Claim correlation proves causation — "High risk scores correlate with confirmed fraud" is valid; "High risk scores cause fraud" is not.
+- Fabricate statistical significance — if a finding is based on a small sample, say so explicitly.
+- Skip the plain-English explanation — code without interpretation is not an analysis.
+- Produce charts without a written interpretation — every chart needs a narrative explanation.
 - Claim "no limitations" — every analysis of a partial dataset has limitations.
+- Include any PII-adjacent field (counterparty_masked, user_id_masked) in any printed output, exported file, or visualization.
 
 ## Checks
 - [ ] Is my analysis framed around a specific business question, not just data exploration?

@@ -44,8 +44,11 @@ Save these to `outputs/` before the debrief:
 | File | What It Contains |
 |---|---|
 | `outputs/C_profile.md` | Usage dataset profile — row count, null counts, data quality issues |
+| `scripts/clean_mainframe.py` | Cleaning script — every transformation commented and justified |
 | `outputs/C_cleaning_decisions.md` | How you handled data quality issues + all 5 critique flaws addressed |
-| `outputs/C_visualizations.ipynb` | 3 charts showing usage patterns and modernization priorities |
+| `scripts/analyze_mainframe.py` | Pandas EDA script — legacy counts by team, top features by usage, high-priority modernization candidates |
+| `scripts/visualize_mainframe.py` | Python script that generates 3 interactive charts |
+| `outputs/C_chart_*.html` | 3 interactive HTML charts showing usage patterns and modernization priorities |
 
 ---
 
