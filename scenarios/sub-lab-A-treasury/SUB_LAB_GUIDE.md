@@ -33,6 +33,9 @@ data/
   treasury_schema.md        ← read this before Phase 1
 outputs/                    ← all deliverables go here
 scripts/                    ← your generated scripts go here
+scenarios/sub-lab-A-treasury/
+  exercises/
+    flawed_treasury_analysis.md  ← used in Phase 2 Step 1
 templates/                  ← copy these to outputs/ for each phase
 reference/                  ← RIFCC-DA framework, policy, glossary
 ```
