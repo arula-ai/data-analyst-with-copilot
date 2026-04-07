@@ -224,8 +224,22 @@ reference/                  ← RIFCC-DA framework, policy, glossary
     - [ ] Regional table shows both confirmed count and average amount side by side
     - [ ] `counterparty_masked` absent from all printed output
 
-11. **Document your findings** in `outputs/A_cleaning_decisions.md` as 2–3 plain-English bullet points written as if briefing the Head of Treasury Operations right now. Example:
-    > "Wire Transfer payments have the highest confirmed anomaly rate at 34%. The rate has increased week-over-week through Q4. The International region has both the highest count and highest average payment amount for confirmed anomalies — it is the highest-priority area for operational review."
+11. **Save your findings** — use this prompt to write structured output to the file:
+
+    ```
+    Based on the analysis results above, save findings to outputs/A_cleaning_decisions.md
+    structured as follows:
+
+    Section 1: Data Cleaning Audit Log
+    - Row reconciliation table: Raw Data row count → each exclusion step → Final Dataset row count
+    - Each transformation listed with written justification
+
+    Section 2: Evidence-Based Findings
+    For each of the 3 business questions, one entry with these fields:
+    Business Question | Methodology | Finding | Evidence | Assumptions | Limitations
+
+    Do not include counterparty_masked in any output.
+    ```
 
 **Bonus (if time permits):** Ask Copilot to generate `scripts/eda_treasury.py` that runs all three analyses in sequence with labeled output — a reproducible record of the exact numbers that informed your Phase 3 charts.
 
@@ -253,26 +267,37 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    3. Confirmed anomaly count by week (line chart — parse payment_date, group by week)
    Rules: Y-axis starts at 0. No 3D charts. No counterparty_masked in any label, axis,
    or hover. All axes labeled with units. All charts titled.
-   Export each chart: fig.write_html('outputs/A_chart_0N_name.html')
-   Include a comment block evaluating the charts for the business.
+   Combine all 3 charts into a single dashboard file:
+     chart1_html = fig1.to_html(include_plotlyjs=True,  full_html=False)
+     chart2_html = fig2.to_html(include_plotlyjs=False, full_html=False)
+     chart3_html = fig3.to_html(include_plotlyjs=False, full_html=False)
+     summary = f'<h2>Treasury Analysis Dashboard</h2><p><strong>Dataset:</strong> {n_rows} rows after cleaning | <strong>Period:</strong> Q4 2024</p><p><strong>Key Finding:</strong> [one-sentence headline from EDA]</p><hr/>'
+     html = f'<html><head><meta charset="utf-8"></head><body>{summary}{chart1_html}{chart2_html}{chart3_html}</body></html>'
+     with open('outputs/A_dashboard.html', 'w', encoding='utf-8') as f: f.write(html)
+   Include a comment block evaluating each chart for the business.
    Write the script to scripts/visualize_treasury.py and run it.
    ```
 
-3. **Confirm the script ran** and review each HTML file in your browser:
-   - [ ] All 3 charts open correctly in a browser
+3. **Open the dashboard in your browser:**
+   ```
+   start outputs\A_dashboard.html
+   ```
+
+4. **Confirm the script ran** and review the dashboard:
+   - [ ] Dashboard opens in browser showing all 3 charts with the summary header
+   - [ ] Summary header shows correct row count, period, and a key finding sentence
    - [ ] All 3 charts have descriptive titles
    - [ ] Axes labeled with units (e.g., "Confirmed Anomaly Rate", "Payment Amount ($)", "Week")
    - [ ] Y-axis starts at 0 (`rangemode='tozero'`)
    - [ ] `counterparty_masked` not visible in labels, axis values, or hover tooltips
    - [ ] `anomaly_confirmed = 2` excluded from anomaly rate chart
 
-4. **Sharing and Exporting Visuals**
+5. **Sharing the dashboard**
 
    | Format | How | When to Use |
    |--------|-----|-------------|
-   | **Interactive HTML** | Share `.html` directly — opens in any browser | Default for internal stakeholders |
-   | **Static PNG** | Open HTML in Chrome → download chart image | For slide decks or email |
-   | **Clipboard screenshot** | `Windows + Shift + S` | Quick sharing in Teams/Slack |
+   | **Interactive HTML** | Attach `outputs/A_dashboard.html` directly | Teams, email, internal review — opens in any browser, no install needed |
+   | **Screenshot** | `Windows + Shift + S` over the open dashboard | Quick Teams/Slack paste |
 
    > **Before sharing:** Run the `VERIFY_BEFORE_SEND.md` checklist. Confirm `counterparty_masked` is not visible in any label, axis, or hover tooltip.
 
@@ -284,9 +309,9 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 - [ ] `outputs/A_profile.md` — dataset profiled, all known quality issues documented
 - [ ] `scripts/clean_treasury.py` — runs without error; row counts before/after printed
 - [ ] `outputs/A_cleaning_decisions.md` — 2–3 plain-English findings documented (anomaly rate by payment type, trend direction, regional priority)
-- [ ] `scripts/visualize_treasury.py` — runs without error and generates HTML outputs
+- [ ] `scripts/visualize_treasury.py` — runs without error and generates the dashboard
 - [ ] `outputs/A_cleaning_decisions.md` — every transformation justified; sentinel handling for `prior_alerts_90d = 999`, `analyst_confidence = -1`, and `anomaly_confirmed = 2` documented; answers to 3 business questions recorded
-- [ ] `outputs/A_chart_*.html` — 3 labeled interactive charts saved to outputs folder
+- [ ] `outputs/A_dashboard.html` — single dashboard file with summary header and all 3 labeled interactive charts
 - [ ] `counterparty_masked` absent from all outputs, charts, and printed DataFrames
 - [ ] Sentinel values excluded from all calculations
 

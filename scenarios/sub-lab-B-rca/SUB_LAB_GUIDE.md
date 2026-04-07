@@ -189,7 +189,23 @@ scenarios/sub-lab-B-rca/
     Does this confirm or contradict your original hypothesis from the code review?
     ```
 
-11. **Review output for:**
+11. **Save your findings** — use this prompt to write structured output to the file:
+    ```
+    Based on the analysis results above, save findings to outputs/B_cleaning_decisions.md
+    structured as follows:
+
+    Section 1: Data Cleaning Audit Log
+    - Row reconciliation table: Raw Data row count → each exclusion step → Final Dataset row count
+    - Each transformation listed with written justification
+
+    Section 2: Evidence-Based Findings
+    For each business question answered, one entry with these fields:
+    Business Question | Methodology | Finding | Evidence | Assumptions | Limitations
+
+    Do not include user_id_masked in any output.
+    ```
+
+12. **Review output for:**
     - [ ] **Section 1: Data Cleaning Audit Log** present with row reconciliation table
     - [ ] Table shows **Raw Data** count vs. **Final Dataset** count with all exclusion steps
     - [ ] **Section 2: Evidence-Based Findings** present with numbered headers
@@ -221,25 +237,36 @@ scenarios/sub-lab-B-rca/
    3. ERROR and FATAL log count over time by hour (line chart — parse timestamp first)
    Rules: Y-axis starts at 0. No 3D charts. No user_id_masked in any label, axis, or hover.
    All axes labeled with units. All charts titled.
-   Export each chart: fig.write_html('outputs/B_chart_0N_name.html')
-   Include a comment block evaluating the charts for the business.
+   Combine all 3 charts into a single dashboard file:
+     chart1_html = fig1.to_html(include_plotlyjs=True,  full_html=False)
+     chart2_html = fig2.to_html(include_plotlyjs=False, full_html=False)
+     chart3_html = fig3.to_html(include_plotlyjs=False, full_html=False)
+     summary = f'<h2>RCA Analysis Dashboard</h2><p><strong>Dataset:</strong> {n_rows} rows after cleaning | <strong>Period:</strong> [date range from data]</p><p><strong>Key Finding:</strong> [one-sentence headline from EDA]</p><hr/>'
+     html = f'<html><head><meta charset="utf-8"></head><body>{summary}{chart1_html}{chart2_html}{chart3_html}</body></html>'
+     with open('outputs/B_dashboard.html', 'w', encoding='utf-8') as f: f.write(html)
+   Include a comment block evaluating each chart for the business.
    Write the script to scripts/visualize_logs.py and run it.
    ```
 
-3. **Confirm the script ran** and review each HTML file before sharing:
-   - [ ] All 3 charts open correctly in a browser
+3. **Open the dashboard in your browser:**
+   ```
+   start outputs\B_dashboard.html
+   ```
+
+4. **Confirm the script ran** and review the dashboard:
+   - [ ] Dashboard opens in browser showing all 3 charts with the summary header
+   - [ ] Summary header shows correct row count, date range, and a key finding sentence
    - [ ] All 3 charts have descriptive titles
    - [ ] All axes labeled with units (e.g., "Number of Errors", "Response Time (ms)", "Hour of Day")
    - [ ] Y-axis starts at 0 (`rangemode='tozero'`)
    - [ ] `user_id_masked` not visible in labels, axis values, or hover tooltips
 
-4. **Sharing and Exporting Visuals**
+5. **Sharing the dashboard**
 
    | Format | How | When to Use |
    |--------|-----|-------------|
-   | **Interactive HTML** | Share `.html` directly — opens in any browser | Default for internal stakeholders |
-   | **Static PNG** | Open HTML in Chrome → download chart image | For slide decks or email |
-   | **Clipboard screenshot** | `Windows + Shift + S` | Quick sharing in Teams/Slack |
+   | **Interactive HTML** | Attach `outputs/B_dashboard.html` directly | Teams, email, internal review — opens in any browser, no install needed |
+   | **Screenshot** | `Windows + Shift + S` over the open dashboard | Quick Teams/Slack paste |
 
    > **Before sharing:** Run the `VERIFY_BEFORE_SEND.md` checklist. Confirm `user_id_masked` is not visible in any label, axis, or hover tooltip.
 
@@ -251,9 +278,9 @@ scenarios/sub-lab-B-rca/
 - [ ] `outputs/B_profile.md` — log dataset profiled, all known quality issues documented
 - [ ] `scripts/clean_logs.py` — runs without error; row counts before/after printed
 - [ ] `scripts/analyze_logs.py` — runs without error; highest-failure service identified with supporting counts
-- [ ] `scripts/visualize_logs.py` — runs without error and generates HTML outputs
+- [ ] `scripts/visualize_logs.py` — runs without error and generates the dashboard
 - [ ] `outputs/B_cleaning_decisions.md` — every transformation justified; all 5 critique flaws addressed
-- [ ] `outputs/B_chart_*.html` — 3 labeled interactive charts saved to outputs folder
+- [ ] `outputs/B_dashboard.html` — single dashboard file with summary header and all 3 labeled interactive charts
 - [ ] Pandas analysis ran; highest-failure service confirmed or contradicted by data
 - [ ] No `user_id_masked` visible in any output, chart, or printed DataFrame
 
