@@ -141,28 +141,93 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 ### Part B — Exploratory Analysis (10 min)
 
 **Agent:** Exploratory Data Analyst
+**Prompt file:** `/eda-analysis`
+
+> **How this works:** You are building a story, not generating a script. Read the output between each prompt and note your finding before moving on. At the end you will have 2–3 findings ready to brief the Head of Operations.
 
 8. Select **Exploratory Data Analyst** from Agent dropdown
 
-9. **Custom prompt:**
+9. **Recommended prompt:**
+   Select **Exploratory Data Analyst** from the Agent dropdown, then type `/eda-analysis` and attach `#data/treasury_payments_clean.csv`
+
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
+
+   **Or use these three focused prompts one at a time:**
+
+   > Ask each question separately — read the output before moving to the next. Each prompt builds on the previous answer.
+
+   **Prompt 1 — "Where is the anomaly rate highest?"**
+
+   > Get the overall picture first. Which payment types and client segments drive the most confirmed anomalies? This is your headline finding.
+
    ```
-   Using #data/treasury_payments_clean.csv, answer these three business questions with pandas:
-   1. Anomaly confirmation rate by payment_type — exclude rows where anomaly_confirmed = 2.
-      Which payment type has the highest confirmed anomaly rate?
-   2. Weekly trend in confirmed anomalies — parse payment_date, group by week, count
-      anomaly_confirmed = 1. Is the rate increasing, decreasing, or stable?
-   3. Regional pattern — average payment_amount by region for confirmed anomalies only.
-      Which region has the highest average confirmed anomaly amount?
-   Print results for each question. Do not include counterparty_masked in any output.
-   Write the script to scripts/eda_treasury.py and run it.
+   Role: Treasury Data Analyst preparing a briefing for the Head of Operations.
+   Input: #data/treasury_payments_clean.csv
+   Task: Using pandas, calculate and print:
+     1. Overall confirmed anomaly rate: count where anomaly_confirmed = 1 / total valid rows
+     2. Confirmed anomaly rate by payment_type — count confirmed / total per type,
+        ordered by rate descending, show both count and rate (%)
+     3. Confirmed anomaly rate by client_segment — same calculation, ordered descending
+   Constraints: Exclude anomaly_confirmed = 2 from all calculations.
+   Do not print counterparty_masked.
+   Format: Labeled plain-text tables for each result.
+   Checks: Confirm per-category rates are consistent with the overall rate.
    ```
 
-10. **Confirm the script ran** and review output for:
-    - [ ] Anomaly rates calculated on clean rows only (no `anomaly_confirmed = 2`)
-    - [ ] `counterparty_masked` absent from all printed results
-    - [ ] All 3 business questions answered with actual numbers
+   **Read the output.** Which `payment_type` has the highest rate? Which `client_segment`? Write these down — you will reference them in Prompt 2.
 
-11. Document the answers to all 3 questions in `outputs/A_cleaning_decisions.md`
+   **Prompt 2 — "Is this getting worse?"**
+
+   > You know WHAT has the highest rate. Now find out whether it is escalating — critical context for any operations briefing.
+
+   ```
+   Role: Treasury Data Analyst investigating temporal patterns in Q4 2024.
+   Input: #data/treasury_payments_clean.csv
+   Task: Using pandas:
+     1. Parse payment_date and group confirmed anomalies (anomaly_confirmed = 1) by ISO week
+     2. Print a table: week | confirmed_anomaly_count for all weeks in the dataset
+     3. State in one sentence: is the count increasing, decreasing, or stable across Q4?
+   Constraints: Exclude anomaly_confirmed = 2. Do not print counterparty_masked.
+   Format: Table + one-sentence trend interpretation.
+   ```
+
+   **Read the output.** Note the trend direction — this is your time-based finding.
+
+   **Prompt 3 — "Where should we focus?"**
+
+   > Synthesize geography. You need BOTH frequency AND dollar value — a region with few high-value anomalies is a different risk than one with many low-value ones.
+
+   ```
+   Role: Treasury Data Analyst preparing regional findings for an operations briefing.
+   Input: #data/treasury_payments_clean.csv
+   Task: For confirmed anomalies (anomaly_confirmed = 1) only, using pandas:
+     1. Count of confirmed anomalies by region, ordered by count descending
+     2. Average payment_amount by region for confirmed anomalies, ordered descending
+     3. Print both side by side: region | confirmed_count | avg_payment_amount
+   Constraints: Exclude anomaly_confirmed = 2. Do not print counterparty_masked.
+   Format: One combined table.
+   Checks: Note any region that ranks in the top 2 of BOTH columns — that is your
+   highest-priority regional finding.
+   ```
+
+   **Read the output.** Any region in the top 2 of both columns = highest-priority risk concentration.
+
+10. **Review output for:**
+    - [ ] **Section 1: Data Cleaning Audit Log** present with row reconciliation table
+    - [ ] Table shows **Raw Data** count vs. **Final Dataset** count with all exclusion steps
+    - [ ] **Section 2: Evidence-Based Findings** present with numbered headers
+    - [ ] Each finding follows: **Question | Methodology | Finding | Evidence | Assumptions**
+    - [ ] Overall confirmed anomaly rate calculated and noted
+    - [ ] Highest-rate `payment_type` identified with actual rate (%)
+    - [ ] Highest-rate `client_segment` identified with actual rate (%)
+    - [ ] Week-by-week trend table printed; trend direction stated in one sentence
+    - [ ] Regional table shows both confirmed count and average amount side by side
+    - [ ] `counterparty_masked` absent from all printed output
+
+11. **Document your findings** in `outputs/A_cleaning_decisions.md` as 2–3 plain-English bullet points written as if briefing the Head of Treasury Operations right now. Example:
+    > "Wire Transfer payments have the highest confirmed anomaly rate at 34%. The rate has increased week-over-week through Q4. The International region has both the highest count and highest average payment amount for confirmed anomalies — it is the highest-priority area for operational review."
+
+**Bonus (if time permits):** Ask Copilot to generate `scripts/eda_treasury.py` that runs all three analyses in sequence with labeled output — a reproducible record of the exact numbers that informed your Phase 3 charts.
 
 ---
 
@@ -218,7 +283,7 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 - [ ] `scripts/profile_treasury.py` — runs without error; output matches 500-row count
 - [ ] `outputs/A_profile.md` — dataset profiled, all known quality issues documented
 - [ ] `scripts/clean_treasury.py` — runs without error; row counts before/after printed
-- [ ] `scripts/eda_treasury.py` — runs without error; 3 business questions answered with actual numbers
+- [ ] `outputs/A_cleaning_decisions.md` — 2–3 plain-English findings documented (anomaly rate by payment type, trend direction, regional priority)
 - [ ] `scripts/visualize_treasury.py` — runs without error and generates HTML outputs
 - [ ] `outputs/A_cleaning_decisions.md` — every transformation justified; sentinel handling for `prior_alerts_90d = 999`, `analyst_confidence = -1`, and `anomaly_confirmed = 2` documented; answers to 3 business questions recorded
 - [ ] `outputs/A_chart_*.html` — 3 labeled interactive charts saved to outputs folder

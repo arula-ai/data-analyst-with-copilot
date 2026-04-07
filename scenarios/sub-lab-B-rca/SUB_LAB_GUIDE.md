@@ -190,6 +190,10 @@ scenarios/sub-lab-B-rca/
     ```
 
 11. **Review output for:**
+    - [ ] **Section 1: Data Cleaning Audit Log** present with row reconciliation table
+    - [ ] Table shows **Raw Data** count vs. **Final Dataset** count with all exclusion steps
+    - [ ] **Section 2: Evidence-Based Findings** present with numbered headers
+    - [ ] Each finding follows: **Question | Methodology | Finding | Evidence | Assumptions**
     - [ ] Counts consistent with profiling results
     - [ ] No `user_id_masked` in printed results
     - [ ] Pandas results confirm or explicitly contradict the code review hypothesis

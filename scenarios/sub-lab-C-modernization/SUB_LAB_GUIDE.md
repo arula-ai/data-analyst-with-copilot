@@ -196,6 +196,10 @@ scenarios/sub-lab-C-modernization/
     ```
 
 12. **Review output for:**
+    - [ ] **Section 1: Data Cleaning Audit Log** present with row reconciliation table
+    - [ ] Table shows **Raw Data** count vs. **Final Dataset** count with all exclusion steps
+    - [ ] **Section 2: Evidence-Based Findings** present with numbered headers
+    - [ ] Each finding follows: **Question | Methodology | Finding | Evidence | Assumptions**
     - [ ] Sentinel `9999` correctly excluded from the ranked list
     - [ ] Results consistent with profiling findings
     - [ ] Top candidates reconciled with code review complexity ratings

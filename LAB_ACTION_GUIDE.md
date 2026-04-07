@@ -108,6 +108,7 @@ Type `/` in Copilot Chat to see all available slash commands:
 | `/visualization-architect` | Visualization Architect | Build 3 labeled interactive charts and export as HTML |
 | `/data-risk-reviewer` | Data Risk Reviewer | Classify every column by sensitivity tier, flag PII-adjacent fields |
 | `/responsible-use-auditor` | Responsible Use Auditor | Audit all scripts and outputs for policy compliance |
+| `/eda-analysis` | Exploratory Data Analyst | Run all Phase 2B treasury EDA analyses in one shot and write briefing bullets to `outputs/A_cleaning_decisions.md` |
 
 > **Attaching files:** Use `#filename` syntax in your prompt to attach any file from your workspace. Always attach both the dataset and the schema — Copilot uses the schema to understand column definitions and generate more accurate code.
 
