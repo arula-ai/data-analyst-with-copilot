@@ -47,30 +47,26 @@ scenarios/sub-lab-B-rca/
 ## Pre-Step — Codebase Review (5 min)
 
 **Agent:** Exploratory Data Analyst
+**Prompt file:** `/code-review-analyst`
 
 > Code tells you what *can* go wrong. Logs tell you what *did* go wrong. Read the code first — form a hypothesis, then validate it with data.
 
-1. Open `data/app_service.py`
+1. Open `data/app_service.py` — read it before prompting. Note that `# BUG` comments are hints, not the complete defect list. Some defects are structural with no annotation.
 
 2. Select **Exploratory Data Analyst** from Agent dropdown
 
-3. **Custom prompt:**
-   ```
-   Review #data/app_service.py. Identify every comment marked BUG and explain what failure
-   each defect could produce at runtime. For each defect: which class, what the defect is,
-   what failure mode it produces, and which log_level you would expect to see in
-   rca_app_logs.csv (INFO / WARN / ERROR / FATAL).
-   Plain English only. Do not fix the code.
-   ```
+3. Type `/code-review-analyst` and attach `#data/app_service.py` and `#data/rca_schema.md`
 
-   > **Why no slash command here?** The Pre-Step is a code review, not a data analysis workflow. Slash command prompt files (like `/data-profiling-analyst`) are designed for data operations — profiling, cleaning, EDA. For code review, type your prompt directly; no slash command exists for this step by design.
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
 
 4. **Review output for:**
-   - [ ] Each BUG comment identified and explained
-   - [ ] A predicted log_level per defect
-   - [ ] At least one defect that explains intermittent vs. consistent failures
+   - [ ] Every `# BUG`-annotated line represented in the output table
+   - [ ] At least one structural defect identified with no `# BUG` annotation (e.g., `_release_connection` no-op, silent exception swallow in `NotificationService`)
+   - [ ] Each defect has a predicted `log_level` (INFO / WARN / ERROR / FATAL)
+   - [ ] Each defect classified as intermittent or consistent
+   - [ ] A hypothesis statement naming the highest-risk service and mechanism
 
-5. **Write down your hypothesis:** Which service do you expect to have the most ERROR/FATAL entries? You will validate this against the log data in Phase 2.
+5. **Write down your hypothesis:** Which service do you expect to have the most ERROR/FATAL entries, and is it resource exhaustion or logic failure? You will validate this against the log data in Phase 2.
 
 ---
 
