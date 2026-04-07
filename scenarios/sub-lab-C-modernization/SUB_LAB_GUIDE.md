@@ -16,7 +16,8 @@
 | **Pre-Step** | 5 min | Review legacy code — rate migration complexity before touching the data |
 | **Phase 1** | 10 min | Profile the usage dataset — find all quality issues |
 | **Phase 2** | 25 min | Critique the flawed analysis, clean the data, run exploratory analysis |
-| **Phase 3** | 15 min | Build 3 charts and export interactive HTML files |
+| **Phase 3** | 15 min | Build the visualization dashboard |
+| **Stage 4** | 8 min | Write the final analysis report |
 
 ---
 
@@ -279,6 +280,78 @@ scenarios/sub-lab-C-modernization/
 
 ---
 
+## Stage 4 — Final Analysis Report (8 min)
+
+**Goal:** Synthesize findings from all prior stages into a structured written deliverable for the Engineering Strategy lead.
+
+### 4.1 — Generate the Report
+
+Open Copilot Chat (`Ctrl + Alt + I`). Select the **Report Writer** agent from the dropdown if available — or paste the prompt below directly.
+
+**Attach these files before prompting:**
+- `#outputs/C_profile.md`
+- `#outputs/C_cleaning_decisions.md`
+- `#scripts/clean_mainframe.py`
+
+**Custom Prompt:**
+```
+You are a senior data analyst writing a modernization recommendation report for the
+Engineering Strategy lead.
+Using the attached profiling output, cleaning decisions, and EDA results from this session,
+write a 6-section analysis report and save it to outputs/C_analysis_report.md:
+
+**Section 1 — Executive Summary**
+2–3 sentences. State: the top modernization candidates, the data quality issue that most
+threatened prioritization, and the recommended action. No field names or technical jargon.
+
+**Section 2 — Data Quality Issues Found**
+| Issue | Rows Affected | Action Taken |
+One table row per sentinel value or quality issue identified in profiling.
+
+**Section 3 — EDA Findings**
+| Finding | Metric | Evidence |
+Three rows:
+- Top legacy features by monthly active user count that are also rated High priority
+- Effort distribution across the portfolio (excluding sentinel 9999 values): range and median
+- Team ownership breakdown by primary_team and its relationship to error rate
+
+**Section 4 — Visualization Insights**
+2–3 sentences on what the dashboard makes immediately visible that the raw data did not.
+
+**Section 5 — Recommended Action**
+One specific, actionable recommendation for the Engineering Strategy lead.
+Must cite: the specific feature(s) recommended, the usage evidence, and the effort
+estimate that makes the investment defensible.
+
+**Section 6 — Limitations**
+Bullet list. Include: sentinel 9999 exclusion counts, null monthly_active_users handling,
+and what additional data (e.g. actual migration costs) would sharpen the recommendation.
+
+Rules:
+- Use actual numbers from prior stage outputs — do not estimate or round arbitrarily
+- No internal identifiers in the report
+- No Python code blocks
+- Output as clean Markdown ready to save to outputs/C_analysis_report.md
+```
+
+### 4.2 — Review Before Saving
+
+1. Read **Section 3** — verify every number matches your actual EDA outputs; reject any estimates
+2. Check **Section 5** — must name specific feature(s) with usage evidence, not general categories
+3. Save the output to `outputs/C_analysis_report.md`
+
+### 4.3 — Stage 4 Review Checklist
+
+- [ ] `outputs/C_analysis_report.md` created
+- [ ] Executive Summary is 2–3 sentences with no field names
+- [ ] Section 2 covers all sentinel values and null handling decisions from profiling
+- [ ] Section 3 has actual numbers from EDA — not estimates
+- [ ] Section 5 names specific feature(s) with usage evidence and effort estimate
+- [ ] Section 6 references sentinel 9999 exclusion counts and null handling
+- [ ] No internal identifiers in the report
+
+---
+
 ## Completion Checklist
 
 - [ ] `scripts/profile_mainframe.py` — runs without error; output matches 400-row count
@@ -290,13 +363,16 @@ scenarios/sub-lab-C-modernization/
 - [ ] `outputs/C_dashboard.html` — single dashboard file with summary header and all 3 labeled interactive charts
 - [ ] Pandas analysis ran and top modernization candidates identified
 - [ ] Sentinel `9999` excluded from all calculations and charts
+- [ ] `outputs/C_analysis_report.md` — 6-section structured report; Section 3 figures sourced from EDA outputs
 
 ---
 
-## Debrief — Prepare These 3 Points
+## Debrief — Discussion Points
 
-1. Which 2–3 features you recommend for immediate modernization — and why (cite both usage data and code complexity)
-2. One flaw from the flawed analysis that would have produced a wrong recommendation if repeated
-3. One thing Copilot generated that you had to correct
+Your `outputs/C_analysis_report.md` is your prepared position. Use it to ground your answers.
+
+1. **The top modernization candidate named in Section 5 — does the usage evidence AND code complexity data both justify it as the top priority?**
+2. **One flaw from the flawed analysis that would have produced the wrong modernization recommendation if you had repeated it.**
+3. **One thing Copilot generated across any stage that required your correction — and what that says about where human judgment is still essential.**
 
 > **Full reference:** `LAB_ACTION_GUIDE.md` contains additional context, troubleshooting, and all three scenarios if you want to compare approaches.

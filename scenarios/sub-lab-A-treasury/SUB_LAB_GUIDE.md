@@ -14,7 +14,8 @@
 | **Stage 0** | 5 min | Setup and orientation |
 | **Phase 1** | 10 min | Profile the dataset — find all quality issues |
 | **Phase 2** | 25 min | Clean the data and run exploratory analysis |
-| **Phase 3** | 15 min | Build 3 charts and export interactive HTML files |
+| **Phase 3** | 15 min | Build the visualization dashboard |
+| **Stage 4** | 8 min | Write the final analysis report |
 
 ---
 
@@ -105,8 +106,9 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    data/treasury_payments.xlsx (use pd.read_excel). Every transformation must have
    an inline comment explaining the business justification. Print row count before
    cleaning, after each major step, and at the end. Save cleaned data to
-   data/treasury_payments_clean.csv. pandas only. Do not overwrite the original xlsx.
+   outputs/treasury_payments_clean.csv. pandas only. Do not overwrite the original xlsx.
    Do not include counterparty_masked in any printed output.
+   Save the cleaned data to outputs/treasury_payments_clean.csv.
    Write the script to scripts/clean_treasury.py and run it.
    ```
 
@@ -123,7 +125,7 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    - [ ] Row count printed before AND after cleaning
    - [ ] All three sentinel exclusions documented
    - [ ] `counterparty_masked` absent from all printed output
-   - [ ] `data/treasury_payments_clean.csv` created
+   - [ ] `outputs/treasury_payments_clean.csv` created
 
 5. **Follow-up prompt:**
    ```
@@ -131,8 +133,7 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    What assumption does each option make about the validity of these records?
    ```
 
-6. Save to: `outputs/A_cleaning_decisions.md`
-   *(Use template: `templates/cleaning_decisions_template.md`)*
+6. Cleaning justifications are already documented as inline comments inside `scripts/clean_treasury.py` — no separate file needed for this step. Your EDA findings (the business-facing briefing) go into `outputs/A_cleaning_decisions.md` at the end of Part B.
 
 > **SQL Reference (Optional — Module 3):** See `scenarios/sub-lab-A-treasury/exercises/sql_cleaning_reference.sql` for equivalent SQL cleaning logic. SQL is not required — Python is the deliverable.
 
@@ -145,10 +146,10 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 
 > **How this works:** You are building a story, not generating a script. Read the output between each prompt and note your finding before moving on. At the end you will have 2–3 findings ready to brief the Head of Operations.
 
-8. Select **Exploratory Data Analyst** from Agent dropdown
+7. Select **Exploratory Data Analyst** from Agent dropdown
 
-9. **Recommended prompt:**
-   Select **Exploratory Data Analyst** from the Agent dropdown, then type `/eda-analysis` and attach `#data/treasury_payments_clean.csv`
+8. **Recommended prompt:**
+   Select **Exploratory Data Analyst** from the Agent dropdown, then type `/eda-analysis` and attach `#outputs/treasury_payments_clean.csv`
 
    > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
 
@@ -162,7 +163,7 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 
    ```
    Role: Treasury Data Analyst preparing a briefing for the Head of Operations.
-   Input: #data/treasury_payments_clean.csv
+   Input: #outputs/treasury_payments_clean.csv
    Task: Using pandas, calculate and print:
      1. Overall confirmed anomaly rate: count where anomaly_confirmed = 1 / total valid rows
      2. Confirmed anomaly rate by payment_type — count confirmed / total per type,
@@ -174,7 +175,9 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    Checks: Confirm per-category rates are consistent with the overall rate.
    ```
 
-   **Read the output.** Which `payment_type` has the highest rate? Which `client_segment`? Write these down — you will reference them in Prompt 2.
+   **Read the output.** Which `payment_type` has the highest rate? Which `client_segment`? Note whether the top two client segment rates are close together — that changes the story. Write your findings before moving to Prompt 2.
+
+   > **Follow-up (if rates are close at the top):** Ask Copilot: *"Filter for ACH Batch payments only, then show the anomaly rate by client_segment for that payment type."* This cross-tab reveals the highest-concentration risk cell in the portfolio — a far more actionable finding than either dimension alone.
 
    **Prompt 2 — "Is this getting worse?"**
 
@@ -182,7 +185,7 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 
    ```
    Role: Treasury Data Analyst investigating temporal patterns in Q4 2024.
-   Input: #data/treasury_payments_clean.csv
+   Input: #outputs/treasury_payments_clean.csv
    Task: Using pandas:
      1. Parse payment_date and group confirmed anomalies (anomaly_confirmed = 1) by ISO week
      2. Print a table: week | confirmed_anomaly_count for all weeks in the dataset
@@ -191,7 +194,7 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    Format: Table + one-sentence trend interpretation.
    ```
 
-   **Read the output.** Note the trend direction — this is your time-based finding.
+   **Read the output.** Look at the week-by-week variance, not just the direction. Is the pattern smooth or volatile? A volatile but flat series tells a different operational story than a clean upward or downward trend. Note both the trend direction AND the range (highest week vs lowest week).
 
    **Prompt 3 — "Where should we focus?"**
 
@@ -199,7 +202,7 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 
    ```
    Role: Treasury Data Analyst preparing regional findings for an operations briefing.
-   Input: #data/treasury_payments_clean.csv
+   Input: #outputs/treasury_payments_clean.csv
    Task: For confirmed anomalies (anomaly_confirmed = 1) only, using pandas:
      1. Count of confirmed anomalies by region, ordered by count descending
      2. Average payment_amount by region for confirmed anomalies, ordered descending
@@ -210,38 +213,21 @@ reference/                  ← RIFCC-DA framework, policy, glossary
    highest-priority regional finding.
    ```
 
-   **Read the output.** Any region in the top 2 of both columns = highest-priority risk concentration.
+   **Read the output.** Look at BOTH columns together — a region with the highest count but low average amount is a different risk from one with fewer but much larger anomalies. If a region leads on count but another leads on average amount, multiply the two (count × avg amount) to get a risk-weighted view of total dollar exposure per region.
 
-10. **Review output for:**
-    - [ ] **Section 1: Data Cleaning Audit Log** present with row reconciliation table
-    - [ ] Table shows **Raw Data** count vs. **Final Dataset** count with all exclusion steps
-    - [ ] **Section 2: Evidence-Based Findings** present with numbered headers
-    - [ ] Each finding follows: **Question | Methodology | Finding | Evidence | Assumptions**
-    - [ ] Overall confirmed anomaly rate calculated and noted
-    - [ ] Highest-rate `payment_type` identified with actual rate (%)
-    - [ ] Highest-rate `client_segment` identified with actual rate (%)
-    - [ ] Week-by-week trend table printed; trend direction stated in one sentence
-    - [ ] Regional table shows both confirmed count and average amount side by side
+9. **Review output for:**
+    - [ ] Overall confirmed anomaly rate printed with both numerator and denominator (e.g. 122/462 = 26.4%)
+    - [ ] `payment_type` table printed, ordered rate descending, showing count and rate (%) per type
+    - [ ] `client_segment` table printed, ordered rate descending, showing count and rate (%) per type
+    - [ ] Week-by-week table printed; trend direction stated in one sentence; high and low weeks noted
+    - [ ] Regional table shows `region | confirmed_count | avg_payment_amount` side by side
     - [ ] `counterparty_masked` absent from all printed output
 
-11. **Save your findings** — use this prompt to write structured output to the file:
+10. **Document your findings** in `outputs/A_cleaning_decisions.md` as 2–3 plain-English briefing bullets — what payment type and client segment lead, what the weekly pattern shows, which region is highest priority and why. Write them as if briefing the Head of Treasury Operations right now.
 
-    ```
-    Based on the analysis results above, save findings to outputs/A_cleaning_decisions.md
-    structured as follows:
-
-    Section 1: Data Cleaning Audit Log
-    - Row reconciliation table: Raw Data row count → each exclusion step → Final Dataset row count
-    - Each transformation listed with written justification
-
-    Section 2: Evidence-Based Findings
-    For each of the 3 business questions, one entry with these fields:
-    Business Question | Methodology | Finding | Evidence | Assumptions | Limitations
-
-    Do not include counterparty_masked in any output.
-    ```
-
-**Bonus (if time permits):** Ask Copilot to generate `scripts/eda_treasury.py` that runs all three analyses in sequence with labeled output — a reproducible record of the exact numbers that informed your Phase 3 charts.
+**Bonus (if time permits):**
+- Ask Copilot: *"Using the cleaned dataset, compare the average `risk_score` for confirmed anomalies (anomaly_confirmed = 1) vs non-confirmed (anomaly_confirmed = 0). Does the risk score column actually differentiate between the two groups?"* — This is model validation: if risk_score doesn't predict confirmed anomalies, the scoring model needs a rethink.
+- Ask Copilot to generate `scripts/eda_treasury.py` that runs all three analyses in sequence with labeled output — a reproducible record of the exact numbers that informed your Phase 3 charts.
 
 ---
 
@@ -253,46 +239,66 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 1. Select **Visualization Architect** from Agent dropdown
 
 2. **Recommended prompt:**
-   Select **Visualization Architect** from the Agent dropdown, then type `/visualization-architect` and attach `#data/treasury_payments_clean.csv`
+   Select **Visualization Architect** from the Agent dropdown, then type `/visualization-architect` and attach `#outputs/treasury_payments_clean.csv`
 
    > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
 
    **Or use this custom prompt:**
    ```
-   Using data/treasury_payments_clean.csv, generate scripts/visualize_treasury.py with
-   3 interactive charts using plotly.express:
-   1. Confirmed anomaly rate by payment_type (bar chart)
-      — exclude rows where anomaly_confirmed is not 0 or 1
-   2. payment_amount distribution for confirmed anomalies only (histogram)
-   3. Confirmed anomaly count by week (line chart — parse payment_date, group by week)
-   Rules: Y-axis starts at 0. No 3D charts. No counterparty_masked in any label, axis,
-   or hover. All axes labeled with units. All charts titled.
-   Combine all 3 charts into a single dashboard file:
-     chart1_html = fig1.to_html(include_plotlyjs=True,  full_html=False)
-     chart2_html = fig2.to_html(include_plotlyjs=False, full_html=False)
-     chart3_html = fig3.to_html(include_plotlyjs=False, full_html=False)
-     summary = f'<h2>Treasury Analysis Dashboard</h2><p><strong>Dataset:</strong> {n_rows} rows after cleaning | <strong>Period:</strong> Q4 2024</p><p><strong>Key Finding:</strong> [one-sentence headline from EDA]</p><hr/>'
-     html = f'<html><head><meta charset="utf-8"></head><body>{summary}{chart1_html}{chart2_html}{chart3_html}</body></html>'
-     with open('outputs/A_dashboard.html', 'w', encoding='utf-8') as f: f.write(html)
-   Include a comment block evaluating each chart for the business.
+   Using outputs/treasury_payments_clean.csv (pd.read_csv), generate
+   scripts/visualize_treasury.py with 3 interactive Plotly charts.
+   Drop counterparty_masked immediately on load. Exclude anomaly_confirmed = 2
+   from all calculations.
+
+   Chart 1 — Bar: Confirmed anomaly rate by payment_type
+     - Rate = confirmed count / total count per type, ordered rate descending
+     - Label each bar: rate (%) and base-n (e.g. "34.0%  n=36/106")
+     - Add a horizontal reference line at the portfolio average rate
+     - Y-axis from 0. Title axes. No legend.
+
+   Chart 2 — Line: Weekly confirmed anomaly count with rolling average
+     - Group confirmed anomalies (anomaly_confirmed = 1) by ISO week
+     - Plot weekly count as main line (red markers)
+     - Add a 3-week rolling average as a dotted overlay line
+     - Add a horizontal reference line at the Q4 weekly average
+     - Annotate the highest-count week and the lowest-count week
+     - Y-axis from 0. X-axis: week start date, 45° angle.
+
+   Chart 3 — Grouped bar (dual Y-axis): Regional confirmed count vs avg payment amount
+     - For confirmed anomalies only: group by region, calculate confirmed count
+       and avg payment_amount
+     - Sort regions by confirmed count descending
+     - Left Y-axis (red bars): confirmed count per region
+     - Right Y-axis (blue bars): avg payment amount per region (format: $,.0f)
+     - Label each bar with its value. Y-axes from 0.
+
+   Combine all 3 into outputs/A_dashboard.html (single self-contained file,
+   include_plotlyjs=True on Chart 1 only). Add a summary header with row count,
+   date range, overall anomaly rate, and a one-sentence key finding.
+   Include a comment block per chart evaluating the business insight.
    Write the script to scripts/visualize_treasury.py and run it.
    ```
 
-3. **Open the dashboard in your browser:**
+3. **Save the generated script** before running: hover over the code block in Copilot Chat → click **Insert into New File** → save as `scripts/visualize_treasury.py`. Alternatively, copy the code → `Ctrl+N` → paste → `Ctrl+S` → name it.
+
+4. **Open the dashboard in your browser:**
    ```
-   start outputs\A_dashboard.html
+   start outputs\A_dashboard.html        ← Windows
+   open outputs/A_dashboard.html         ← Mac
    ```
 
-4. **Confirm the script ran** and review the dashboard:
+5. **Confirm the script ran** and review the dashboard:
    - [ ] Dashboard opens in browser showing all 3 charts with the summary header
-   - [ ] Summary header shows correct row count, period, and a key finding sentence
-   - [ ] All 3 charts have descriptive titles
-   - [ ] Axes labeled with units (e.g., "Confirmed Anomaly Rate", "Payment Amount ($)", "Week")
-   - [ ] Y-axis starts at 0 (`rangemode='tozero'`)
+   - [ ] Summary header shows correct row count, date range, overall anomaly rate, and key finding
+   - [ ] Chart 1 (bar): bars sorted descending, each labelled with rate + base-n, portfolio average reference line visible
+   - [ ] Chart 2 (line): rolling average overlay visible, peak and trough weeks annotated, Q4 average reference line visible
+   - [ ] Chart 3 (grouped bar): two bars per region (count + avg amount) on dual Y-axes, sorted by confirmed count
+   - [ ] All 3 charts have descriptive titles and labeled axes with units
+   - [ ] Y-axes start at 0 on all charts
    - [ ] `counterparty_masked` not visible in labels, axis values, or hover tooltips
-   - [ ] `anomaly_confirmed = 2` excluded from anomaly rate chart
+   - [ ] `anomaly_confirmed = 2` excluded from all calculations
 
-5. **Sharing the dashboard**
+6. **Sharing the dashboard**
 
    | Format | How | When to Use |
    |--------|-----|-------------|
@@ -303,26 +309,100 @@ reference/                  ← RIFCC-DA framework, policy, glossary
 
 ---
 
+## Stage 4 — Final Analysis Report (8 min)
+
+**Goal:** Synthesize findings from all prior stages into a structured written deliverable for the Head of Treasury Operations.
+
+### 4.1 — Generate the Report
+
+Open Copilot Chat (`Ctrl + Alt + I`). Select the **Report Writer** agent from the dropdown if available — or paste the prompt below directly.
+
+**Attach these files before prompting:**
+- `#outputs/A_profile.md`
+- `#outputs/A_cleaning_decisions.md`
+- `#scripts/clean_treasury.py`
+
+**Custom Prompt:**
+```
+You are a senior data analyst writing a structured report for the Head of Treasury Operations.
+Using the attached profiling output, cleaning decisions, and EDA results from this session,
+write a 6-section analysis report and save it to outputs/A_analysis_report.md:
+
+**Section 1 — Executive Summary**
+2–3 sentences. State: the primary risk finding, the data quality issue that most threatened
+analysis integrity, and the recommended action. No field names or technical jargon.
+
+**Section 2 — Data Quality Issues Found**
+| Issue | Rows Affected | Action Taken |
+One table row per sentinel value or quality issue identified in profiling.
+
+**Section 3 — EDA Findings**
+| Finding | Metric | Evidence |
+Three rows:
+- Highest-anomaly payment type and client segment (include exact anomaly rate and base-n)
+- Q4 weekly trend: direction and full range (min week count to max week count)
+- Highest-priority region by transaction count AND average payment amount
+
+**Section 4 — Visualization Insights**
+2–3 sentences on what the dashboard makes immediately visible that the raw data did not.
+
+**Section 5 — Recommended Action**
+One specific, actionable recommendation for the Head of Treasury Operations.
+Must cite: the specific metric that justifies it, the data evidence, and one metric to
+monitor going forward.
+
+**Section 6 — Limitations**
+Bullet list. Include: row exclusion counts and why, any fields where completeness was
+uncertain, and what additional data would increase confidence.
+
+Rules:
+- Use actual numbers from prior stage outputs — do not estimate or round arbitrarily
+- counterparty_masked must not appear anywhere in the report
+- No Python code blocks
+- Output as clean Markdown ready to save to outputs/A_analysis_report.md
+```
+
+### 4.2 — Review Before Saving
+
+1. Read **Section 3** — verify every number matches your actual EDA outputs; reject any estimates
+2. Check **Section 5** — must name a specific action, a specific metric, and a data citation
+3. Save the output to `outputs/A_analysis_report.md`
+
+### 4.3 — Stage 4 Review Checklist
+
+- [ ] `outputs/A_analysis_report.md` created
+- [ ] Executive Summary is 2–3 sentences with no field names
+- [ ] Section 2 covers every sentinel value found in profiling
+- [ ] Section 3 has actual numbers from EDA — not estimates
+- [ ] Section 5 names a specific action with a metric and evidence
+- [ ] Section 6 references specific row exclusion counts
+- [ ] `counterparty_masked` absent from the entire report
+
+---
+
 ## Completion Checklist
 
 - [ ] `scripts/profile_treasury.py` — runs without error; output matches 500-row count
 - [ ] `outputs/A_profile.md` — dataset profiled, all known quality issues documented
-- [ ] `scripts/clean_treasury.py` — runs without error; row counts before/after printed
-- [ ] `outputs/A_cleaning_decisions.md` — 2–3 plain-English findings documented (anomaly rate by payment type, trend direction, regional priority)
+- [ ] `scripts/clean_treasury.py` — runs without error; row counts before/after printed; all sentinel exclusions documented as inline comments
+- [ ] `outputs/treasury_payments_clean.csv` — created in outputs/ folder
+- [ ] `outputs/A_cleaning_decisions.md` — 2–3 plain-English briefing bullets: anomaly rate by payment type and client segment (with base-n), weekly trend with range, regional priority by count and risk-weighted exposure
 - [ ] `scripts/visualize_treasury.py` — runs without error and generates the dashboard
-- [ ] `outputs/A_cleaning_decisions.md` — every transformation justified; sentinel handling for `prior_alerts_90d = 999`, `analyst_confidence = -1`, and `anomaly_confirmed = 2` documented; answers to 3 business questions recorded
 - [ ] `outputs/A_dashboard.html` — single dashboard file with summary header and all 3 labeled interactive charts
 - [ ] `counterparty_masked` absent from all outputs, charts, and printed DataFrames
 - [ ] Sentinel values excluded from all calculations
+- [ ] `outputs/A_analysis_report.md` — 6-section structured report; Section 3 figures sourced from EDA outputs
 
 **Bonus (if time permits):** Open `exercises/flawed_treasury_analysis.md`. Now that you have done the analysis yourself — can you spot what the previous analyst got wrong?
 
 ---
 
-## Debrief — Prepare These 3 Points
+## Debrief — Discussion Points
 
-1. Which payment type has the highest confirmed anomaly rate — and what trend you observed week over week
-2. One data quality issue that could have produced misleading anomaly rates if uncorrected
-3. One thing Copilot generated that you had to correct
+Your `outputs/A_analysis_report.md` is your prepared position. Use it to ground your answers.
+
+1. **The recommended action in Section 5 — what would challenge it, and what additional data would strengthen it?**
+2. **The limitation in Section 6 that most affects your confidence — how would you address it before this goes to the Head of Treasury Operations?**
+3. **One thing Copilot generated across any stage that required your correction — and what that says about where human judgment is still essential.**
 
 > **Full reference:** `LAB_ACTION_GUIDE.md` contains additional context, troubleshooting, and all three scenarios if you want to compare approaches.

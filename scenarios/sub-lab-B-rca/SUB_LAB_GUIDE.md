@@ -16,7 +16,8 @@
 | **Pre-Step** | 5 min | Review source code — form a hypothesis before touching the logs |
 | **Phase 1** | 10 min | Profile the log dataset — find all quality issues |
 | **Phase 2** | 25 min | Critique the flawed analysis, clean the data, run exploratory analysis |
-| **Phase 3** | 15 min | Build 3 charts and export interactive HTML files |
+| **Phase 3** | 15 min | Build the visualization dashboard |
+| **Stage 4** | 8 min | Write the final analysis report |
 
 ---
 
@@ -272,6 +273,76 @@ scenarios/sub-lab-B-rca/
 
 ---
 
+## Stage 4 — Final Analysis Report (8 min)
+
+**Goal:** Synthesize findings from all prior stages into a structured written deliverable for the Engineering Operations lead.
+
+### 4.1 — Generate the Report
+
+Open Copilot Chat (`Ctrl + Alt + I`). Select the **Report Writer** agent from the dropdown if available — or paste the prompt below directly.
+
+**Attach these files before prompting:**
+- `#outputs/B_profile.md`
+- `#outputs/B_cleaning_decisions.md`
+- `#scripts/clean_logs.py`
+
+**Custom Prompt:**
+```
+You are a senior data analyst writing a structured RCA report for the Engineering Operations lead.
+Using the attached profiling output, cleaning decisions, and EDA results from this session,
+write a 6-section analysis report and save it to outputs/B_analysis_report.md:
+
+**Section 1 — Executive Summary**
+2–3 sentences. State: the most likely root cause service, the data quality issue that most
+threatened analysis integrity, and the recommended action. No field names or technical jargon.
+
+**Section 2 — Data Quality Issues Found**
+| Issue | Rows Affected | Action Taken |
+One table row per sentinel value or quality issue identified in profiling.
+
+**Section 3 — EDA Findings**
+| Finding | Metric | Evidence |
+Three rows:
+- Highest-failure service and confirmed average response time for that service
+- Hourly failure distribution: which hours have elevated failure counts
+- Evidence of failure concentration vs broad distribution across services
+
+**Section 4 — Visualization Insights**
+2–3 sentences on what the dashboard makes immediately visible that the raw data did not.
+
+**Section 5 — Recommended Action**
+One specific, actionable recommendation for the Engineering Operations lead.
+Must cite: the specific service, the failure metric, and the next monitoring step.
+
+**Section 6 — Limitations**
+Bullet list. Include: row exclusion counts and why, whether the log sample covers all
+failure modes, and what additional data would confirm the root cause.
+
+Rules:
+- Use actual numbers from prior stage outputs — do not estimate or round arbitrarily
+- user_id_masked must not appear anywhere in the report
+- No Python code blocks
+- Output as clean Markdown ready to save to outputs/B_analysis_report.md
+```
+
+### 4.2 — Review Before Saving
+
+1. Read **Section 3** — verify every number matches your actual EDA outputs; reject any estimates
+2. Check **Section 5** — must name a specific service, not a general failure category
+3. Save the output to `outputs/B_analysis_report.md`
+
+### 4.3 — Stage 4 Review Checklist
+
+- [ ] `outputs/B_analysis_report.md` created
+- [ ] Executive Summary is 2–3 sentences with no field names
+- [ ] Section 2 covers every data quality issue found in profiling
+- [ ] Section 3 has actual numbers from EDA — not estimates
+- [ ] Section 5 names a specific service with a failure metric and evidence
+- [ ] Section 6 references specific row exclusion counts
+- [ ] `user_id_masked` absent from the entire report
+
+---
+
 ## Completion Checklist
 
 - [ ] `scripts/profile_logs.py` — runs without error; output matches 300-row count
@@ -283,13 +354,16 @@ scenarios/sub-lab-B-rca/
 - [ ] `outputs/B_dashboard.html` — single dashboard file with summary header and all 3 labeled interactive charts
 - [ ] Pandas analysis ran; highest-failure service confirmed or contradicted by data
 - [ ] No `user_id_masked` visible in any output, chart, or printed DataFrame
+- [ ] `outputs/B_analysis_report.md` — 6-section structured report; Section 3 figures sourced from EDA outputs
 
 ---
 
-## Debrief — Prepare These 3 Points
+## Debrief — Discussion Points
 
-1. Which service is the most likely root cause — and what data evidence supports it
-2. One flaw from the flawed analysis that would have produced a wrong conclusion if repeated
-3. One thing Copilot generated that you had to correct
+Your `outputs/B_analysis_report.md` is your prepared position. Use it to ground your answers.
+
+1. **The root cause service named in Section 5 — is the evidence conclusive, or circumstantial? What would make it conclusive?**
+2. **One flaw from the flawed analysis that would have produced the wrong escalation decision if you had repeated it.**
+3. **One thing Copilot generated across any stage that required your correction — and what that says about where human judgment is still essential.**
 
 > **Full reference:** `LAB_ACTION_GUIDE.md` contains additional context, troubleshooting, and all three scenarios if you want to compare approaches.
