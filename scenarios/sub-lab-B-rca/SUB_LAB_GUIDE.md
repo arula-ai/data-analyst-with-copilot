@@ -116,16 +116,16 @@ scenarios/sub-lab-B-rca/
 
 ## Phase 2 — Analysis Critique, Cleaning & Exploratory Analysis (25 min)
 
+### Part A — Analysis Critique & Data Cleaning (15 min)
+
 **Agent:** Data Cleaning Engineer
 **Prompt file:** `/data-cleaning`
 
-### Step 1 — Critique the Flawed Analysis (5 min)
-
-> The previous RCA analyst produced a report with embedded errors. Identify every flaw before writing your own script — this prevents you from repeating the same mistakes.
+> Before generating a cleaning script, critique the previous analyst's flawed report — this prevents you from repeating the same mistakes.
 
 1. Select **Data Cleaning Engineer** from Agent dropdown
 
-2. **Custom prompt:**
+2. **Critique prompt** (type directly — the `/data-cleaning` slash command runs cleaning, not critique):
    ```
    Review #scenarios/sub-lab-B-rca/exercises/flawed_rca_analysis.md and #outputs/B_profile.md.
    Identify every analytical flaw in the report. For each flaw:
@@ -134,14 +134,19 @@ scenarios/sub-lab-B-rca/
    3. State what the correct approach would be, referencing specific issues from B_profile.md
    ```
 
-3. **Review output for:**
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
+
+3. **Review critique output for:**
    - [ ] All 5 flaws identified (the document contains exactly 5)
-   - [ ] Each flaw linked to a specific data quality issue
+   - [ ] Each flaw linked to a specific data quality issue from `outputs/B_profile.md`
    - [ ] Correct approach stated for each — not just "this is wrong"
 
-### Step 2 — Generate the Corrected Cleaning Script (10 min)
-
 4. **Follow-up prompt** (same agent, same session):
+   Select **Data Cleaning Engineer** from the Agent dropdown, then type `/data-cleaning` and attach `#data/rca_app_logs.csv` and `#outputs/B_profile.md`
+
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
+
+   **Or use this custom prompt:**
    ```
    Now generate scripts/clean_logs.py that correctly cleans data/rca_app_logs.csv,
    avoiding all the flaws identified above. Every transformation must have an inline
@@ -165,23 +170,32 @@ scenarios/sub-lab-B-rca/
    - [ ] Duplicate removal documented with count
    - [ ] Null `response_time_ms` on FATAL rows retained with comment
    - [ ] Null/empty `message` on ERROR/FATAL rows retained with comment
+   - [ ] `outputs/rca_app_logs_clean.csv` created
    - [ ] `user_id_masked` never printed
 
-7. Cleaning justifications are documented as inline comments inside `scripts/clean_logs.py` — no separate file is needed yet. Your EDA findings (the structured analysis record) go into `outputs/B_cleaning_decisions.md` at the end of Step 11 after all analysis is complete.
+7. Cleaning justifications are already documented as inline comments inside `scripts/clean_logs.py` — no separate file needed for this step. Your EDA findings (the business-facing briefing) go into `outputs/B_cleaning_decisions.md` at the end of Part B.
 
 > **SQL Reference (Optional — Module 3):** See `scenarios/sub-lab-B-rca/exercises/sql_cleaning_reference.sql` for equivalent SQL cleaning logic. SQL is not required — Python is the deliverable.
 
-### Step 3 — Exploratory Analysis (10 min)
+---
+
+### Part B — Exploratory Analysis (10 min)
+
+**Agent:** Exploratory Data Analyst
+**Prompt file:** `/rca-analysis`
 
 > **How this works:** You are building a case, not generating a script. Read the output between each prompt and note your finding before moving on. At the end you will have 3 findings to close against your Pre-Step hypothesis.
 
 8. Select **Exploratory Data Analyst** from Agent dropdown
 
-   **Recommended:** type `/rca-analysis` and attach `#outputs/rca_app_logs_clean.csv` and `#data/rca_schema.md` — this runs all 3 EDA questions in sequence and writes the output file automatically.
+9. **Recommended prompt:**
+   Select **Exploratory Data Analyst** from the Agent dropdown, then type `/rca-analysis` and attach `#outputs/rca_app_logs_clean.csv` and `#data/rca_schema.md`
 
-   Alternatively, run the prompts below one at a time, reading the output between each before continuing:
+   > **Tip:** Always use the Agent dropdown first, then type your prompt. Do not type `/` and browse the slash command list — built-in commands like `/tests` appear in the same list and will produce an error if selected by mistake.
 
-   > **Tip:** Always use the Agent dropdown first, then type your prompt.
+   **Or run these three focused prompts one at a time:**
+
+   > Ask each question separately — read the output before moving to the next. Each prompt builds on the previous answer.
 
    **Prompt 1 — "Which service is failing most, and is it across both environments?"**
 
@@ -201,6 +215,8 @@ scenarios/sub-lab-B-rca/
    ```
 
    **Read the output.** Which service has the highest failure rate? Does the environment split show prod and staging failing at similar rates, or is one environment driving the pattern? A higher failure rate in staging than prod suggests configuration or resource capacity differences — not a code-only problem.
+
+   > **Follow-up (if rates differ significantly across environments):** Ask Copilot: *"For the highest-failure service only, split ERROR and FATAL rows by environment and show the count and rate per environment."* This reveals whether the failure is platform-wide or environment-specific — which changes the remediation path entirely.
 
    **Prompt 2 — "Is response time correlated with failure, and which log_level is slowest?"**
 
@@ -247,45 +263,20 @@ scenarios/sub-lab-B-rca/
 
    **Read the output.** ERR_001 maps to `AuthService` session expiry (SESSION_TTL = 30s, no caching). ERR_DB_001 maps to `TransactionProcessor` pool exhaustion (DB_POOL_SIZE = 3, no fallback). If these two codes dominate the error distribution — the code review hypothesis is confirmed by the data. Note which BUG in `app_service.py` each top error code traces back to.
 
-9. **Review output for:**
-   - [ ] Service failure rate table printed (rate as %, ordered descending, with base-n per service)
-   - [ ] Environment split table printed (prod vs staging failure rate)
-   - [ ] Response time by log_level table printed (nulls excluded, not filled with 0)
-   - [ ] Cross-service avg response_time_ms table printed
-   - [ ] Error code frequency table printed (ERROR/FATAL rows only, nulls counted separately)
-   - [ ] Hypothesis closure sentence states confirmed or contradicted with evidence
-   - [ ] `user_id_masked` absent from all printed output
+10. **Review output for:**
+    - [ ] Service failure rate table printed (rate as %, ordered descending, with base-n per service)
+    - [ ] Environment split table printed (prod vs staging failure rate)
+    - [ ] Response time by log_level table printed (nulls excluded, not filled with 0)
+    - [ ] Cross-service avg response_time_ms table printed
+    - [ ] Error code frequency table printed (ERROR/FATAL rows only, nulls counted separately)
+    - [ ] Hypothesis closure sentence states confirmed or contradicted with evidence
+    - [ ] `user_id_masked` absent from all printed output
 
-10. **Document your findings** in `outputs/B_cleaning_decisions.md` as 2–3 plain-English briefing bullets — which service leads and at what rate, whether response time implicates resource exhaustion, and which error codes confirm or contradict the code review hypothesis. Write them as if briefing the Engineering Operations lead right now.
+11. **Document your findings** in `outputs/B_cleaning_decisions.md` as 2–3 plain-English briefing bullets — which service leads and at what rate, whether response time implicates resource exhaustion, and which error codes confirm or contradict the code review hypothesis. Write them as if briefing the Engineering Operations lead right now.
 
 **Bonus (if time permits):**
 - Ask Copilot: *"For ERR_001 rows (AuthService session expiry): what is the average response_time_ms compared to ERR_DB_001 rows (DB pool exhaustion)? Which defect is producing the slower failures?"* — This distinguishes between an auth bottleneck and a DB bottleneck, which have different remediation paths.
 - Ask Copilot to generate `scripts/analyze_logs.py` that runs all three analyses in sequence with labeled output — a reproducible record of the exact numbers that informed your Phase 3 charts.
-
-11. **Save your findings** — use this prompt to write structured output to the file:
-    ```
-    Based on the analysis results above, save findings to outputs/B_cleaning_decisions.md
-    structured as follows:
-
-    Section 1: Data Cleaning Audit Log
-    - Row reconciliation table: Raw Data row count → each exclusion step → Final Dataset row count
-    - Each transformation listed with written justification
-
-    Section 2: Evidence-Based Findings
-    For each business question answered, one entry with these fields:
-    Business Question | Methodology | Finding | Evidence | Assumptions | Limitations
-
-    Do not include user_id_masked in any output.
-    ```
-
-12. **Review output for:**
-    - [ ] Row reconciliation table present: Raw count → after dedup → final count (with exact numbers)
-    - [ ] Every cleaning transformation listed with written business justification
-    - [ ] Service failure rate table present with rate %, base-n, and ordered descending
-    - [ ] Environment split table present (prod vs staging failure rate)
-    - [ ] Error code frequency table present (filtered to ERROR/FATAL rows only)
-    - [ ] Hypothesis closure sentence: confirmed or contradicted, with evidence cited
-    - [ ] No `user_id_masked` in any output
 
 ---
 
