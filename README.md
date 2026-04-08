@@ -42,8 +42,6 @@ By the end of this lab, participants will be able to:
 **Required VS Code Extensions** (install via `Ctrl+Shift+X`):
 - **Jupyter** — notebook support for exploratory work (recommended)
 
-> **Codespace users:** Open this repo in a GitHub Codespace (`.devcontainer/` is pre-configured) — all dependencies install automatically.
-
 ---
 
 ## Choose Your Scenario

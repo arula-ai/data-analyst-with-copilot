@@ -48,7 +48,6 @@
 - **`QUICK_START.md`** — VS Code extension setup + Copilot Chat orientation in under 5 minutes
 - **`VERIFY_BEFORE_SEND.md`** — Pre-prompt data privacy preflight checklist
 - **`FACILITATOR_GUIDE.md`** — Instructor reference (ground truths, timing, debrief script, known failure patterns)
-- **`.devcontainer/`** — GitHub Codespaces configuration (Python 3.11, auto-installs requirements)
 - **`GitHub_Copilot_for_Data_Analysis.pptx`** — 90-minute presentation deck
 
 ---
@@ -89,4 +88,3 @@
 - Python 3.10+ with pandas, numpy, openpyxl, plotly
 - VS Code with GitHub Copilot Chat, Python, Jupyter
 - No external databases — all data is xlsx/csv
-- GitHub Codespaces supported via `.devcontainer/`
