@@ -8,9 +8,9 @@ plotly>=5.0.0
 
 
 ###
-C:\> py -m ensurepip –upgrade
-C:\> pip install --upgrade pip
-C:\> pip install pandas --index https://artifactory.fmr.com/api/pypi/pypi-releases/simple
-C:\> pip install numpy --index https://artifactory.fmr.com/api/pypi/pypi-releases/simple
-C:\> pip install plotly --index https://artifactory.fmr.com/api/pypi/pypi-releases/simple
+py -m ensurepip –upgrade
+pip install --upgrade pip
+pip install pandas --index https://artifactory.fmr.com/api/pypi/pypi-releases/simple
+pip install numpy --index https://artifactory.fmr.com/api/pypi/pypi-releases/simple
+pip install plotly --index https://artifactory.fmr.com/api/pypi/pypi-releases/simple
 ###
