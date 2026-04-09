@@ -27,6 +27,12 @@ pip install pandas numpy plotly openpyxl --index https://artifactory.fmr.com/api
 
 This installs all packages needed for data analysis, visualization, and reporting across all scenarios using the enterprise proxy route.
 
+**Facilitator Setup:** Facilitators can use this to install dependencies:
+
+```
+pip install -r requirements.txt
+```
+
 ### Required VS Code Extensions
 
 Install these before the lab begins. Open the Extensions panel (`Ctrl+Shift+X` / `Cmd+Shift+X`) and search for each:
@@ -35,7 +41,6 @@ Install these before the lab begins. Open the Extensions panel (`Ctrl+Shift+X` /
 |-----------|---------|-----------------|
 | **GitHub Copilot + Copilot Chat** | AI assistance for all phases | Required |
 | **Python + Pylance** | Code execution and IntelliSense | Required |
-| **Jupyter** | Notebook support for exploratory work | Recommended |
 
 ---
 
