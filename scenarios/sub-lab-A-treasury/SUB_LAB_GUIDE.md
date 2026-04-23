@@ -28,27 +28,6 @@
    - [ ] Type `/` in Copilot Chat — confirm prompt files appear
    - [ ] Read `VERIFY_BEFORE_SEND.md` before opening any data
 
-   **Or use this custom prompt:**
-   ```
-   Run a Stage 0 setup verification for this repo.
-   Verify and explicitly report PASS/FAIL for:
-   1) Repository is open in VS Code
-   2) Copilot Chat is active
-   3) Agent selector dropdown is visible and populated
-   4) Typing "/" in Copilot Chat shows slash prompt files
-   5) VERIFY_BEFORE_SEND.md has been read (acknowledgment required)
-   6) Quick directory check includes:
-      - data/treasury_payments.xlsx
-      - data/treasury_schema.md
-      - outputs/
-      - scripts/
-      - scenarios/sub-lab-A-treasury/exercises/flawed_treasury_analysis.md
-      - templates/
-      - reference/
-   Print a short setup summary and then print exactly:
-   ✅ Stage 0 setup verified
-   ```
-
 2. **Quick directory check:**
 ```
 data/
